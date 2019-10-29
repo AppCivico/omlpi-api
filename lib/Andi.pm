@@ -1,4 +1,4 @@
-package TouchBase;
+package Andi;
 use Mojo::Base 'Mojolicious';
 
 use Andi::Config;
