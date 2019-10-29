@@ -15,6 +15,6 @@ cpanm -n . --installdeps
 #sqitch deploy -t $SQITCH_DEPLOY
 
 rm /src/test-logs/*
-yath test -It/lib  -PTouchBase::Preload --no-color -j 18 -T -L
+yath test -It/lib  -PAndi::Preload --no-color -j 18 -T -L
 
 
