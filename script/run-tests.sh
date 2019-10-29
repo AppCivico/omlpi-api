@@ -14,7 +14,7 @@ fi
 cpanm -n . --installdeps
 #sqitch deploy -t $SQITCH_DEPLOY
 
-rm /src/test-logs/*
+rm -f /src/test-logs/*
 yath test -It/lib  -PAndi::Preload --no-color -j 18 -T -L
 
 
