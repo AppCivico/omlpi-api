@@ -26,14 +26,15 @@ use Mojo::Base -strict;
 use FindBin qw($RealBin);
 use Test2::V0;
 use Test2::Tools::Subtest qw(subtest_buffered subtest_streamed);
-use Test::Mojo;
+#use Test::Mojo;
+use Test2::MojoX;
 use Andi::Logger;
 
-use DateTime;
+#use DateTime;
 use Andi::Utils;
-use Data::Fake qw/ Core Company Dates Internet Names Text /;
+#use Data::Fake qw/ Core Company Dates Internet Names Text /;
 use Data::Printer;
-use Mojo::Util qw(monkey_patch);
+#use Mojo::Util qw(monkey_patch);
 use JSON;
 
 our @trace_logs;
@@ -65,7 +66,8 @@ sub import {
     }
 }
 
-my $t = Test::Mojo->with_roles('+StopOnFail')->new('Andi');
+#my $t = Test::Mojo->with_roles('+StopOnFail')->new('Andi');
+my $t = Test2::MojoX->new('Andi');
 $t->ua->on(
     start => sub {
         my ($ua, $tx) = @_;
@@ -74,7 +76,6 @@ $t->ua->on(
 );
 
 sub test_instance {$t}
-sub t             {$t}
 sub app           {$t->app}
 
 1;
