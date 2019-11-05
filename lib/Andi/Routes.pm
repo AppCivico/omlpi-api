@@ -8,6 +8,8 @@ sub register {
     $r->add_type(int => qr|[0-9]{1,9}|);
 
     # PUBLIC ENDPOINTS
+    my $locales = $r->route('/locales')->to(controller => 'Locales', action => 'reply_method_not_allowed');
+    $locales->get()->to(action => 'list');
 }
 
 1;
