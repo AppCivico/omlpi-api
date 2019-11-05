@@ -20,6 +20,7 @@ sub startup {
     $self->plugin('Log::Any' => {logger => 'Log::Log4perl'});
 
     # Plugins.
+    $self->plugin('Model');
     $self->plugin('ParamLogger');
 
     # Helpers.
