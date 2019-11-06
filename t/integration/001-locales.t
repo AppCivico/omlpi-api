@@ -7,8 +7,9 @@ use Andi::Test;
 my $t = test_instance();
 
 $t->get_ok("/locales")
-  ->status_is(200);
-
-p $t->tx->res->json;
+  ->status_is(200)
+  ->json_has('/locales')
+  ->json_has('/locales/0/id')
+  ->json_has('/locales/0/name');
 
 done_testing();
