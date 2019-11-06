@@ -12,10 +12,10 @@ else
     source envfile.sh
 fi
 
-#export SQITCH_DEPLOY=${SQITCH_DEPLOY:=docker}
+export SQITCH_DEPLOY=${SQITCH_DEPLOY:=docker}
 
 cpanm -nv . --installdeps
-#sqitch deploy -t $SQITCH_DEPLOY
+sqitch deploy -t $SQITCH_DEPLOY
 
 MOJO_IOLOOP_DEBUG=1 hypnotoad script/andi-api
 

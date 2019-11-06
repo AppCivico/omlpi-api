@@ -11,6 +11,6 @@ fi
 export SQITCH_DEPLOY=${SQITCH_DEPLOY:=docker}
 
 cpanm -nv . --installdeps
-#sqitch deploy -t $SQITCH_DEPLOY
+sqitch deploy -t $SQITCH_DEPLOY
 
 hypnotoad script/andi-api
