@@ -7,7 +7,9 @@ use lib "$RealBin/../lib";
 use Andi::Logger;
 use Andi::DatabaseConnection;
 
+use Text::CSV;
 use Archive::Zip;
+use Archive::Zip::MemberRead;
 use Data::Printer;
 
 my $logger = get_logger();
@@ -22,14 +24,16 @@ if (!-e $filepath) {
 
 $logger->info("Uncompressing file '$dataset'...");
 my $zip = Archive::Zip->new($filepath);
-my @members = $zip->members;
+#my @members = $zip->members;
 $logger->debug("File uncompressed!");
 
 {
-    $logger->info("Processing indicators.csv...");
-    my ($member) = grep { $_->{fileName} eq 'indicators.csv' } @members
-      or $logger->logdie("File 'indicators.csv' is not present in zip file '$dataset'.");
-
-    my $fh;
-    $member->extractToFileHandle($fh);
+    my $member = $zip->memberNamed('indicators.csv');
+    my $fh = $member->readFileHandle();
+    my $csv = Text::CSV->new({eol => "\n"});
+    #while (defined(my $line = $fh->getline())) {
+    while (my $line = $csv->getline($fh)) {
+        p $line;
+    }
+    $fh->close();
 }
