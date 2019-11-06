@@ -1,5 +1,5 @@
 package Andi::Logger;
-use common::sense;
+use Mojo::Base -strict;
 
 use DateTime;
 use IO::Handle;
