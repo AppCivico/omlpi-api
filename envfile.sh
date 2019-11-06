@@ -1,6 +1,6 @@
 export POSTGRESQL_HOST="172.17.0.1"
 export POSTGRESQL_PORT="5432"
-export POSTGRESQL_DBNAME="andi_dev"
+export POSTGRESQL_DBNAME="omlpi_dev"
 export POSTGRESQL_USER="postgres"
 export POSTGRESQL_PASSWORD="trustme"
 
