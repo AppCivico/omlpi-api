@@ -8,7 +8,7 @@ CREATE TABLE area (
     name TEXT NOT NULL UNIQUE
 );
 
-INSERT INTO area (id, name) VALUES (1, 'Assistência social'), (2, 'Educação'), (3, 'Saúde');
+INSERT INTO area (id, name) VALUES (1, 'Assistência Social'), (2, 'Educação'), (3, 'Saúde');
 
 CREATE TABLE indicator (
     id          INT PRIMARY KEY,
