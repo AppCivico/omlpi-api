@@ -17,15 +17,18 @@ CREATE TABLE indicator (
     base        TEXT
 );
 
-CREATE TABLE subindicator_category (
-    id INT PRIMARY KEY,
-    name TEXT NOT NULL
-);
+--CREATE TABLE subindicator_category (
+--    id INT PRIMARY KEY,
+--    name TEXT NOT NULL
+--);
 
 CREATE TABLE subindicator (
     id          INT PRIMARY KEY,
-    description TEXT NOT NULL UNIQUE,
-    subindicator_category_id INT NOT NULL REFERENCES subindicator_category(id)
+    indicator_id INT NOT NULL REFERENCES indicator(id),
+    description TEXT NOT NULL,
+    classification TEXT NOT NULL,
+    UNIQUE(id, indicator_id)
+    --subindicator_category_id INT NOT NULL REFERENCES subindicator_category(id)
 );
 
 COMMIT;
