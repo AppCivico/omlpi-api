@@ -17,6 +17,6 @@ export SQITCH_DEPLOY=${SQITCH_DEPLOY:=docker}
 cpanm -nv . --installdeps
 sqitch deploy -t $SQITCH_DEPLOY
 
-MOJO_IOLOOP_DEBUG=1 hypnotoad script/andi-api
+LIBEV_FLAGS=4 MOJO_IOLOOP_DEBUG=1 hypnotoad script/andi-api
 
 sleep infinity
