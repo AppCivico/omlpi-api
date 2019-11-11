@@ -1,0 +1,13 @@
+Tema,Indicador,Id ,Nome,Classificador
+2,1,1,Feminino,Sexo
+2,1,1001,Feminino,Sexo
+2,1,2,Masculino,Sexo
+2,1,1002,Masculino,Sexo
+2,1,3,Urbano ,Local da residência 
+2,1,1003,Urbano ,Local da residência 
+2,1,4,Rural,Local da residência 
+2,1,1004,Rural,Local da residência 
+2,2,1,Feminino,Sexo
+2,2,1001,Feminino,Sexo
+2,2,2,Masculino,Sexo
+2,2,1002,Masculino,Sexo
