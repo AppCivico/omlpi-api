@@ -8,7 +8,6 @@ use Andi::DatabaseConnection;
 
 use Tie::Handle::CSV;
 use Scope::OnExit;
-#use Text::CSV;
 use Archive::Zip;
 use Archive::Zip::MemberRead;
 use File::Temp qw(:POSIX);
@@ -98,11 +97,12 @@ eval {
         $logger->debug("Sending a COPY...");
         $db->query(<<'SQL_QUERY');
           COPY bulk
-            (id, locale_id, indicator_id, subindicator_id, year, area_id)
+            (locale_id, indicator_id, subindicator_id, year, area_id)
           FROM STDIN
           WITH CSV QUOTE '"' ENCODING 'UTF-8'
 SQL_QUERY
 
+        my $dbh = $db->dbh;
         my $csv = Tie::Handle::CSV->new($tmp, header => 1);
         while (my $line = <$csv>) {
             $line = { %$line };
@@ -114,18 +114,35 @@ SQL_QUERY
             while (my ($k, $v) = each(%{$line})) {
                 defined $v && length($v) > 0 or next;
 
-                my $subindicator_id;
-                if ($k eq 'D0') {
-                    $subindicator_id = undef;
-                }
+                # TODO Handle the new columns and remove this next call
+                next if $k =~ m{00};
 
-                #use DDP;
-                #p [$k, $v];
+                my $subindicator_id;
+                $subindicator_id = $1 if $k =~ m{^D(\d+)$};
+                $subindicator_id = undef if $k eq 'D0';
+
+                my $text_csv = *$csv->{opts}{csv_parser};
+                $text_csv->eol("\n");
+                # TODO Handle area_id
+                $text_csv->combine($locale_id, $indicator_id, $subindicator_id, $year, 1);
+
+                $dbh->pg_putcopydata($text_csv->string());
             }
             p $line;
         }
-        #p $pg->db->dbh->pg_putcopydata();
+        $dbh->pg_putcopyend() or $logger->logdie("Error on pg_putcopyend()");
+
+        # TODO Avoid data duplication
+        $logger->debug("Copying data from temporary table to data table...");
+        $db->query(<<'SQL_QUERY');
+          INSERT INTO data
+            (locale_id, indicator_id, subindicator_id, year, area_id)
+          SELECT
+            locale_id, indicator_id, subindicator_id, year, area_id
+          FROM bulk
+SQL_QUERY
     }
+    $tx->commit();
 };
 if ($@) {
     $logger->fatal($@);
