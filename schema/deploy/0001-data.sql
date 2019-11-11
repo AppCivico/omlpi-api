@@ -35,9 +35,10 @@ CREATE TABLE data (
     id INT NOT NULL,
     locale_id INT NOT NULL REFERENCES locale(id),
     indicator_id INT NOT NULL REFERENCES indicator(id),
-    subindicator_id NOT NULL REFERENCES subindicator(id),
+    subindicator_id INT,
     year INT NOT NULL,
-    area_id INT NOT NULL REFERENCES area(id)
+    area_id INT NOT NULL REFERENCES area(id),
+    FOREIGN KEY (indicator_id, subindicator_id) REFERENCES subindicator(indicator_id, id)
 );
 
 COMMIT;
