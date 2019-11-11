@@ -23,11 +23,11 @@ CREATE TABLE indicator (
 --);
 
 CREATE TABLE subindicator (
-    id          INT PRIMARY KEY,
+    id          INT NOT NULL,
     indicator_id INT NOT NULL REFERENCES indicator(id),
     description TEXT NOT NULL,
     classification TEXT NOT NULL,
-    UNIQUE(id, indicator_id)
+    PRIMARY KEY(id, indicator_id)
     --subindicator_category_id INT NOT NULL REFERENCES subindicator_category(id)
 );
 

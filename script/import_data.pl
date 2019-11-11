@@ -3,8 +3,7 @@ use Mojo::Base -strict;
 use FindBin qw($RealBin);
 use lib "$RealBin/../lib";
 
-#use Andi::Logger qw(get_logger);
-use Andi::Logger;
+use Andi::Logger qw(get_logger);
 use Andi::DatabaseConnection;
 
 use Tie::Handle::CSV;
@@ -45,11 +44,10 @@ my %areas = map { $_->{name} => $_->{id} }
     my @binds = ();
     my $csv = Tie::Handle::CSV->new($tmp, header => 1);
     while (my $line = <$csv>) {
-        my $area    = $line->{'EIXO_TEMÁTICO'};
-        my $area_id = $areas{$area} or $logger->logdie("Area '$area' doesn't exists");
-
+        #my $area    = $line->{'EIXO_TEMÁTICO'};
+        #my $area_id = $areas{$area} or $logger->logdie("Area '$area' doesn't exists");
         $sql_query .= "(?, ?, ?, ?), ";
-        push @binds, @{$line}{qw(ID DESCRIÇÃO)}, $area_id, $line->{BASE};
+        push @binds, @{$line}{qw(Indicador Nome Tema Base)};
     }
     close $csv;
 
@@ -72,7 +70,7 @@ my %areas = map { $_->{name} => $_->{id} }
     my $csv = Tie::Handle::CSV->new($tmp, header => 1);
     while (my $line = <$csv>) {
         $sql_query .= '(?, ?, ?, ?), ';
-        push @binds, @{$line}{qw(ID ID_INDICADOR DESCRIÇÃO CLASSIFICAÇÃO)};
+        push @binds, ($line->{'Id '}, @{$line}{qw(Indicador Nome Classificador)});
     }
     close $csv;
 
