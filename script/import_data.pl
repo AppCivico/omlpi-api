@@ -94,7 +94,7 @@ eval {
         $member->extractToFileNamed($tmp);
 
         $logger->debug("Creating temporary table...");
-        $db->query("CREATE TEMPORARY TABLE bulk ( LIKE data INCLUDING ALL )");
+        $db->query("CREATE TEMPORARY TABLE indicator_locale_bulk ( LIKE indicator_locale INCLUDING ALL )");
         $logger->debug("Temporary table created!");
 
         $logger->debug("Sending a COPY...");
