@@ -80,3 +80,21 @@ my %areas = map { $_->{name} => $_->{id} }
     $pg->db->query($sql_query, @binds);
     $logger->info("Subindicators loaded!");
 }
+
+{
+    $logger->info("Loading data...");
+    my $member = $zip->memberNamed('dados.csv') or $logger->logdie("File 'dados.csv' not found");
+    my $tmp = tmpnam();
+    on_scope_exit { unlink $tmp };
+    $member->extractToFileNamed($tmp);
+
+    my $csv = Tie::Handle::CSV->new($tmp, header => 1);
+    while (my $line = <$csv>) {
+        #$line = { %$line };
+        my $year = delete $line->{Ano};
+        my $indicator_id = delete $line->{Indicador};
+        my $locale_id = delete $line->{Localidade};
+        p $line;
+    }
+    #p $pg->db->dbh->pg_putcopydata();
+}
