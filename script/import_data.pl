@@ -90,10 +90,20 @@ my %areas = map { $_->{name} => $_->{id} }
 
     my $csv = Tie::Handle::CSV->new($tmp, header => 1);
     while (my $line = <$csv>) {
-        #$line = { %$line };
+        $line = { %$line };
+        delete $line->{Tema};
         my $year = delete $line->{Ano};
         my $indicator_id = delete $line->{Indicador};
         my $locale_id = delete $line->{Localidade};
+
+        while (my ($k, $v) = each(%{$line})) {
+            defined $v && length($v) > 0 or next;
+
+            my $sub
+
+            use DDP;
+            p [$k, $v];
+        }
         p $line;
     }
     #p $pg->db->dbh->pg_putcopydata();

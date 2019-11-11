@@ -35,6 +35,7 @@ CREATE TABLE data (
     id INT NOT NULL,
     locale_id INT NOT NULL REFERENCES locale(id),
     indicator_id INT NOT NULL REFERENCES indicator(id),
+    subindicator_id NOT NULL REFERENCES subindicator(id),
     year INT NOT NULL,
     area_id INT NOT NULL REFERENCES area(id)
 );
