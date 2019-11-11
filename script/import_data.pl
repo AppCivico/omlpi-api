@@ -67,17 +67,20 @@ eval {
         on_scope_exit { unlink $tmp };
         $member->extractToFileNamed($tmp);
 
-        my $sql_query = 'INSERT INTO subindicator (id, indicator_id, description, classification) VALUES ';
+        my $sql_query = 'INSERT INTO subindicator (id, description, classification) VALUES ';
         my @binds = ();
         my $csv = Tie::Handle::CSV->new($tmp, header => 1);
+        my %unique_subindicator;
         while (my $line = <$csv>) {
-            $sql_query .= '(?, ?, ?, ?), ';
-            push @binds, ($line->{'Id '}, @{$line}{qw(Indicador Nome Classificador)});
+            my $description = $line->{Nome};
+            next if $unique_subindicator{$description}++;
+            $sql_query .= '(?, ?, ?), ';
+            push @binds, ($line->{'Id '}, @{$line}{qw(Nome Classificador)});
         }
         close $csv;
 
         $sql_query =~ s{, $}{};
-        $sql_query .= " ON CONFLICT (id, indicator_id) DO UPDATE SET description = EXCLUDED.description";
+        $sql_query .= " ON CONFLICT (description) DO UPDATE SET description = EXCLUDED.description";
 
         $pg->db->query($sql_query, @binds);
         $logger->info("Subindicators loaded!");
