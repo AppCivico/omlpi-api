@@ -20,9 +20,9 @@ sub build_list {
       ORDER BY (
         CASE l.type
           WHEN 'country' THEN 1
-          WHEN 'state'   THEN 2
-          WHEN 'city'    THEN 3
-          WHEN 'region'  THEN 4
+          WHEN 'region'  THEN 2
+          WHEN 'state'   THEN 3
+          WHEN 'city'    THEN 4
         END
       )
 SQL_QUERY
