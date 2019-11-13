@@ -36,7 +36,8 @@ CREATE TABLE indicator_locale (
     locale_id      INT NOT NULL REFERENCES locale(id),
     year           INT NOT NULL,
     value_relative TEXT,
-    value_absolute TEXT
+    value_absolute TEXT,
+    UNIQUE(indicator_id, locale_id, year)
 );
 
 CREATE TABLE subindicator_locale (
