@@ -75,12 +75,12 @@ eval {
             my $description = $line->{Nome};
             next if $unique_subindicator{$description}++;
             $sql_query .= '(?, ?, ?), ';
-            push @binds, ($line->{'Id '}, @{$line}{qw(Nome Classificador)});
+            push @binds, @{$line}{qw(Id Nome Classificador)};
         }
         close $csv;
 
         $sql_query =~ s{, $}{};
-        $sql_query .= " ON CONFLICT (description) DO UPDATE SET description = EXCLUDED.description";
+        $sql_query .= " ON CONFLICT (id) DO UPDATE SET description = EXCLUDED.description";
 
         $pg->db->query($sql_query, @binds);
         $logger->info("Subindicators loaded!");
@@ -93,14 +93,13 @@ eval {
         on_scope_exit { unlink $tmp };
         $member->extractToFileNamed($tmp);
 
-        $logger->debug("Creating temporary table...");
+        $logger->debug("Creating indicator_locale_bulk temporary table...");
         $db->query("CREATE TEMPORARY TABLE indicator_locale_bulk ( LIKE indicator_locale INCLUDING ALL )");
-        $logger->debug("Temporary table created!");
 
         $logger->debug("Sending a COPY...");
         $db->query(<<'SQL_QUERY');
-          COPY bulk
-            (locale_id, indicator_id, subindicator_id, year, area_id)
+          COPY indicator_locale_bulk
+            (indicator_id, locale_id, year)
           FROM STDIN
           WITH CSV QUOTE '"' ENCODING 'UTF-8'
 SQL_QUERY
@@ -109,41 +108,44 @@ SQL_QUERY
         my $csv = Tie::Handle::CSV->new($tmp, header => 1);
         while (my $line = <$csv>) {
             $line = { %$line };
-            delete $line->{Tema};
-            my $year = delete $line->{Ano};
+            my $area_id      = delete $line->{Tema};
+            my $year         = delete $line->{Ano};
             my $indicator_id = delete $line->{Indicador};
-            my $locale_id = delete $line->{Localidade};
+            my $locale_id    = delete $line->{Localidade};
 
-            while (my ($k, $v) = each(%{$line})) {
-                defined $v && length($v) > 0 or next;
+            my @subindicators = grep { m{^D} } keys %{$line};
 
-                # TODO Handle the new columns and remove this next call
-                next if $k =~ m{00};
-
-                my $subindicator_id;
-                $subindicator_id = $1 if $k =~ m{^D(\d+)$};
-                $subindicator_id = undef if $k eq 'D0';
-
-                my $text_csv = *$csv->{opts}{csv_parser};
-                $text_csv->eol("\n");
-                # TODO Handle area_id
-                $text_csv->combine($locale_id, $indicator_id, $subindicator_id, $year, 1);
-
-                $dbh->pg_putcopydata($text_csv->string());
-            }
             p $line;
+            p \@subindicators;
+            #while (my ($k, $v) = each(%{$line})) {
+            #    defined $v && length($v) > 0 or next;
+ #
+            #    # TODO Handle the new columns and remove this next call
+            #    next if $k =~ m{00};
+ #
+            #    my $subindicator_id;
+            #    $subindicator_id = $1 if $k =~ m{^D(\d+)$};
+            #    $subindicator_id = undef if $k eq 'D0';
+ #
+            #    my $text_csv = *$csv->{opts}{csv_parser};
+            #    $text_csv->eol("\n");
+            #    # TODO Handle area_id
+            #    $text_csv->combine($locale_id, $indicator_id, $subindicator_id, $year, 1);
+ #
+            #    $dbh->pg_putcopydata($text_csv->string());
+            #}
         }
         $dbh->pg_putcopyend() or $logger->logdie("Error on pg_putcopyend()");
 
         # TODO Avoid data duplication
-        $logger->debug("Copying data from temporary table to data table...");
-        $db->query(<<'SQL_QUERY');
-          INSERT INTO data
-            (locale_id, indicator_id, subindicator_id, year, area_id)
-          SELECT
-            locale_id, indicator_id, subindicator_id, year, area_id
-          FROM bulk
-SQL_QUERY
+        #$logger->debug("Copying data from temporary table to data table...");
+        #$db->query(<<'SQL_QUERY');
+        #  INSERT INTO data
+        #    (locale_id, indicator_id, subindicator_id, year, area_id)
+        #  SELECT
+        #    locale_id, indicator_id, subindicator_id, year, area_id
+        #  FROM bulk
+#SQL_QUERY
     }
     $tx->commit();
 };
