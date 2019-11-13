@@ -156,6 +156,10 @@ SQL_QUERY
         $db->query(<<'SQL_QUERY');
           INSERT INTO indicator_locale (indicator_id, locale_id, year, value_relative, value_absolute)
           SELECT indicator_id, locale_id, year, value_relative, value_absolute FROM indicator_locale_bulk
+          ON CONFLICT (indicator_id, locale_id, year)
+            DO UPDATE
+            SET value_relative = EXCLUDED.value_relative,
+                value_absolute = EXCLUDED.value_absolute
 SQL_QUERY
         $logger->info("Indicators data loaded!");
 
