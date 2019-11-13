@@ -93,13 +93,15 @@ eval {
         on_scope_exit { unlink $tmp };
         $member->extractToFileNamed($tmp);
 
+        $logger->info("Loading indicator data...");
+
         $logger->debug("Creating indicator_locale_bulk temporary table...");
         $db->query("CREATE TEMPORARY TABLE indicator_locale_bulk ( LIKE indicator_locale INCLUDING ALL )");
 
         $logger->debug("Sending a COPY...");
         $db->query(<<'SQL_QUERY');
           COPY indicator_locale_bulk
-            (indicator_id, locale_id, year)
+            (indicator_id, locale_id, year, value_relative, value_absolute)
           FROM STDIN
           WITH CSV QUOTE '"' ENCODING 'UTF-8'
 SQL_QUERY
@@ -113,10 +115,24 @@ SQL_QUERY
             my $indicator_id = delete $line->{Indicador};
             my $locale_id    = delete $line->{Localidade};
 
-            my @subindicators = grep { m{^D} } keys %{$line};
+            # Get indicator values
+            my $value_relative = $line->{'D0_R'};
+            my $value_absolute = $line->{'D0_A'};
 
-            p $line;
-            p \@subindicators;
+            # Insert data
+            my $text_csv = *$csv->{opts}{csv_parser};
+            $text_csv->eol("\n");
+
+            $text_csv->combine($indicator_id, $locale_id, $year, $value_relative, $value_absolute);
+            $dbh->pg_putcopydata($text_csv->string());
+
+            #my %subindicators = map { s{(_[RA])$}{}; $_ => 1 } grep { m{^D} } keys %{$line};
+
+            #for my $k (keys %subindicators) {
+            #    my ($subindicator_id) = $k =~ m{^D([0-9]+)};
+            #    next if $subindicator_id == 0;
+            #}
+
             #while (my ($k, $v) = each(%{$line})) {
             #    defined $v && length($v) > 0 or next;
  #
@@ -136,6 +152,12 @@ SQL_QUERY
             #}
         }
         $dbh->pg_putcopyend() or $logger->logdie("Error on pg_putcopyend()");
+        $logger->debug("Copying rows from indicator_locale_bulk to indicator_locale");
+        $db->query(<<'SQL_QUERY');
+          INSERT INTO indicator_locale (indicator_id, locale_id, year, value_relative, value_absolute)
+          SELECT indicator_id, locale_id, year, value_relative, value_absolute FROM indicator_locale_bulk
+SQL_QUERY
+        $logger->info("Indicators data loaded!");
 
         # TODO Avoid data duplication
         #$logger->debug("Copying data from temporary table to data table...");
@@ -148,6 +170,7 @@ SQL_QUERY
 #SQL_QUERY
     }
     $tx->commit();
+    $logger->info("Data loaded!");
 };
 if ($@) {
     $logger->fatal($@);
