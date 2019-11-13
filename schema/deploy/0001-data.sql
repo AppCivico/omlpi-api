@@ -35,8 +35,8 @@ CREATE TABLE indicator_locale (
     indicator_id   INT NOT NULL REFERENCES indicator(id),
     locale_id      INT NOT NULL REFERENCES locale(id),
     year           INT NOT NULL,
-    value_relative TEXT NOT NULL,
-    value_absolute TEXT NOT NULL
+    value_relative TEXT,
+    value_absolute TEXT
 );
 
 CREATE TABLE subindicator_locale (
@@ -44,8 +44,8 @@ CREATE TABLE subindicator_locale (
     indicator_id    INT NOT NULL REFERENCES indicator(id),
     subindicator_id INT NOT NULL REFERENCES subindicator(id),
     year            INT NOT NULL,
-    value_relative  TEXT NOT NULL,
-    value_absolute  TEXT NOT NULL
+    value_relative  TEXT,
+    value_absolute  TEXT
 );
 
 --CREATE TABLE data (
