@@ -98,7 +98,7 @@ eval {
         $logger->debug("Creating indicator_locale_bulk temporary table...");
         $db->query("CREATE TEMPORARY TABLE indicator_locale_bulk ( LIKE indicator_locale INCLUDING ALL )");
 
-        $logger->debug("Sending a COPY...");
+        $logger->debug("COPY to indicator_locale_bulk...");
         $db->query(<<'SQL_QUERY');
           COPY indicator_locale_bulk
             (indicator_id, locale_id, year, value_relative, value_absolute)
@@ -108,6 +108,8 @@ SQL_QUERY
 
         my $dbh = $db->dbh;
         my $csv = Tie::Handle::CSV->new($tmp, header => 1);
+        my $text_csv = *$csv->{opts}{csv_parser};
+        $text_csv->eol("\n");
         while (my $line = <$csv>) {
             $line = { %$line };
             my $area_id      = delete $line->{Tema};
@@ -120,13 +122,11 @@ SQL_QUERY
             my $value_absolute = $line->{'D0_A'};
 
             # Insert data
-            my $text_csv = *$csv->{opts}{csv_parser};
-            $text_csv->eol("\n");
-
             $text_csv->combine($indicator_id, $locale_id, $year, $value_relative, $value_absolute);
             $dbh->pg_putcopydata($text_csv->string());
         }
         $dbh->pg_putcopyend() or $logger->logdie("Error on pg_putcopyend()");
+        $logger->debug("COPY ended!");
 
         $logger->debug("Copying rows from indicator_locale_bulk to indicator_locale");
         $db->query(<<'SQL_QUERY');
@@ -140,8 +140,18 @@ SQL_QUERY
         $logger->info("Indicators data loaded!");
 
         # Subindicators values
-        # TODO Seek file handle to zero
-        seek($csv, 0, 0) or die $!;
+        $logger->debug("Creating subindicator_locale_bulk temporary table...");
+        $db->query("CREATE TEMPORARY TABLE subindicator_locale_bulk ( LIKE subindicator_locale INCLUDING ALL )");
+
+        $logger->debug("COPY to subindicator_locale_bulk...");
+        $db->query(<<'SQL_QUERY');
+          COPY subindicator_locale_bulk
+            (indicator_id, subindicator_id, locale_id, year, value_relative, value_absolute)
+          FROM STDIN
+          WITH CSV QUOTE '"' ENCODING 'UTF-8'
+SQL_QUERY
+
+        seek($csv, 0, 0) or $logger->logdie($!);
         while (my $line = <$csv>) {
             $line = { %$line };
             my $area_id      = delete $line->{Tema};
@@ -153,9 +163,19 @@ SQL_QUERY
             for my $k (keys %subindicators) {
                 my ($subindicator_id) = $k =~ m{^D([0-9]+)};
                 next if $subindicator_id == 0;
-                p $subindicator_id;
+
+                # Get indicator values
+                my $value_relative = $line->{"D${subindicator_id}_R"};
+                my $value_absolute = $line->{"D${subindicator_id}_A"};
+
+                # Insert data
+                p [$indicator_id, $subindicator_id, $locale_id, $year, $value_relative, $value_absolute];
+                $text_csv->combine($indicator_id, $subindicator_id, $locale_id, $year, $value_relative, $value_absolute);
+                $dbh->pg_putcopydata($text_csv->string());
             }
         }
+        $dbh->pg_putcopyend() or $logger->logdie("Error on pg_putcopyend()");
+        $logger->debug("COPY ended!");
     }
     $tx->commit();
     $logger->info("Data loaded!");
@@ -164,3 +184,5 @@ if ($@) {
     $logger->fatal($@);
     exit 255;
 }
+
+
