@@ -1,7 +1,7 @@
 package Andi::Model::Locale;
 use Mojo::Base 'MojoX::Model';
 
-sub build_list {
+sub list {
     my $self = shift;
 
     return $self->app->pg->db->query_p(<<'SQL_QUERY');

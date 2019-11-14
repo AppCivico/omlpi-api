@@ -5,7 +5,7 @@ sub list {
     my $c = shift;
 
     $c->render_later();
-    $c->model('Locale')->build_list()
+    $c->model('Locale')->list()
       ->then(sub {
           my $results = shift;
 
