@@ -10,6 +10,8 @@ sub register {
     # PUBLIC ENDPOINTS
     my $locales = $r->route('/locales')->to(controller => 'Locales', action => 'reply_method_not_allowed');
     $locales->get()->to(action => 'list');
+    $locales = $locales->route('/:id');
+    $locales->get()->to(action => 'read')
 }
 
 1;

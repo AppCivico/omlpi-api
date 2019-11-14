@@ -28,4 +28,18 @@ sub list {
 SQL_QUERY
 }
 
+sub get {
+    my ($self, $locale_id) = @_;
+
+    return $self->app->pg->db->select_p(
+        [
+            "locale",
+            ['-left' => 'indicator_locale', 'indicator_locale.locale_id' => 'locale.id' ],
+            ['-left' => 'subindicator_locale', 'subindicator_locale.indicator_id' => 'indicator_locale.indicator_id' ]
+        ],
+        ['*'],
+        { 'locale.id' => $locale_id }
+    );
+}
+
 1;
