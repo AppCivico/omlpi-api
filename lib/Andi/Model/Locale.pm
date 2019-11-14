@@ -31,15 +31,39 @@ SQL_QUERY
 sub get {
     my ($self, $locale_id) = @_;
 
-    return $self->app->pg->db->select_p(
-        [
-            "locale",
-            ['-left' => 'indicator_locale', 'indicator_locale.locale_id' => 'locale.id' ],
-            ['-left' => 'subindicator_locale', 'subindicator_locale.indicator_id' => 'indicator_locale.indicator_id' ]
-        ],
-        ['*'],
-        { 'locale.id' => $locale_id }
-    );
+    return $self->app->pg->db->query_p(<<'SQL_QUERY', $locale_id);
+      select
+        locale.id                       AS id,
+        locale.name                     AS name,
+        locale.type                     AS type,
+        json_agg(
+            json_build_object(
+                'id',          indicator.id,
+                'description', indicator.description
+            )
+        ) as indicators
+      from locale
+      left join indicator_locale
+        on locale.id = indicator_locale.locale_id
+      join indicator
+        on indicator.id = indicator_locale.indicator_id
+      left join subindicator_locale
+        on locale.id = subindicator_locale.locale_id and subindicator_locale.indicator_id = indicator.id
+      join subindicator
+        on subindicator.id = subindicator_locale.subindicator_id
+      where locale.id = ?
+      group by locale.id
+SQL_QUERY
+
+    #return $self->app->pg->db->select_p(
+    #    [
+    #        "locale",
+    #        ['-left' => 'indicator_locale', 'indicator_locale.locale_id' => 'locale.id' ],
+    #        ['-left' => 'subindicator_locale', 'subindicator_locale.indicator_id' => 'indicator_locale.indicator_id' ]
+    #    ],
+    #    ['*'],
+    #    { 'locale.id' => $locale_id }
+    #);
 }
 
 1;

@@ -28,7 +28,8 @@ sub read {
     $c->model('Locale')->get($locale_id)
       ->then(sub {
           my $res = shift;
-          return $c->render(json => { locales => $res->hash }, status => 200);
+          p $res->expand->hash;
+          return $c->render(json => { locale => {} }, status => 200);
       })
       ->catch(sub {
           my $err = shift;
