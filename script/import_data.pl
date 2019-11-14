@@ -151,7 +151,9 @@ SQL_QUERY
           WITH CSV QUOTE '"' ENCODING 'UTF-8'
 SQL_QUERY
 
+        # Seek and skip first line
         seek($csv, 0, 0) or $logger->logdie($!);
+        <$csv>;
         while (my $line = <$csv>) {
             $line = { %$line };
             my $area_id      = delete $line->{Tema};
@@ -169,7 +171,6 @@ SQL_QUERY
                 my $value_absolute = $line->{"D${subindicator_id}_A"};
 
                 # Insert data
-                p [$indicator_id, $subindicator_id, $locale_id, $year, $value_relative, $value_absolute];
                 $text_csv->combine($indicator_id, $subindicator_id, $locale_id, $year, $value_relative, $value_absolute);
                 $dbh->pg_putcopydata($text_csv->string());
             }
