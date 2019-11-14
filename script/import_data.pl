@@ -177,6 +177,18 @@ SQL_QUERY
         }
         $dbh->pg_putcopyend() or $logger->logdie("Error on pg_putcopyend()");
         $logger->debug("COPY ended!");
+
+        $logger->debug("Copying rows from subindicator_locale_bulk to subindicator_locale");
+        $db->query(<<'SQL_QUERY');
+          INSERT INTO subindicator_locale (indicator_id, subindicator_id, locale_id, year, value_relative, value_absolute)
+          SELECT indicator_id, subindicator_id, locale_id, year, value_relative, value_absolute
+          FROM subindicator_locale_bulk
+          ON CONFLICT (indicator_id, subindicator_id, locale_id, year)
+            DO UPDATE
+            SET value_relative = EXCLUDED.value_relative,
+                value_absolute = EXCLUDED.value_absolute
+SQL_QUERY
+        $logger->info("Subindicators data loaded!");
     }
     $tx->commit();
     $logger->info("Data loaded!");
