@@ -63,6 +63,7 @@ sub get {
                       ON subindicator.id = subindicator_locale.subindicator_id
                     WHERE subindicator_locale.indicator_id = indicator.id
                       AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
+                    ORDER BY subindicator_locale.year DESC
                   ) AS subindicator_locale
                 ) AS subindicators
               FROM indicator_locale
@@ -71,7 +72,7 @@ sub get {
               JOIN area
                 ON area.id = indicator.area_id
               WHERE indicator_locale.locale_id = locale.id
-              ORDER BY indicator.id, indicator_locale.locale_id
+              ORDER BY indicator_locale.year DESC
             ) AS valores
           ) xx
         ) AS indicators
