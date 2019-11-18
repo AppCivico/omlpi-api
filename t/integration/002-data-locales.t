@@ -14,7 +14,16 @@ my $pg = $t->app->pg;
 my $locale_id = 3550704;
 
 $t->get_ok("/locales/$locale_id")
-  ->status_is(200);
+  ->status_is(200)
+  ->json_has('/locale/id')
+  ->json_has('/locale/name')
+  ->json_has('/locale/type')
+  ->json_has('/locale/indicators')
+  ->json_has('/locale/indicators/0/area')
+  ->json_has('/locale/indicators/0/base')
+  ->json_has('/locale/indicators/0/description')
+  ->json_has('/locale/indicators/0/value_absolute')
+  ->json_has('/locale/indicators/0/value_relative');
 p $t->tx->res->json;
 
 done_testing();
