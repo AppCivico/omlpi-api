@@ -32,35 +32,34 @@ sub get {
     my ($self, $locale_id) = @_;
 
     return $self->app->pg->db->query_p(<<'SQL_QUERY', $locale_id);
-    select
+      SELECT
         locale.id   AS id,
         locale.name AS name,
         locale.type AS type,
         (
-            select
-                json_agg( xx.indloca )
-            from (
-
-                select row_to_json(valores) indloca
-                from (
-                  select
-
-                    indicator_locale.value_relative,
-
-                    indicator_locale.value_absolute
-                  from indicator_locale
-                  join indicator
-                    on indicator.id = indicator_locale.id
-                  where indicator_locale.locale_id = locale.id
-                  order by indicator_locale.locale_id
-                ) as valores
-
-            ) xx
-
-        ) as indicators
-        from locale
-        where locale.id = ?
-        group by 1,2,3
+          SELECT JSON_AGG( xx.indloca )
+          FROM (
+            SELECT ROW_TO_JSON(valores) indloca
+            FROM (
+              SELECT
+                indicator.description,
+                indicator_locale.value_relative,
+                indicator_locale.value_absolute,
+                indicator.base,
+                ROW_TO_JSON(area.*) AS area
+              FROM indicator_locale
+              JOIN indicator
+                ON indicator.id = indicator_locale.id
+              JOIN area
+                ON area.id = indicator.area_id
+              WHERE indicator_locale.locale_id = locale.id
+              ORDER BY indicator_locale.locale_id
+            ) AS valores
+          ) xx
+        ) AS indicators
+      FROM locale
+      WHERE locale.id = ?
+      GROUP BY 1,2,3
 SQL_QUERY
 
     #return $self->app->pg->db->select_p(
