@@ -61,16 +61,6 @@ sub get {
       WHERE locale.id = ?
       GROUP BY 1,2,3
 SQL_QUERY
-
-    #return $self->app->pg->db->select_p(
-    #    [
-    #        "locale",
-    #        ['-left' => 'indicator_locale', 'indicator_locale.locale_id' => 'locale.id' ],
-    #        ['-left' => 'subindicator_locale', 'subindicator_locale.indicator_id' => 'indicator_locale.indicator_id' ]
-    #    ],
-    #    ['*'],
-    #    { 'locale.id' => $locale_id }
-    #);
 }
 
 1;
