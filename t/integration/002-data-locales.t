@@ -11,7 +11,8 @@ my $pg = $t->app->pg;
 #  ->select("locale", ['id'], { name => 'Iguape' } )
 #  ->hash;
 #ok my $locale_id = $locale->{id};
-my $locale_id = 3550704;
+#my $locale_id = 3550704;
+my $locale_id = 2803609;
 
 $t->get_ok("/locales/$locale_id")
   ->status_is(200)

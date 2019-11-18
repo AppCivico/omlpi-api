@@ -42,14 +42,36 @@ sub get {
             SELECT ROW_TO_JSON(valores) indloca
             FROM (
               SELECT
+                indicator.id,
                 indicator.description,
                 indicator_locale.value_relative,
                 indicator_locale.value_absolute,
                 indicator.base,
-                ROW_TO_JSON(area.*) AS area
+                ROW_TO_JSON(area.*) AS area,
+                (
+                  SELECT ARRAY_AGG(subindicator_locale)
+                         -- FILTER (WHERE subindicator_locale.value_absolute IS NOT NULL)
+                  FROM (
+                    SELECT
+                      subindicator_locale.id,
+                      subindicator_locale.year,
+                      subindicator_locale.value_relative,
+                      subindicator_locale.value_absolute,
+                      ROW_TO_JSON(subindicator.*) AS subindicator
+                    FROM subindicator_locale
+                    JOIN subindicator
+                      ON subindicator.id = subindicator_locale.subindicator_id
+                    WHERE subindicator_locale.indicator_id = indicator.id
+                      AND (
+                        subindicator_locale.value_relative IS NOT NULL
+                        OR
+                        subindicator_locale.value_absolute IS NOT NULL
+                      )
+                  ) AS subindicator_locale
+                ) AS subindicators
               FROM indicator_locale
               JOIN indicator
-                ON indicator.id = indicator_locale.id
+                ON indicator.id = indicator_locale.indicator_id
               JOIN area
                 ON area.id = indicator.area_id
               WHERE indicator_locale.locale_id = locale.id
