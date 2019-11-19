@@ -22,6 +22,7 @@ sub startup {
     # Plugins.
     $self->plugin('Model');
     $self->plugin('ParamLogger');
+    $self->plugin(OpenAPI => { spec => $self->static->file("swagger.yaml")->path });
 
     # Helpers.
     $self->helper(pg => sub { state $pg = Andi::DatabaseConnection->get_mojo_pg() });
@@ -29,7 +30,7 @@ sub startup {
     $self->helper('reply.not_found' => sub { Andi::Controller::reply_not_found(@_) });
 
     # Routes.
-    Andi::Routes::register($self->routes);
+    #Andi::Routes::register($self->routes);
 }
 
 1;
