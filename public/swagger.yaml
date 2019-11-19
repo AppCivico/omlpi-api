@@ -1,4 +1,4 @@
-swagger: "3.0.0"
+swagger: "2.0"
 info:
   description: 'The backend of the OMLPL project'
   version: 1.0.0
@@ -8,6 +8,12 @@ info:
   license:
     name: Affero GPL
     url: 'https://www.gnu.org/licenses/agpl-3.0.en.html'
+
+host: dev-omlpi.appcivico.com
+schemes:
+  - https
+produces:
+  - application/json
 
 tags:
   - name: areas
@@ -26,10 +32,8 @@ paths:
       responses:
         200:
           description: List of areas
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Area"
+          schema:
+            $ref: '#/definitions/Area'
   /locales:
     get:
       x-mojo-to: 'locales#list'
@@ -40,30 +44,28 @@ paths:
       responses:
         200:
           description: List of available locales
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Locale"
-components:
-  schemas:
-    Area:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-    Locale:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        type:
-          type: string
-          enum:
-            - country
-            - region
-            - state
-            - city
+          schema:
+            $ref: '#/definitions/Locale'
+
+definitions:
+  Area:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  Locale:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      type:
+        type: string
+        enum:
+          - country
+          - region
+          - state
+          - city
