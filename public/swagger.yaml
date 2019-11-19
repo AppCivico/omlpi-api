@@ -40,12 +40,22 @@ paths:
       operationId: listLocales
       tags:
         - locales
-      summary: List all locales
+      summary: List all available locales
       responses:
         200:
-          description: List of available locales
+          description: List locales
           schema:
             $ref: '#/definitions/Locale'
+  '/locales/{localeId}':
+    get:
+      operationId: showLocaleById
+      x-mojo-to: 'locales#read'
+      tags:
+        - locales
+      summary: Retrieve data from the locales
+      responses:
+        200:
+          description: Info for a specific locale
 
 definitions:
   Area:

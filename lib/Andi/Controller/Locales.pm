@@ -1,8 +1,6 @@
 package Andi::Controller::Locales;
 use Mojo::Base 'Andi::Controller';
 
-use Data::Printer;
-
 sub list {
     my $c = shift;
 
@@ -23,7 +21,8 @@ sub list {
 sub read {
     my $c = shift;
 
-    my $locale_id = $c->param('id');
+    my $locale_id = $c->param('localeId');
+
     $c->render_later();
     $c->model('Locale')->get(locale_id => $locale_id)
       ->then(sub {
