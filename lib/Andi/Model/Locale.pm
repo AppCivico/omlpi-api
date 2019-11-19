@@ -29,9 +29,9 @@ SQL_QUERY
 }
 
 sub get {
-    my ($self, $locale_id) = @_;
+    my ($self, %opts) = @_;
 
-    return $self->app->pg->db->query_p(<<'SQL_QUERY', $locale_id);
+    return $self->app->pg->db->query_p(<<'SQL_QUERY', $opts{locale_id});
       SELECT
         locale.id   AS id,
         locale.name AS name,

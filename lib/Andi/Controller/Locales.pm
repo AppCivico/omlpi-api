@@ -25,7 +25,7 @@ sub read {
 
     my $locale_id = $c->param('id');
     $c->render_later();
-    $c->model('Locale')->get($locale_id)
+    $c->model('Locale')->get(locale_id => $locale_id)
       ->then(sub {
           my $res = shift;
           return $c->render(json => { locale => $res->expand->hash }, status => 200);
