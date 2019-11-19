@@ -33,6 +33,7 @@ my %WriteMakefileArgs = (
     "Mojolicious" => "8.26",
     "Mojolicious::Plugin::Log::Any" => 0,
     "Mojolicious::Plugin::Model" => "0.11",
+    "Mojolicious::Plugin::OpenAPI" => "2.18",
     "Mojolicious::Plugin::ParamLogger" => 0,
     "Net::DNS::Native" => 0,
     "Scalar::Util" => 0,
@@ -57,9 +58,9 @@ my %WriteMakefileArgs = (
     "constant" => 0,
     "lib" => 0
   },
-  "VERSION" => 20191106,
+  "VERSION" => 20191119,
   "test" => {
-    "TESTS" => "t/*.t t/integration/*.t"
+    "TESTS" => "t/*.t t/integration/*.t t/unit/*.t"
   }
 );
 
@@ -86,6 +87,7 @@ my %FallbackPrereqs = (
   "Mojolicious" => "8.26",
   "Mojolicious::Plugin::Log::Any" => 0,
   "Mojolicious::Plugin::Model" => "0.11",
+  "Mojolicious::Plugin::OpenAPI" => "2.18",
   "Mojolicious::Plugin::ParamLogger" => 0,
   "Net::DNS::Native" => 0,
   "Scalar::Util" => 0,
