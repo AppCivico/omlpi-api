@@ -1,4 +1,4 @@
-swagger: '2.0'
+swagger: "3.0.0"
 info:
   description: 'The backend of the OMLPL project'
   version: 1.0.0
@@ -12,47 +12,58 @@ info:
 tags:
   - name: areas
     description: All about the thematic axis
-schemes:
-  - https
+  - name: locales
+    description: Retrieve data from the locales
+
 paths:
   /areas:
     get:
       x-mojo-to: 'areas#list'
-      operationId: list
+      operationId: listAreas
       tags:
         - areas
       summary: List all thematic axis
-      produces:
-        - application/json
       responses:
         200:
           description: List of areas
-          schema:
-            type: object
-definitions:
-  Area:
-    type: object
-    properties:
-      id:
-        type: integer
-      name:
-        type: integer
-        format: string
-    xml:
-      name: Area
-  Locale:
-    type: object
-    properties:
-      id:
-        type: integer
-      name:
-        type: string
-      type:
-        type: string
-        enum:
-          - country
-          - region
-          - state
-          - city
-    xml:
-      name: Locale
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Area"
+  /locales:
+    get:
+      x-mojo-to: 'locales#list'
+      operationId: listLocales
+      tags:
+        - locales
+      summary: List all locales
+      responses:
+        200:
+          description: List of available locales
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Locale"
+components:
+  schemas:
+    Area:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    Locale:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+            - country
+            - region
+            - state
+            - city
