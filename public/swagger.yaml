@@ -50,9 +50,15 @@ paths:
     get:
       operationId: showLocaleById
       x-mojo-to: 'locales#read'
+      summary: Retrieve data from the locales
       tags:
         - locales
-      summary: Retrieve data from the locales
+      parameters:
+        - name: localeId
+          in: path
+          required: true
+          description: The id of the locale to retrieve
+          type: integer
       responses:
         200:
           description: Info for a specific locale

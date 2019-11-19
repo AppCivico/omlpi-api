@@ -21,6 +21,8 @@ sub list {
 sub read {
     my $c = shift;
 
+    $c->openapi->valid_input or return;
+
     my $locale_id = $c->param('localeId');
 
     $c->render_later();
