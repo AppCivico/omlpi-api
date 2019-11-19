@@ -51,7 +51,7 @@ sub get {
                 COALESCE(
                   (
                     SELECT ARRAY_AGG(subindicator_locale)
-                           -- FILTER (WHERE subindicator_locale.value_absolute IS NOT NULL)
+                           FILTER (WHERE subindicator_locale.value_absolute IS NOT NULL OR subindicator_locale.value_relative IS NOT NULl)
                     FROM (
                       SELECT
                         subindicator_locale.id,
@@ -63,7 +63,6 @@ sub get {
                       JOIN subindicator
                         ON subindicator.id = subindicator_locale.subindicator_id
                       WHERE subindicator_locale.indicator_id = indicator.id
-                        AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
                       ORDER BY subindicator_locale.year DESC
                     ) AS subindicator_locale
                   ),
