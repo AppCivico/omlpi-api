@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
-set -e
+#!/usr/bin/env bash -e
 
 cd $WORKSPACE;
 . ./build-container.sh
@@ -17,14 +16,15 @@ cat envfile_local.sh;
 sed -i "s/omlpi_dev/$DB_NAME/g" sqitch.conf
 cat sqitch.conf;
 
-# como estou rodando o jenkins dentro de um container,
-# é necessário do path no lado do host para executar o mount corretamente
 export REAL_WORKSPACE="/home/jenkins-data/workspace/$JOB_NAME/"
 
 # como dentro do jenkins, nao temos os comandos, vamos rodar por dentro do docker..
 docker run --rm -i -u app -v $REAL_WORKSPACE:/src appcivico/omlpi_api /src/script/ci/resetdb.sh $DB_NAME
 
-# roda os testes
+# Upsert data
+docker run --rm -i -u app -v $REAL_WORKSPACE:/src appcivico/omlpi_api /src/script/import_data.sh $DB_NAME
+
+# Run tests
 docker run --rm -i -u app -v $REAL_WORKSPACE:/src -v $REAL_WORKSPACE/tmp-data:/data appcivico/omlpi_api /src/script/run-tests.sh
 
 rm -rf $WORKSPACE/tmp-data

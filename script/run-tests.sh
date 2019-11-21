@@ -11,7 +11,6 @@ else
     source envfile.sh
 fi
 
-cpanm -n . --installdeps
 sqitch deploy -t $SQITCH_DEPLOY
 
 rm -f /src/test-logs/*
