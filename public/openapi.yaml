@@ -59,6 +59,9 @@ paths:
           type: array
           items:
             type: integer
+          uniqueItems: true
+          minItems: 2
+          maxItems: 2
       responses:
         200:
           description: The comparison between two locales
