@@ -23,7 +23,7 @@ sub startup {
     $self->plugin('ParamLogger');
     $self->plugin(OpenAPI => {
         plugins => [qw(+SpecRenderer)],
-        spec    => $self->static->file("swagger.yaml")->path,
+        spec    => $self->static->file("openapi.yaml")->path,
     });
 
     # Helpers
