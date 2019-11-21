@@ -2,7 +2,6 @@ package Andi;
 use Mojo::Base 'Mojolicious';
 
 use Andi::Config;
-use Andi::Routes;
 use Andi::Controller;
 use Andi::Logger;
 use Andi::Utils;
