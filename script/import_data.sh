@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -e
+#!/bin/bash -e
 source $HOME/perl5/perlbrew/etc/bashrc
 
 cd /src;

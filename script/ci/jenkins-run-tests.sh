@@ -1,5 +1,4 @@
-#!/usr/bin/env bash -e
-
+#!/bin/bash -e
 cd $WORKSPACE;
 . ./build-container.sh
 
