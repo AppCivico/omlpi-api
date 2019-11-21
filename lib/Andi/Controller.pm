@@ -4,20 +4,14 @@ use Mojo::Base 'Mojolicious::Controller';
 use Scalar::Util qw(blessed);
 
 sub reply_not_found {
-    my $c = shift;
-
     die {error => 'page_not_found', message => 'Page not found', status => 404,};
 }
 
 sub reply_forbidden {
-    my $c = shift;
-
     die {error => 'permission_denied', message => 'Forbidden', status => 403,};
 }
 
 sub reply_method_not_allowed {
-    my $c = shift;
-
     die {error => 'method_not_allowed', message => 'Method not allowed', status => 405,};
 }
 
