@@ -6,7 +6,7 @@ use Scalar::Util qw(blessed);
 sub reply_not_found {
     my $c = shift;
 
-    die {error => 'Page not found', status => 404,};
+    die {error => 'page_not_found', message => 'Page not found', status => 404,};
 }
 
 sub reply_forbidden {
@@ -28,7 +28,7 @@ sub reply_exception {
     if ($@) {
         $c->app->log->fatal("reply_exception generated an exception!!!");
         $c->app->log->fatal($@);
-        die {error => "Internal server error", status => 500,};
+        die {error => 'internal_server_error', message => "Internal server error", status => 500};
     }
     return $ret if $ret;
 }
@@ -94,7 +94,7 @@ sub _reply_exception {
               && UNIVERSAL::can($an_error, 'message') ? $an_error->message : $c->app->dumper($an_error));
     }
 
-    return $c->render(json => {error => "Internal server error"}, status => 500,);
+    return $c->render(json => {error => 'internal_server_error', message => "Internal server error"}, status => 500);
 }
 
 sub validate_request_params {
