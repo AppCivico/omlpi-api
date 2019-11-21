@@ -9,7 +9,6 @@ use Andi::DatabaseConnection;
 use Tie::Handle::CSV;
 use Scope::OnExit;
 use Archive::Zip;
-use Archive::Zip::MemberRead;
 use File::Temp qw(:POSIX);
 use Data::Printer;
 
