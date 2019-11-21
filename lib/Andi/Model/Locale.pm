@@ -47,9 +47,9 @@ sub get {
         locale.name AS name,
         locale.type AS type,
         (
-          SELECT JSON_AGG( xx.result )
+          SELECT JSON_AGG("all".result)
           FROM (
-            SELECT ROW_TO_JSON(valores) result
+            SELECT ROW_TO_JSON("row") result
             FROM (
               SELECT
                 indicator.id,
@@ -119,8 +119,8 @@ sub get {
                   AND indicator_locale.locale_id = locale.id
               $cond_area_id
               ORDER BY indicator.id
-            ) AS valores
-          ) xx
+            ) AS "row"
+          ) "all"
         ) AS indicators
       FROM locale
       WHERE locale.id = ?

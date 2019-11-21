@@ -50,10 +50,9 @@ subtest_buffered 'Filter by area_id' => sub {
       ->status_is(200);
 
     ok my $indicators = $t->tx->res->json->{locale}->{indicators};
-    is
-      scalar(map { $_->{area}->{id} } @{$indicators}),
-      scalar(grep { $_->{area}->{id} == 2 } @{$indicators}),
-      'all items is of area_id=2';
+    is scalar(map { $_->{area}->{id} } @{$indicators}),
+       scalar(grep { $_->{area}->{id} == 2 } @{$indicators}),
+       'all items is of area_id=2';
 };
 
 done_testing();
