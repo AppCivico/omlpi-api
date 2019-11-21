@@ -57,6 +57,7 @@ paths:
         - name: locale_id
           in: query
           type: array
+          required: true
           items:
             type: integer
           uniqueItems: true
