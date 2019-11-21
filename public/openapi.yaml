@@ -34,7 +34,7 @@ paths:
         200:
           description: List of areas
           schema:
-            $ref: '#/definitions/Area'
+            $ref: '#/definitions/Areas'
   /locales:
     get:
       x-mojo-to: 'locales#list'
@@ -70,6 +70,13 @@ paths:
           description: Info for a specific locale
 
 definitions:
+  Areas:
+    type: object
+    properties:
+      areas:
+        type: array
+        items:
+          $ref: '#/definitions/Area'
   Area:
     type: object
     properties:
