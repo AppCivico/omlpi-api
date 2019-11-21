@@ -1,0 +1,238 @@
+{
+   "swagger": "2.0",
+   "info": {
+      "description": "The backend of the OMLPL project",
+      "version": "0.1.4",
+      "title": "OMLPL API",
+      "contact": {
+         "email": "carlos@appcivico.com"
+      },
+      "license": {
+         "name": "GPLv3",
+         "url": "https://www.gnu.org/licenses/gpl-3.0.en.html"
+      }
+   },
+   "host": "dev-omlpi-api.appcivico.com",
+   "basePath": "/v1",
+   "schemes": [
+      "https"
+   ],
+   "produces": [
+      "application/json"
+   ],
+   "tags": [
+      {
+         "name": "areas",
+         "description": "All about the thematic axis"
+      },
+      {
+         "name": "locales",
+         "description": "Retrieve data from a specific locale"
+      }
+   ],
+   "paths": {
+      "/areas": {
+         "get": {
+            "x-mojo-to": "areas#list",
+            "operationId": "listAreas",
+            "tags": [
+               "areas"
+            ],
+            "summary": "List all thematic axis",
+            "responses": {
+               "200": {
+                  "description": "List of areas",
+                  "schema": {
+                     "$ref": "#/definitions/Areas"
+                  }
+               }
+            }
+         }
+      },
+      "/locales": {
+         "get": {
+            "x-mojo-to": "locales#list",
+            "operationId": "listLocales",
+            "tags": [
+               "locales"
+            ],
+            "summary": "List all available locales",
+            "responses": {
+               "200": {
+                  "description": "List locales",
+                  "schema": {
+                     "$ref": "#/definitions/Locales"
+                  }
+               }
+            }
+         }
+      },
+      "/locales/{locale_id}": {
+         "get": {
+            "operationId": "showLocaleById",
+            "x-mojo-to": "locales#read",
+            "summary": "Retrieve data from the locales",
+            "tags": [
+               "locales"
+            ],
+            "parameters": [
+               {
+                  "name": "locale_id",
+                  "in": "path",
+                  "required": true,
+                  "description": "The id of the locale to retrieve",
+                  "type": "integer"
+               },
+               {
+                  "name": "area_id",
+                  "in": "query",
+                  "description": "Filter data by an area",
+                  "required": false,
+                  "type": "integer"
+               }
+            ],
+            "responses": {
+               "200": {
+                  "description": "Info for a specific locale",
+                  "schema": {
+                     "$ref": "#/definitions/Locale"
+                  }
+               }
+            }
+         }
+      }
+   },
+   "definitions": {
+      "Areas": {
+         "type": "object",
+         "properties": {
+            "areas": {
+               "type": "array",
+               "items": {
+                  "$ref": "#/definitions/Area"
+               }
+            }
+         }
+      },
+      "Area": {
+         "type": "object",
+         "properties": {
+            "id": {
+               "type": "integer"
+            },
+            "name": {
+               "type": "string"
+            }
+         }
+      },
+      "Locale": {
+         "type": "object",
+         "properties": {
+            "id": {
+               "type": "integer"
+            },
+            "name": {
+               "type": "string"
+            },
+            "type": {
+               "type": "string",
+               "enum": [
+                  "country",
+                  "region",
+                  "state",
+                  "city"
+               ]
+            },
+            "indicators": {
+               "type": "array",
+               "items": {
+                  "$ref": "#/definitions/Indicator"
+               }
+            }
+         }
+      },
+      "Indicator": {
+         "type": "object",
+         "properties": {
+            "id": {
+               "type": "integer"
+            },
+            "name": {
+               "type": "string"
+            },
+            "area": {
+               "$ref": "#/definitions/Area"
+            },
+            "base": {
+               "type": "string"
+            },
+            "values": {
+               "type": "array",
+               "items": {
+                  "type": "object",
+                  "properties": {
+                     "year": {
+                        "type": "integer"
+                     },
+                     "value_relative": {
+                        "type": "integer"
+                     },
+                     "value_absolute": {
+                        "type": "integer"
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "Locales": {
+         "type": "object",
+         "properties": {
+            "locales": {
+               "type": "array",
+               "items": {
+                  "type": "object",
+                  "properties": {
+                     "id": {
+                        "type": "integer"
+                     },
+                     "name": {
+                        "type": "string"
+                     },
+                     "type": {
+                        "type": "string",
+                        "enum": [
+                           "country",
+                           "region",
+                           "state",
+                           "city"
+                        ]
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "Error": {
+         "type": "object",
+         "required": [
+            "error",
+            "message"
+         ],
+         "properties": {
+            "error": {
+               "type": "string",
+               "enum": [
+                  "internal_server_error",
+                  "page_not_found",
+                  "permission_denied",
+                  "method_not_allowed"
+               ]
+            },
+            "message": {
+               "type": "string"
+            }
+         }
+      }
+   }
+}
