@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   description: 'The backend of the OMLPL project'
-  version: 0.1.3
+  version: 0.1.4
   title: OMLPL API
   contact:
     email: carlos@appcivico.com
@@ -131,9 +131,21 @@ definitions:
       locales:
         type: array
         items:
-          $ref: '#/definitions/Locale'
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            type:
+              type: string
+              enum:
+                - country
+                - region
+                - state
+                - city
   Error:
-    type: "object"
+    type: object
     required:
       - error
       - message
@@ -141,9 +153,9 @@ definitions:
       error:
         type: string
         enum:
+          - internal_server_error
           - page_not_found
           - permission_denied
           - method_not_allowed
-          - internal_server_error
       message:
         type: string
