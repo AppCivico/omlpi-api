@@ -39,4 +39,17 @@ sub read {
       });
 }
 
+sub compare {
+    my $c = shift;
+
+    $c->openapi->valid_input or return;
+
+    my $locale_ids = $c->every_param('locale_id');
+
+    return $c->render(
+        json   => {},
+        status => 405,
+    );
+}
+
 1;

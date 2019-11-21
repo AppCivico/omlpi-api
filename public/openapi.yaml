@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   description: 'The backend of the OMLPL project'
-  version: 0.1.4
+  version: 1.2.0
   title: OMLPL API
   contact:
     email: carlos@appcivico.com
@@ -47,6 +47,21 @@ paths:
           description: List locales
           schema:
             $ref: '#/definitions/Locales'
+  /locales/compare:
+    get:
+      x-mojo-to: 'locales#compare'
+      operationId: compareLocales
+      tags:
+        - locales
+      parameters:
+        - name: locale_id
+          in: query
+          type: array
+          items:
+            type: integer
+      responses:
+        200:
+          description: The comparison between two locales
   /locales/{locale_id}:
     get:
       operationId: showLocaleById
