@@ -31,7 +31,18 @@ SQL_QUERY
 sub get {
     my ($self, %opts) = @_;
 
-    return $self->app->pg->db->query_p(<<'SQL_QUERY', $opts{locale_id});
+    my @binds;
+
+    # Filter by area_id
+    my $cond_area_id = '';
+    if (defined $opts{area_id}) {
+        $cond_area_id = "AND area.id = ?\n";
+        push @binds, $opts{area_id};
+    }
+
+    push @binds, $opts{locale_id};
+
+    return $self->app->pg->db->query_p(<<"SQL_QUERY", @binds);
       SELECT
         locale.id   AS id,
         locale.name AS name,
@@ -74,6 +85,7 @@ sub get {
               JOIN area
                 ON area.id = indicator.area_id
               WHERE indicator_locale.locale_id = locale.id
+                $cond_area_id
               ORDER BY indicator_locale.year DESC
             ) AS valores
           ) xx
