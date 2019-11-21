@@ -58,7 +58,6 @@ sub get {
                 ROW_TO_JSON(area.*) AS area,
                 (
                   SELECT ARRAY_AGG(indicator_values)
-                         FILTER (WHERE value_absolute IS NOT NULL OR value_relative IS NOT NULL)
                   FROM (
                     SELECT
                       indicator_locale.year           AS year,
@@ -66,6 +65,10 @@ sub get {
                       indicator_locale.value_absolute AS value_absolute
                     FROM indicator_locale
                       WHERE indicator_locale.locale_id = ?
+                        AND (
+                          indicator_locale.value_absolute IS NOT NULL
+                          OR indicator_locale.value_relative IS NOT NULL
+                        )
                     ORDER BY indicator_locale.year
                   ) indicator_values
                 ) AS values,

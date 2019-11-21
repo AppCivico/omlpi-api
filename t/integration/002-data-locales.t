@@ -34,11 +34,9 @@ subtest_buffered 'Filter by locale' => sub {
       ->json_has('/locale/indicators/0/values/0/year')
       ->json_has('/locale/indicators/0/values/0/value_relative')
       ->json_has('/locale/indicators/0/values/0/value_absolute');
-    p $t->tx->res->json;
+    #p $t->tx->res->json;
 };
 
-done_testing;
-__END__
 subtest_buffered 'Filter by area_id' => sub {
 
     $t->get_ok("/v1/locales/$locale_id", form => { area_id => 'foobar' } )
@@ -50,6 +48,8 @@ subtest_buffered 'Filter by area_id' => sub {
     my $area_id = 2;
     $t->get_ok("/v1/locales/$locale_id", form => { area_id => $area_id } )
       ->status_is(200);
+
+    ok my $indicators = $t->tx->res->json->{locale}->{indicators};
     #p $t->tx->res->json;
 };
 
