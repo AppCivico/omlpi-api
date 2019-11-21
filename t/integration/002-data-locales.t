@@ -36,4 +36,18 @@ subtest_buffered 'Filter by locale' => sub {
     #p $t->tx->res->json;
 };
 
+subtest_buffered 'Filter by area_id' => sub {
+
+    $t->get_ok("/v1/locales/$locale_id", form => { area_id => 'foobar' } )
+      ->status_is(400)
+      ->json_has('/errors')
+      ->json_is('/errors/0/message', 'Expected integer - got string.')
+      ->json_is('/errors/0/path', '/area_id');
+
+    my $area_id = 2;
+    $t->get_ok("/v1/locales/$locale_id", form => { area_id => $area_id } )
+      ->status_is(200);
+    p $t->tx->res->json;
+};
+
 done_testing();

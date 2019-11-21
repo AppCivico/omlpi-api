@@ -23,10 +23,11 @@ sub read {
 
     $c->openapi->valid_input or return;
 
+    my $area_id = $c->param('area_id');
     my $locale_id = $c->param('localeId');
 
     $c->render_later();
-    $c->model('Locale')->get(locale_id => $locale_id)
+    $c->model('Locale')->get(locale_id => $locale_id, area_id => $area_id)
       ->then(sub {
           my $res = shift;
           return $c->render(json => { locale => $res->expand->hash }, status => 200);
