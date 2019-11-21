@@ -16,7 +16,7 @@ use Data::Printer;
 my $logger = get_logger();
 
 $logger->info("Starting data import...");
-my $dataset = $ARGV[0];
+my $dataset = $ARGV[0] or $logger->logdie("Missing arguments");
 
 my $filepath = "$RealBin/../dataset/${dataset}";
 if (!-e $filepath) {
