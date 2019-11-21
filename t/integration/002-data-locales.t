@@ -28,14 +28,17 @@ subtest_buffered 'Filter by locale' => sub {
       ->json_has('/locale/name')
       ->json_has('/locale/type')
       ->json_has('/locale/indicators')
-      ->json_has('/locale/indicators/0/area')
+      ->json_has('/locale/indicators/0/id')
       ->json_has('/locale/indicators/0/base')
       ->json_has('/locale/indicators/0/description')
-      ->json_has('/locale/indicators/0/value_absolute')
-      ->json_has('/locale/indicators/0/value_relative');
-    #p $t->tx->res->json;
+      ->json_has('/locale/indicators/0/values/0/year')
+      ->json_has('/locale/indicators/0/values/0/value_relative')
+      ->json_has('/locale/indicators/0/values/0/value_absolute');
+    p $t->tx->res->json;
 };
 
+done_testing;
+__END__
 subtest_buffered 'Filter by area_id' => sub {
 
     $t->get_ok("/v1/locales/$locale_id", form => { area_id => 'foobar' } )

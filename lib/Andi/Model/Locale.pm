@@ -31,15 +31,14 @@ SQL_QUERY
 sub get {
     my ($self, %opts) = @_;
 
-    my @binds;
+    my @binds = ($opts{locale_id}, $opts{locale_id}, $opts{locale_id}, $opts{locale_id});
 
     # Filter by area_id
     my $cond_area_id = '';
     if (defined $opts{area_id}) {
-        $cond_area_id = "AND area.id = ?\n";
+        $cond_area_id = "WHERE area.id = ?\n";
         push @binds, $opts{area_id};
     }
-
     push @binds, $opts{locale_id};
 
     return $self->app->pg->db->query_p(<<"SQL_QUERY", @binds);
@@ -48,45 +47,75 @@ sub get {
         locale.name AS name,
         locale.type AS type,
         (
-          SELECT JSON_AGG( xx.indloca )
+          SELECT JSON_AGG( xx.result )
           FROM (
-            SELECT ROW_TO_JSON(valores) indloca
+            SELECT ROW_TO_JSON(valores) result
             FROM (
               SELECT
                 indicator.id,
                 indicator.description,
-                indicator_locale.value_relative,
-                indicator_locale.value_absolute,
                 indicator.base,
                 ROW_TO_JSON(area.*) AS area,
+                (
+                  SELECT ARRAY_AGG(indicator_values)
+                         FILTER (WHERE value_absolute IS NOT NULL OR value_relative IS NOT NULL)
+                  FROM (
+                    SELECT
+                      indicator_locale.year           AS year,
+                      indicator_locale.value_relative AS value_relative,
+                      indicator_locale.value_absolute AS value_absolute
+                    FROM indicator_locale
+                      WHERE indicator_locale.locale_id = ?
+                    ORDER BY indicator_locale.year
+                  ) indicator_values
+                ) AS values,
                 COALESCE(
                   (
-                    SELECT ARRAY_AGG(subindicator_locale)
-                           FILTER (WHERE subindicator_locale.value_absolute IS NOT NULL OR subindicator_locale.value_relative IS NOT NULl)
+                    SELECT ARRAY_AGG(subindicators)
                     FROM (
                       SELECT
-                        subindicator_locale.id,
-                        subindicator_locale.year,
-                        subindicator_locale.value_relative,
-                        subindicator_locale.value_absolute,
-                        ROW_TO_JSON(subindicator.*) AS subindicator
-                      FROM subindicator_locale
-                      JOIN subindicator
-                        ON subindicator.id = subindicator_locale.subindicator_id
-                      WHERE subindicator_locale.indicator_id = indicator.id
-                      ORDER BY subindicator_locale.year DESC
-                    ) AS subindicator_locale
+                        subindicator.id             AS id,
+                        subindicator.description    AS description,
+                        subindicator.classification AS classification,
+                        (
+                          SELECT ARRAY_AGG(subindicator_values)
+                          FROM (
+                            SELECT
+                              subindicator_locale.id             AS id,
+                              subindicator_locale.year           AS year,
+                              subindicator_locale.value_relative AS value_relative,
+                              subindicator_locale.value_absolute AS value_absolute
+                            FROM subindicator_locale
+                            WHERE subindicator_locale.locale_id = ?
+                              AND subindicator_locale.subindicator_id = subindicator.id
+                              AND subindicator_locale.indicator_id = indicator.id
+                          ) subindicator_values
+                        ) AS values
+                      FROM subindicator
+                      WHERE subindicator.id > 0
+                        AND EXISTS (
+                          SELECT 1
+                          FROM subindicator_locale
+                          WHERE subindicator_locale.subindicator_id = subindicator.id
+                            AND subindicator_locale.indicator_id = indicator.id
+                            AND subindicator_locale.locale_id = ?
+                            AND (
+                              subindicator_locale.value_relative IS NOT NULL
+                              OR subindicator_locale.value_absolute IS NOT NULL
+                            )
+                        )
+                    ) AS subindicators
                   ),
                   ARRAY[]::record[]
                 ) AS subindicators
-              FROM indicator_locale
-              JOIN indicator
-                ON indicator.id = indicator_locale.indicator_id
+              FROM indicator
               JOIN area
                 ON area.id = indicator.area_id
-              WHERE indicator_locale.locale_id = locale.id
-                $cond_area_id
-              ORDER BY indicator_locale.year DESC
+              JOIN indicator_locale
+                ON indicator.id = indicator_locale.indicator_id
+                  AND indicator_locale.locale_id = ?
+              $cond_area_id
+              ORDER BY indicator.id
             ) AS valores
           ) xx
         ) AS indicators
