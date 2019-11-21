@@ -11,9 +11,15 @@ else
     source envfile.sh
 fi
 
+# Install deps
+cpanm -n . --installdeps
+
+# Migrations
 sqitch deploy -t $SQITCH_DEPLOY
 
+# Upsert data
+perl script/import_data.pl
+
+# Run tests
 rm -f /src/test-logs/*
 yath test -It/lib  -PAndi::Preload --no-color -j 18 -T -L
-
-
