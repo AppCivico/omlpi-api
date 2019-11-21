@@ -36,7 +36,7 @@ sub get {
     # Filter by area_id
     my $cond_area_id = '';
     if (defined $opts{area_id}) {
-        $cond_area_id = "WHERE area.id = ?\n";
+        $cond_area_id = "WHERE area.id = ?";
         push @binds, $opts{area_id};
     }
     push @binds, $opts{locale_id};

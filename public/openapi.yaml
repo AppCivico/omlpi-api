@@ -35,10 +35,6 @@ paths:
           description: List of areas
           schema:
             $ref: '#/definitions/Areas'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
   /locales:
     get:
       x-mojo-to: 'locales#list'
@@ -51,10 +47,6 @@ paths:
           description: List locales
           schema:
             $ref: '#/definitions/Locales'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
   /locales/{locale_id}:
     get:
       operationId: showLocaleById
@@ -78,11 +70,6 @@ paths:
           description: Info for a specific locale
           schema:
             $ref: '#/definitions/Locale'
-        default:
-          description: Unexpected error
-          schema:
-            $ref: '#/definitions/Error'
-
 definitions:
   Areas:
     type: object
@@ -112,6 +99,32 @@ definitions:
           - region
           - state
           - city
+      indicators:
+        type: array
+        items:
+          $ref: '#/definitions/Indicator'
+  Indicator:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      area:
+        $ref: '#/definitions/Area'
+      base:
+        type: string
+      values:
+        type: array
+        items:
+          type: object
+          properties:
+            year:
+              type: integer
+            value_relative:
+              type: integer
+            value_absolute:
+              type: integer
   Locales:
     type: object
     properties:
