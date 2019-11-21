@@ -22,7 +22,10 @@ sub startup {
     # Plugins.
     $self->plugin('Model');
     $self->plugin('ParamLogger');
-    $self->plugin(OpenAPI => { spec => $self->static->file("swagger.yaml")->path });
+    $self->plugin(OpenAPI => {
+        plugins => [qw(+SpecRenderer)],
+        spec    => $self->static->file("swagger.yaml")->path,
+    });
 
     # Helpers.
     $self->helper(pg => sub { state $pg = Andi::DatabaseConnection->get_mojo_pg() });

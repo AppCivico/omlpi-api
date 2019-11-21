@@ -6,7 +6,7 @@ use Andi::Test;
 
 my $t = test_instance();
 
-$t->get_ok("/locales")
+$t->get_ok("/v1/locales")
   ->status_is(200)
   ->json_has('/locales')
   ->json_has('/locales/0/id')

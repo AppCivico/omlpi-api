@@ -16,13 +16,13 @@ my $locale_id = 2803609;
 
 subtest_buffered 'Filter by locale' => sub {
 
-    $t->get_ok("/locales/foobar")
+    $t->get_ok("/v1/locales/foobar")
       ->status_is(400)
       ->json_has('/errors')
       ->json_is('/errors/0/message', 'Expected integer - got string.')
       ->json_is('/errors/0/path', '/localeId');
 
-    $t->get_ok("/locales/$locale_id")
+    $t->get_ok("/v1/locales/$locale_id")
       ->status_is(200)
       ->json_has('/locale/id')
       ->json_has('/locale/name')
