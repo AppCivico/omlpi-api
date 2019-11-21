@@ -70,7 +70,7 @@ paths:
           type: integer
         - name: area_id
           in: query
-          description: Filter data by an area_id
+          description: Filter data by an area
           required: false
           type: integer
       responses:
