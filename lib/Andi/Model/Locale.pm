@@ -31,7 +31,7 @@ SQL_QUERY
 sub get {
     my ($self, %opts) = @_;
 
-    my @binds = ($opts{locale_id}, $opts{locale_id}, $opts{locale_id}, $opts{locale_id});
+    my @binds = ();
 
     # Filter by area_id
     my $cond_area_id = '';
@@ -64,7 +64,7 @@ sub get {
                       indicator_locale.value_relative AS value_relative,
                       indicator_locale.value_absolute AS value_absolute
                     FROM indicator_locale
-                      WHERE indicator_locale.locale_id = ?
+                      WHERE indicator_locale.locale_id = locale.id
                         AND (
                           indicator_locale.value_absolute IS NOT NULL
                           OR indicator_locale.value_relative IS NOT NULL
@@ -89,7 +89,7 @@ sub get {
                               subindicator_locale.value_relative AS value_relative,
                               subindicator_locale.value_absolute AS value_absolute
                             FROM subindicator_locale
-                            WHERE subindicator_locale.locale_id = ?
+                            WHERE subindicator_locale.locale_id = locale.id
                               AND subindicator_locale.subindicator_id = subindicator.id
                               AND subindicator_locale.indicator_id = indicator.id
                           ) subindicator_values
@@ -101,7 +101,7 @@ sub get {
                           FROM subindicator_locale
                           WHERE subindicator_locale.subindicator_id = subindicator.id
                             AND subindicator_locale.indicator_id = indicator.id
-                            AND subindicator_locale.locale_id = ?
+                            AND subindicator_locale.locale_id = locale.id
                             AND (
                               subindicator_locale.value_relative IS NOT NULL
                               OR subindicator_locale.value_absolute IS NOT NULL
@@ -116,7 +116,7 @@ sub get {
                 ON area.id = indicator.area_id
               JOIN indicator_locale
                 ON indicator.id = indicator_locale.indicator_id
-                  AND indicator_locale.locale_id = ?
+                  AND indicator_locale.locale_id = locale.id
               $cond_area_id
               ORDER BY indicator.id
             ) AS valores
