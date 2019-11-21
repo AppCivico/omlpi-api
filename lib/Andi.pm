@@ -11,15 +11,15 @@ use Andi::DatabaseConnection;
 sub startup {
     my $self = shift;
 
-    # Config.
+    # Config
     Andi::Config::setup($self);
     $self->controller_class('Andi::Controller');
 
-    # Logger.
+    # Logger
     get_logger();
     $self->plugin('Log::Any' => {logger => 'Log::Log4perl'});
 
-    # Plugins.
+    # Plugins
     $self->plugin('Model');
     $self->plugin('ParamLogger');
     $self->plugin(OpenAPI => {
@@ -27,13 +27,10 @@ sub startup {
         spec    => $self->static->file("swagger.yaml")->path,
     });
 
-    # Helpers.
+    # Helpers
     $self->helper(pg => sub { state $pg = Andi::DatabaseConnection->get_mojo_pg() });
     $self->helper('reply.exception' => sub { Andi::Controller::reply_exception(@_) });
     $self->helper('reply.not_found' => sub { Andi::Controller::reply_not_found(@_) });
-
-    # Routes.
-    #Andi::Routes::register($self->routes);
 }
 
 1;
