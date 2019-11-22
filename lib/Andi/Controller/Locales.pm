@@ -1,6 +1,8 @@
 package Andi::Controller::Locales;
 use Mojo::Base 'Andi::Controller';
 
+use Data::Printer;
+
 sub list {
     my $c = shift;
 
@@ -46,10 +48,27 @@ sub compare {
 
     my $locale_ids = $c->every_param('locale_id');
 
+    $c->_allowed_comparison(@{$locale_ids});
+
     return $c->render(
         json   => {},
         status => 405,
     );
+}
+
+sub _allowed_comparison {
+    my ($c, @locale_ids) = @_;
+
+    my %grant = (
+        city    => [qw(state country region)],
+        state   => [qw(region)],
+        region  => [qw(country)],
+        country => [],
+    );
+    my ($first, $second) = map { $_->{type} } $c->pg->db->select("locale", [qw(type)], { id => \@locale_ids })->hashes->each;
+
+    my %options = map { $_ => 1 } @{ $grant{$first} };
+    return exists $options{$second};
 }
 
 1;
