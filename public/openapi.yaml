@@ -20,7 +20,7 @@ tags:
   - name: areas
     description: All about the thematic axis
   - name: locales
-    description: Retrieve data from a specific locale
+    description: A locale can be a city, a region, a state or a country
 
 paths:
   /areas:
@@ -70,7 +70,7 @@ paths:
     get:
       operationId: showLocaleById
       x-mojo-to: 'locales#read'
-      summary: Retrieve data from the locales
+      summary: Retrieve data from a specific locale
       tags:
         - locales
       parameters:
