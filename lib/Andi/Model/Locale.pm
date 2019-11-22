@@ -95,18 +95,17 @@ sub get {
                           ) subindicator_values
                         ) AS values
                       FROM subindicator
-                      WHERE subindicator.id > 0
-                        AND EXISTS (
-                          SELECT 1
-                          FROM subindicator_locale
-                          WHERE subindicator_locale.subindicator_id = subindicator.id
-                            AND subindicator_locale.indicator_id = indicator.id
-                            AND subindicator_locale.locale_id = locale.id
-                            AND (
-                              subindicator_locale.value_relative IS NOT NULL
-                              OR subindicator_locale.value_absolute IS NOT NULL
-                            )
-                        )
+                      WHERE EXISTS (
+                        SELECT 1
+                        FROM subindicator_locale
+                        WHERE subindicator_locale.subindicator_id = subindicator.id
+                          AND subindicator_locale.indicator_id = indicator.id
+                          AND subindicator_locale.locale_id = locale.id
+                          AND (
+                            subindicator_locale.value_relative IS NOT NULL
+                            OR subindicator_locale.value_absolute IS NOT NULL
+                          )
+                      )
                     ) AS subindicators
                   ),
                   ARRAY[]::record[]
