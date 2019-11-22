@@ -11,6 +11,7 @@ use Scope::OnExit;
 use Archive::Zip;
 use File::Temp qw(:POSIX);
 use Data::Printer;
+use Andi::Utils qw(nullif);
 
 my $logger = get_logger();
 
@@ -120,9 +121,10 @@ SQL_QUERY
             # Get indicator values
             my $value_relative = $line->{'D0_R'};
             my $value_absolute = $line->{'D0_A'};
-
-            $value_relative =~ s/,/./ if $value_relative =~ m{^[0-9+]+,[0-9]+$};
-            $value_absolute =~ s/,/./ if $value_absolute =~ m{^[0-9+]+,[0-9]+$};
+            $value_relative    =~ s/,/./ if $value_relative =~ m{^[0-9+]+,[0-9]+$};
+            $value_absolute    =~ s/,/./ if $value_absolute =~ m{^[0-9+]+,[0-9]+$};
+            $value_relative    = nullif($value_relative, '');
+            $value_absolute    = nullif($value_absolute, '');
 
             # Insert data
             $text_csv->combine($indicator_id, $locale_id, $year, $value_relative, $value_absolute);
@@ -172,9 +174,10 @@ SQL_QUERY
                 # Get indicator values
                 my $value_relative = $line->{"D${subindicator_id}_R"};
                 my $value_absolute = $line->{"D${subindicator_id}_A"};
-
-                $value_relative =~ s/,/./ if $value_relative =~ m{^[0-9+]+,[0-9]+$};
-                $value_absolute =~ s/,/./ if $value_absolute =~ m{^[0-9+]+,[0-9]+$};
+                $value_relative    =~ s/,/./ if $value_relative =~ m{^[0-9+]+,[0-9]+$};
+                $value_absolute    =~ s/,/./ if $value_absolute =~ m{^[0-9+]+,[0-9]+$};
+                $value_relative    = nullif($value_relative, '');
+                $value_absolute    = nullif($value_absolute, '');
 
                 # Insert data
                 $text_csv->combine($indicator_id, $subindicator_id, $locale_id, $year, $value_relative, $value_absolute);
