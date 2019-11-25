@@ -48,15 +48,15 @@ sub compare {
 
     my $locale_ids = $c->every_param('locale_id');
 
-    $c->_allowed_comparison(@{$locale_ids});
+    $c->_validate_comparison(@{$locale_ids});
 
     return $c->render(
         json   => {},
-        status => 405,
+        status => 501,
     );
 }
 
-sub _allowed_comparison {
+sub _validate_comparison {
     my ($c, @locale_ids) = @_;
 
     my %grant = (
@@ -68,7 +68,19 @@ sub _allowed_comparison {
     my ($first, $second) = map { $_->{type} } $c->pg->db->select("locale", [qw(type)], { id => \@locale_ids })->hashes->each;
 
     my %options = map { $_ => 1 } @{ $grant{$first} };
-    return exists $options{$second};
+    if (exists $options{$second}) {
+        return 1;
+    }
+
+    die {
+        errors => [
+            {
+                message => "Can't compare a ${first} with a ${second}.",
+                path    => "/locale_id/1",
+            }
+        ],
+        status => 400,
+    };
 }
 
 1;
