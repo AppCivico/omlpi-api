@@ -53,6 +53,7 @@ subtest_buffered 'Filter by area_id' => sub {
     is scalar(map { $_->{area}->{id} } @{$indicators}),
        scalar(grep { $_->{area}->{id} == 2 } @{$indicators}),
        'all items is of area_id=2';
+    p $t->tx->res->json;
 };
 
 done_testing();

@@ -77,23 +77,24 @@ sub get {
                     SELECT ARRAY_AGG(subindicators)
                     FROM (
                       SELECT
-                        subindicator.id             AS id,
-                        subindicator.description    AS description,
-                        subindicator.classification AS classification,
+                        DISTINCT(subindicator.classification) AS classification,
                         (
-                          SELECT ARRAY_AGG(subindicator_values)
+                          SELECT ARRAY_AGG(sx)
                           FROM (
                             SELECT
-                              subindicator_locale.id             AS id,
-                              subindicator_locale.year           AS year,
-                              subindicator_locale.value_relative AS value_relative,
-                              subindicator_locale.value_absolute AS value_absolute
-                            FROM subindicator_locale
-                            WHERE subindicator_locale.locale_id = locale.id
-                              AND subindicator_locale.subindicator_id = subindicator.id
-                              AND subindicator_locale.indicator_id = indicator.id
-                          ) subindicator_values
-                        ) AS values
+                              s2.id,
+                              s2.description,
+                              (
+                                SELECT ARRAY_AGG(val)
+                                FROM (
+                                  SELECT
+                                  FROM subindicator_locale
+                                ) val
+                              ) AS values
+                            FROM subindicator s2
+                            WHERE subindicator.classification = s2.classification
+                          ) sx
+                        ) AS properties
                       FROM subindicator
                       WHERE EXISTS (
                         SELECT 1
