@@ -143,4 +143,18 @@ sub get {
 SQL_QUERY
 }
 
+sub get_max_year {
+    my $self = shift;
+
+    return $self->app->pg->db->query(<<"SQL_QUERY");
+      SELECT MAX(years.max) AS year
+      FROM (
+        SELECT MAX(year)
+        FROM indicator_locale
+        UNION SELECT MAX(year)
+        FROM subindicator_locale
+      ) years
+SQL_QUERY
+}
+
 1;

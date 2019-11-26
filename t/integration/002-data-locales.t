@@ -7,11 +7,6 @@ use Andi::Test;
 my $t = test_instance();
 my $pg = $t->app->pg;
 
-#ok my $locale = $pg->db
-#  ->select("locale", ['id'], { name => 'Iguape' } )
-#  ->hash;
-#ok my $locale_id = $locale->{id};
-#my $locale_id = 3550704;
 my $locale_id = 2803609;
 
 subtest_buffered 'Filter by locale' => sub {

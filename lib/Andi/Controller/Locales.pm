@@ -29,6 +29,9 @@ sub read {
     my $year      = $c->param('year');
     my $locale_id = $c->param('locale_id');
 
+    $year = $c->model('Locale')->get_max_year()->hash->{year}
+      if not defined $year;
+
     $c->render_later();
     $c->model('Locale')->get(locale_id => $locale_id, area_id => $area_id, year => $year)
       ->then(sub {

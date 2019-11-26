@@ -86,10 +86,11 @@ paths:
           type: integer
         - name: year
           in: query
-          description: Filter data by year
           type: integer
+          description: Filter data by year
+          required: false
           minimum: 2017
-          maximum: 2020
+          maximum: 2019
       responses:
         200:
           description: Info for a specific locale
