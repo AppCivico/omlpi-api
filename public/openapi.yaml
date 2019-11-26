@@ -84,6 +84,12 @@ paths:
           description: Filter data by an area
           required: false
           type: integer
+        - name: year
+          in: query
+          description: Filter data by year
+          type: integer
+          minimum: 2017
+          maximum: 2020
       responses:
         200:
           description: Info for a specific locale

@@ -34,7 +34,6 @@ subtest_buffered 'Filter by locale' => sub {
       ->json_has('/locale/indicators/0/values/0/year')
       ->json_has('/locale/indicators/0/values/0/value_relative')
       ->json_has('/locale/indicators/0/values/0/value_absolute');
-    #p $t->tx->res->json;
 };
 
 subtest_buffered 'Filter by area_id' => sub {
@@ -53,7 +52,23 @@ subtest_buffered 'Filter by area_id' => sub {
     is scalar(map { $_->{area}->{id} } @{$indicators}),
        scalar(grep { $_->{area}->{id} == 2 } @{$indicators}),
        'all items is of area_id=2';
+};
+
+subtest_buffered 'Filter by year' => sub {
+
+    $t->get_ok("/v1/locales/$locale_id", form => { year => 2014 } )
+      ->status_is(400)
+      ->json_is('/errors/0/path', '/year');
+
+    my $year = 2018;
+    $t->get_ok("/v1/locales/$locale_id", form => { year => $year } )
+      ->status_is(200);
     p $t->tx->res->json;
+
+    #ok my $indicators = $t->tx->res->json->{locale}->{indicators};
+    #is scalar(map { $_->{year} } @{$indicators}),
+    #   scalar(grep { $_->{year} == $year } @{$indicators}),
+    #   'all items is of area_id=2';
 };
 
 done_testing();

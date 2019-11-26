@@ -31,7 +31,8 @@ SQL_QUERY
 sub get {
     my ($self, %opts) = @_;
 
-    my @binds = ();
+    my $year = $opts{year};
+    my @binds = (($year) x 8);
 
     # Filter by area_id
     my $cond_area_id = '';
@@ -65,6 +66,7 @@ sub get {
                       indicator_locale.value_absolute AS value_absolute
                     FROM indicator_locale
                       WHERE indicator_locale.locale_id = locale.id
+                        AND (?::int IS NULL OR indicator_locale.year = ?::int)
                         AND (
                           indicator_locale.value_absolute IS NOT NULL
                           OR indicator_locale.value_relative IS NOT NULL
@@ -78,30 +80,40 @@ sub get {
                     FROM (
                       SELECT
                         DISTINCT(subindicator.classification) AS classification,
-                        (
-                          SELECT ARRAY_AGG(sx)
-                          FROM (
-                            SELECT
-                              s2.id,
-                              s2.description,
-                              (
-                                SELECT ARRAY_AGG(sl)
-                                FROM (
-                                  SELECT
-                                    subindicator_locale.year,
-                                    subindicator_locale.value_relative,
-                                    subindicator_locale.value_absolute
-                                  FROM subindicator_locale
-                                  WHERE (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
+                        COALESCE(
+                          (
+                            SELECT ARRAY_AGG(sx)
+                            FROM (
+                              SELECT
+                                s2.id,
+                                s2.description,
+                                (
+                                  SELECT ARRAY_AGG(sl)
+                                  FROM (
+                                    SELECT
+                                      subindicator_locale.year,
+                                      subindicator_locale.value_relative,
+                                      subindicator_locale.value_absolute
+                                    FROM subindicator_locale
+                                    WHERE subindicator_locale.indicator_id = indicator.id
+                                      AND subindicator_locale.subindicator_id = s2.id
+                                      AND subindicator_locale.locale_id = locale.id
+                                      AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
+                                      AND (?::int IS NULL OR subindicator_locale.year = ?::int)
+                                    ORDER BY subindicator_locale.year DESC
+                                  ) sl
+                                ) AS values
+                              FROM subindicator s2
+                              WHERE subindicator.classification = s2.classification
+                                AND EXISTS (
+                                  SELECT 1 FROM subindicator_locale
+                                  WHERE subindicator_locale.subindicator_id = s2.id
                                     AND subindicator_locale.indicator_id = indicator.id
-                                    AND subindicator_locale.subindicator_id = s2.id
-                                    AND subindicator_locale.locale_id = locale.id
-                                  ORDER BY subindicator_locale.year DESC
-                                ) sl
-                              ) AS values
-                            FROM subindicator s2
-                            WHERE subindicator.classification = s2.classification
-                          ) sx
+                                    AND (?::int IS NULL OR subindicator_locale.year = ?::int)
+                                )
+                            ) sx
+                          ),
+                          ARRAY[]::record[]
                         ) AS data
                       FROM subindicator
                       WHERE EXISTS (
@@ -114,6 +126,8 @@ sub get {
                             subindicator_locale.value_relative IS NOT NULL
                             OR subindicator_locale.value_absolute IS NOT NULL
                           )
+                          AND (?::int IS NULL OR subindicator_locale.year = ?::int)
+
                       )
                     ) AS subindicators
                   ),
