@@ -89,8 +89,10 @@ paths:
           type: integer
           description: Filter data by year
           required: false
-          minimum: 2017
-          maximum: 2019
+          enum:
+            - 2017
+            - 2018
+            - 2019
       responses:
         200:
           description: Info for a specific locale
