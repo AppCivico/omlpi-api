@@ -93,7 +93,9 @@ sub get {
                                     subindicator_locale.value_absolute
                                   FROM subindicator_locale
                                   WHERE (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
+                                    AND subindicator_locale.indicator_id = indicator.id
                                     AND subindicator_locale.subindicator_id = s2.id
+                                    AND subindicator_locale.locale_id = locale.id
                                   ORDER BY subindicator_locale.year DESC
                                 ) sl
                               ) AS values
