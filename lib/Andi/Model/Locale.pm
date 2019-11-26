@@ -31,16 +31,10 @@ SQL_QUERY
 sub get {
     my ($self, %opts) = @_;
 
-    my $year = $opts{year};
-    my @binds = (($year) x 8);
-
-    # Filter by area_id
-    my $cond_area_id = '';
-    if (defined $opts{area_id}) {
-        $cond_area_id = "WHERE area.id = ?";
-        push @binds, $opts{area_id};
-    }
-    push @binds, $opts{locale_id};
+    my $year      = $opts{year};
+    my $area_id   = $opts{area_id};
+    my $locale_id = $opts{locale_id};
+    my @binds     = ((($year) x 8), (($area_id) x 2), $locale_id);
 
     return $self->app->pg->db->query_p(<<"SQL_QUERY", @binds);
       SELECT
@@ -127,7 +121,6 @@ sub get {
                             OR subindicator_locale.value_absolute IS NOT NULL
                           )
                           AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-
                       )
                     ) AS subindicators
                   ),
@@ -139,7 +132,7 @@ sub get {
               JOIN indicator_locale
                 ON indicator.id = indicator_locale.indicator_id
                   AND indicator_locale.locale_id = locale.id
-              $cond_area_id
+              WHERE (?::text IS NULL OR area.id = ?::int)
               ORDER BY indicator.id
             ) AS "row"
           ) "all"

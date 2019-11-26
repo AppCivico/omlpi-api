@@ -63,12 +63,11 @@ subtest_buffered 'Filter by year' => sub {
     my $year = 2018;
     $t->get_ok("/v1/locales/$locale_id", form => { year => $year } )
       ->status_is(200);
-    p $t->tx->res->json;
 
-    #ok my $indicators = $t->tx->res->json->{locale}->{indicators};
-    #is scalar(map { $_->{year} } @{$indicators}),
-    #   scalar(grep { $_->{year} == $year } @{$indicators}),
-    #   'all items is of area_id=2';
+    ok my $indicators = $t->tx->res->json->{locale}->{indicators};
+    is scalar(map { map { $_->{year} } @{ $_->{values} } } @{$indicators}),
+       scalar(grep { $_ == $year } map { map { $_->{year} } @{ $_->{values} } } @{$indicators}),
+       'all data of specified year';
 };
 
 done_testing();
