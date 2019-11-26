@@ -85,16 +85,22 @@ sub get {
                               s2.id,
                               s2.description,
                               (
-                                SELECT ARRAY_AGG(val)
+                                SELECT ARRAY_AGG(sl)
                                 FROM (
                                   SELECT
+                                    subindicator_locale.year,
+                                    subindicator_locale.value_relative,
+                                    subindicator_locale.value_absolute
                                   FROM subindicator_locale
-                                ) val
+                                  WHERE (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
+                                    AND subindicator_locale.subindicator_id = s2.id
+                                  ORDER BY subindicator_locale.year DESC
+                                ) sl
                               ) AS values
                             FROM subindicator s2
                             WHERE subindicator.classification = s2.classification
                           ) sx
-                        ) AS properties
+                        ) AS data
                       FROM subindicator
                       WHERE EXISTS (
                         SELECT 1
