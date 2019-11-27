@@ -153,6 +153,32 @@ definitions:
               type: integer
             value_absolute:
               type: integer
+      subindicators:
+        type: array
+        items:
+          properties:
+            classification:
+              type: string
+            data:
+              type: array
+              items:
+                type: object
+                properties:
+                  description:
+                    type: string
+                  id:
+                    type: integer
+                  values:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        value_relative:
+                          type: integer
+                        value_absolute:
+                          type: integer
+                        year:
+                          type: integer
   Locales:
     type: object
     properties:
