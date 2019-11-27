@@ -58,7 +58,16 @@ sub reply_exception {
     if ($@) {
         $c->app->log->fatal("reply_exception generated an exception!!!");
         $c->app->log->fatal($@);
-        return $c->reply_internal_server_error();
+        return $c->render(
+            json => {
+                errors => [
+                    message => "Internal server error",
+                    path    => undef,
+                ],
+                status => 500,
+            },
+            status => 500,
+        );
     }
     return $ret if $ret;
 }
