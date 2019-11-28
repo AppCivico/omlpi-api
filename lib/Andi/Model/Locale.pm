@@ -36,7 +36,7 @@ sub get {
     my $locale_id = $opts{locale_id};
     my @binds     = ((($year) x 8), (($area_id) x 2), $locale_id);
 
-    return $self->app->pg->db->query_p(<<"SQL_QUERY", @binds);
+    return $self->app->pg->db->query(<<"SQL_QUERY", @binds);
       SELECT
         locale.id   AS id,
         locale.name AS name,

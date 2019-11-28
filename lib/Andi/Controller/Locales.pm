@@ -1,8 +1,6 @@
 package Andi::Controller::Locales;
 use Mojo::Base 'Andi::Controller';
 
-use Data::Printer;
-
 sub list {
     my $c = shift;
 
@@ -32,17 +30,9 @@ sub read {
     $year = $c->model('Locale')->get_max_year()->hash->{year}
       if not defined $year;
 
-    $c->render_later();
-    $c->model('Locale')->get(locale_id => $locale_id, area_id => $area_id, year => $year)
-      ->then(sub {
-          my $res = shift;
-          return $c->render(json => { locale => $res->expand->hash }, status => 200);
-      })
-      ->catch(sub {
-          my $err = shift;
-          $c->app->log->error($err);
-          $c->reply_exception();
-      });
+    my $res = $c->model('Locale')->get(locale_id => $locale_id, area_id => $area_id, year => $year);
+
+    return $c->render(json => { locale => $res->expand->hash }, status => 200);
 }
 
 sub compare {
