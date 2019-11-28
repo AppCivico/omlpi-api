@@ -81,8 +81,10 @@ sub _reply_exception {
     return $c->render(
         json => {
             errors => [
-                message => "Internal server error",
-                path    => undef,
+                {
+                    message => "Internal server error",
+                    path    => undef,
+                },
             ],
             status => 500,
         },
