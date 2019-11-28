@@ -58,16 +58,7 @@ sub reply_exception {
     if ($@) {
         $c->app->log->fatal("reply_exception generated an exception!!!");
         $c->app->log->fatal($@);
-        return $c->render(
-            json => {
-                errors => [
-                    message => "Internal server error",
-                    path    => undef,
-                ],
-                status => 500,
-            },
-            status => 500,
-        );
+
     }
     return $ret if $ret;
 }
@@ -87,8 +78,16 @@ sub _reply_exception {
         $c->app->log->fatal(blessed($an_error)
               && UNIVERSAL::can($an_error, 'message') ? $an_error->message : $c->app->dumper($an_error));
     }
-
-    return $c->reply_internal_server_error();
+    return $c->render(
+        json => {
+            errors => [
+                message => "Internal server error",
+                path    => undef,
+            ],
+            status => 500,
+        },
+        status => 500,
+    );
 }
 
 1;
