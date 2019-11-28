@@ -44,10 +44,9 @@ sub compare {
 
     $c->_validate_comparison(@{$locale_ids});
 
-    return $c->render(
-        json   => {},
-        status => 501,
-    );
+    my $res = $c->model('Locale')->get(locale_id => $locale_ids);
+
+    return $c->render(json => { comparison => $res->expand->hashes }, status => 200 );
 }
 
 sub _validate_comparison {

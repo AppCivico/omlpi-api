@@ -4,8 +4,6 @@ use lib "$RealBin/../lib";
 
 use Andi::Test;
 
-plan skip_all => 'Skip this test for a while';
-
 my $t = test_instance();
 my $pg = $t->app->pg;
 
@@ -24,10 +22,62 @@ subtest_buffered 'Cant compare cities' => sub {
 
 subtest_buffered 'Compare two locales' => sub {
 
-    my @locale_ids = (2803609, 526);
-    $t->get_ok("/v1/locales/compare", form => { locale_id => \@locale_ids })
-      ->status_is(200);
-    p $t->tx->res->json;
+    # In this development state, I do not have any data about states, regions or country. As I can't compare two
+    # cities, I will update data from some random locale just for test this feature.
+    eval {
+        my $tx = $pg->db->begin();
+
+        my $city_id = 2803609;
+        my $state_id = 526;
+        $pg->db->query(<<'SQL_QUERY', $state_id, $city_id);
+          UPDATE indicator_locale
+            SET locale_id = ?
+          WHERE locale_id IN (
+            SELECT DISTINCT(locale_id)
+            FROM indicator_locale
+            WHERE locale_id <> ?
+            LIMIT 1
+          )
+SQL_QUERY
+
+        $pg->db->query(<<'SQL_QUERY', $state_id, $city_id);
+          UPDATE subindicator_locale
+            SET locale_id = ?
+          WHERE locale_id IN (
+            SELECT DISTINCT(locale_id)
+            FROM subindicator_locale
+            WHERE locale_id <> ?
+            LIMIT 1
+          )
+SQL_QUERY
+
+        $t->get_ok("/v1/locales/compare", form => { locale_id => [$city_id, $state_id] })
+          ->status_is(200)
+          ->json_has('/comparison/0/id')
+          ->json_has('/comparison/0/name')
+          ->json_has('/comparison/0/type')
+          ->json_has('/comparison/0/indicators')
+          ->json_has('/comparison/0/indicators/0/id')
+          ->json_has('/comparison/0/indicators/0/base')
+          ->json_has('/comparison/0/indicators/0/description')
+          ->json_has('/comparison/0/indicators/0/values/0/year')
+          ->json_has('/comparison/0/indicators/0/values/0/value_relative')
+          ->json_has('/comparison/0/indicators/0/values/0/value_absolute')
+          ->json_has('/comparison/1/id')
+          ->json_has('/comparison/1/name')
+          ->json_has('/comparison/1/type')
+          ->json_has('/comparison/1/indicators')
+          ->json_has('/comparison/1/indicators/0/id')
+          ->json_has('/comparison/1/indicators/0/base')
+          ->json_has('/comparison/1/indicators/0/description')
+          ->json_has('/comparison/1/indicators/0/values/0/year')
+          ->json_has('/comparison/1/indicators/0/values/0/value_relative')
+          ->json_has('/comparison/1/indicators/0/values/0/value_absolute');
+
+        # Rollback
+        undef $tx;
+    };
+    is $@, '';
 };
 
 

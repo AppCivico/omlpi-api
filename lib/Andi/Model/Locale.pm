@@ -33,8 +33,8 @@ sub get {
 
     my $year      = $opts{year};
     my $area_id   = $opts{area_id};
-    my $locale_id = $opts{locale_id};
-    my @binds     = ((($year) x 8), (($area_id) x 2), $locale_id);
+    my @locale_ids = ref $opts{locale_id} eq 'ARRAY' ? @{$opts{locale_id}} : ($opts{locale_id});
+    my @binds     = ((($year) x 8), (($area_id) x 2), @locale_ids);
 
     return $self->app->pg->db->query(<<"SQL_QUERY", @binds);
       SELECT
@@ -138,7 +138,7 @@ sub get {
           ) "all"
         ) AS indicators
       FROM locale
-      WHERE locale.id = ?
+      WHERE locale.id IN (@{[join ',', map '?', @locale_ids]})
       GROUP BY 1,2,3
 SQL_QUERY
 }
