@@ -4,6 +4,8 @@ use lib "$RealBin/../lib";
 
 use Andi::Test;
 
+plan skip_all => 'Skip this test for a while';
+
 my $t = test_instance();
 my $pg = $t->app->pg;
 
