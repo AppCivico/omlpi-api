@@ -41,10 +41,13 @@ sub compare {
     $c->openapi->valid_input or return;
 
     my $locale_ids = $c->every_param('locale_id');
+    my $year       = $c->param('year');
 
     $c->_validate_comparison(@{$locale_ids});
+    $year = $c->model('Locale')->get_max_year()->hash->{year}
+      if not defined $year;
 
-    my $res = $c->model('Locale')->get(locale_id => $locale_ids);
+    my $res = $c->model('Locale')->get(locale_id => $locale_ids, year => $year);
 
     return $c->render(json => { comparison => $res->expand->hashes }, status => 200 );
 }
