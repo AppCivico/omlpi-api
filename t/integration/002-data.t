@@ -11,13 +11,7 @@ my $locale_id = 2803609;
 
 subtest_buffered 'Filter by locale' => sub {
 
-    $t->get_ok("/v1/locales/foobar")
-      ->status_is(400)
-      ->json_has('/errors')
-      ->json_is('/errors/0/message', 'Expected integer - got string.')
-      ->json_is('/errors/0/path', '/locale_id');
-
-    $t->get_ok("/v1/locales/$locale_id")
+    $t->get_ok("/v1/data?locale_id=$locale_id")
       ->status_is(200)
       ->json_has('/locale/id')
       ->json_has('/locale/name')
@@ -33,14 +27,14 @@ subtest_buffered 'Filter by locale' => sub {
 
 subtest_buffered 'Filter by area_id' => sub {
 
-    $t->get_ok("/v1/locales/$locale_id", form => { area_id => 'foobar' } )
+    $t->get_ok("/v1/data", form => { locale_id => $locale_id, area_id => 'foobar' } )
       ->status_is(400)
       ->json_has('/errors')
       ->json_is('/errors/0/message', 'Expected integer - got string.')
       ->json_is('/errors/0/path', '/area_id');
 
     my $area_id = 2;
-    $t->get_ok("/v1/locales/$locale_id", form => { area_id => $area_id } )
+    $t->get_ok("/v1/data", form => { locale_id => $locale_id, area_id => $area_id } )
       ->status_is(200);
 
     ok my $indicators = $t->tx->res->json->{locale}->{indicators};
@@ -51,12 +45,12 @@ subtest_buffered 'Filter by area_id' => sub {
 
 subtest_buffered 'Filter by year' => sub {
 
-    $t->get_ok("/v1/locales/$locale_id", form => { year => 2014 } )
+    $t->get_ok("/v1/data", form => { locale_id => $locale_id, year => 2014 } )
       ->status_is(400)
       ->json_is('/errors/0/path', '/year');
 
     my $year = 2018;
-    $t->get_ok("/v1/locales/$locale_id", form => { year => $year } )
+    $t->get_ok("/v1/data", form => { locale_id => $locale_id, year => $year } )
       ->status_is(200);
 
     ok my $indicators = $t->tx->res->json->{locale}->{indicators};

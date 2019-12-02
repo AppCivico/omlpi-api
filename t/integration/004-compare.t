@@ -15,7 +15,7 @@ subtest_buffered 'Cant compare cities' => sub {
                           ->arrays
                           ->each;
 
-    $t->get_ok("/v1/locales/compare", form => { locale_id => \@locale_ids })
+    $t->get_ok("/v1/data/compare", form => { locale_id => \@locale_ids })
       ->status_is(400)
       ->json_is('/errors/0/message', "Can't compare a city with a city.");
 };
@@ -51,7 +51,7 @@ SQL_QUERY
           )
 SQL_QUERY
 
-        $t->get_ok("/v1/locales/compare", form => { locale_id => [$city_id, $state_id] })
+        $t->get_ok("/v1/data/compare", form => { locale_id => [$city_id, $state_id] })
           ->status_is(200)
           ->json_has('/comparison/0/id')
           ->json_has('/comparison/0/name')
