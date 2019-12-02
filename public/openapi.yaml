@@ -122,6 +122,7 @@ paths:
                   $ref: '#/definitions/Locale'
   /classifications:
     get:
+      summary: Get a list of all data breakdown classifications
       x-mojo-to: 'classifications#get'
       operationId: showClassifications
       tags:
