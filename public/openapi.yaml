@@ -21,6 +21,10 @@ tags:
     description: All about the thematic axis
   - name: locales
     description: A locale can be a city, a region, a state or a country
+  - name: data
+    description: Indicators and breakdown data from locales
+  - name: classification
+    description: Data breakdown classifications
 
 paths:
   /areas:
@@ -47,37 +51,18 @@ paths:
           description: List locales
           schema:
             $ref: '#/definitions/Locales'
-  /locales/compare:
+  /data:
     get:
-      x-mojo-to: 'locales#compare'
-      operationId: compareLocales
+      operationId: showData
+      x-mojo-to: 'data#get'
+      summary: Retrieve data from a specific locale
       tags:
-        - locales
+        - data
       parameters:
         - name: locale_id
           in: query
-          type: array
           required: true
-          items:
-            type: integer
-          uniqueItems: true
-          minItems: 2
-          maxItems: 2
-      responses:
-        200:
-          description: The comparison between two locales
-  /locales/{locale_id}:
-    get:
-      operationId: showLocaleById
-      x-mojo-to: 'locales#read'
-      summary: Retrieve data from a specific locale
-      tags:
-        - locales
-      parameters:
-        - name: locale_id
-          in: path
-          required: true
-          description: The id of the locale to retrieve
+          description: The id of the locale to retrieve data from
           type: integer
         - name: area_id
           in: query
@@ -98,6 +83,53 @@ paths:
           description: Info for a specific locale
           schema:
             $ref: '#/definitions/Locale'
+  /data/compare:
+    get:
+      x-mojo-to: 'data-compare#get'
+      operationId: showDataCompare
+      tags:
+        - data
+      parameters:
+        - name: locale_id
+          description: The id of the locale to retrieve data from
+          in: query
+          type: array
+          required: true
+          items:
+            type: integer
+          uniqueItems: true
+          minItems: 2
+          maxItems: 2
+        - name: year
+          in: query
+          type: integer
+          description: Filter data by year
+          required: false
+          enum:
+            - 2017
+            - 2018
+            - 2019
+      responses:
+        200:
+          description: The comparison between two locales
+          schema:
+            type: object
+            properties:
+              comparison:
+                type: array
+                items:
+                  $ref: '#/definitions/Locale'
+  /classifications:
+    get:
+      x-mojo-to: 'classifications#get'
+      operationId: showClassifications
+      tags:
+        - classification
+      responses:
+        200:
+          description: List of classifications
+          schema:
+            $ref: '#/definitions/Classifications'
 definitions:
   Areas:
     type: object
@@ -198,6 +230,13 @@ definitions:
                 - region
                 - state
                 - city
+  Classifications:
+    type: object
+    properties:
+      classifications:
+        type: array
+        items:
+          type: string
   Error:
     type: object
     required:
