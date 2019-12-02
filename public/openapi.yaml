@@ -85,6 +85,7 @@ paths:
             $ref: '#/definitions/Locale'
   /data/compare:
     get:
+      summary: Make a comparison between two locales
       x-mojo-to: 'data-compare#get'
       operationId: showDataCompare
       tags:
