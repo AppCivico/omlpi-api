@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   description: 'The backend of the OMLPL project'
-  version: 1.2.0
+  version: 1.2.1
   title: OMLPL API
   contact:
     email: carlos@appcivico.com
@@ -145,15 +145,19 @@ definitions:
     properties:
       id:
         type: integer
+        example: 2
       name:
         type: string
+        example: Educação
   Locale:
     type: object
     properties:
       id:
         type: integer
+        example: 3550308
       name:
         type: string
+        example: São Paulo
       type:
         type: string
         enum:
@@ -161,6 +165,7 @@ definitions:
           - region
           - state
           - city
+        example: city
       indicators:
         type: array
         items:
@@ -170,12 +175,15 @@ definitions:
     properties:
       id:
         type: integer
+        example: 5
       name:
         type: string
+        example: 'Número de matrículas de educação infantil - Creche'
       area:
         $ref: '#/definitions/Area'
       base:
         type: string
+        example: 'INEP: Censo Escolar - Matrículas'
       values:
         type: array
         items:
@@ -183,16 +191,24 @@ definitions:
           properties:
             year:
               type: integer
+              enum:
+                - 2017
+                - 2018
+                - 2019
+              example: 2019
             value_relative:
               type: integer
+              example: 0.25
             value_absolute:
               type: integer
+              example: 630.3
       subindicators:
         type: array
         items:
           properties:
             classification:
               type: string
+              example: Sexo
             data:
               type: array
               items:
@@ -200,8 +216,10 @@ definitions:
                 properties:
                   description:
                     type: string
+                    example: Feminino
                   id:
                     type: integer
+                    example: 28
                   values:
                     type: array
                     items:
@@ -209,10 +227,13 @@ definitions:
                       properties:
                         value_relative:
                           type: integer
+                          example: 3.7
                         value_absolute:
                           type: integer
+                          example: 8909
                         year:
                           type: integer
+                          example: 2019
   Locales:
     type: object
     properties:
@@ -223,10 +244,13 @@ definitions:
           properties:
             id:
               type: integer
+              example: 3550308
             name:
               type: string
+              example: São Paulo
             type:
               type: string
+              example: city
               enum:
                 - country
                 - region
@@ -239,6 +263,7 @@ definitions:
         type: array
         items:
           type: string
+          example: Sexo
   Error:
     type: object
     required:
