@@ -33,14 +33,14 @@ subtest_buffered 'Filter by area_id' => sub {
       ->json_is('/errors/0/message', 'Expected integer - got string.')
       ->json_is('/errors/0/path', '/area_id');
 
-    my $area_id = 2;
+    my $area_id = 1;
     $t->get_ok("/v1/data", form => { locale_id => $locale_id, area_id => $area_id } )
       ->status_is(200);
 
     ok my $indicators = $t->tx->res->json->{locale}->{indicators};
     is scalar(map { $_->{area}->{id} } @{$indicators}),
-       scalar(grep { $_->{area}->{id} == 2 } @{$indicators}),
-       'all items is of area_id=2';
+       scalar(grep { $_->{area}->{id} == 1 } @{$indicators}),
+       'all items is of area_id=1';
 };
 
 subtest_buffered 'Filter by year' => sub {

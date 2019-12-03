@@ -34,9 +34,8 @@ sub get {
     my $year      = $opts{year};
     my $area_id   = $opts{area_id};
     my @locale_ids = ref $opts{locale_id} eq 'ARRAY' ? @{$opts{locale_id}} : ($opts{locale_id});
-    my @binds     = ((($year) x 8), (($area_id) x 2), @locale_ids);
+    my @binds     = ((($year) x 8), (($area_id) x 2), (($year) x 2), @locale_ids);
 
-    # TODO No indicator_values e subindicator values, passar o WHERE do locale_id
     return $self->app->pg->db->query(<<"SQL_QUERY", @binds);
       SELECT
         locale.id   AS id,
@@ -60,7 +59,8 @@ sub get {
                       indicator_locale.value_relative AS value_relative,
                       indicator_locale.value_absolute AS value_absolute
                     FROM indicator_locale
-                      WHERE indicator_locale.locale_id = locale.id
+                      WHERE indicator_locale.indicator_id = indicator.id
+                        AND indicator_locale.locale_id = locale.id
                         AND (?::int IS NULL OR indicator_locale.year = ?::int)
                         AND (
                           indicator_locale.value_absolute IS NOT NULL
@@ -134,6 +134,13 @@ sub get {
                 ON indicator.id = indicator_locale.indicator_id
                   AND indicator_locale.locale_id = locale.id
               WHERE (?::text IS NULL OR area.id = ?::int)
+                AND EXISTS (
+                  SELECT 1
+                  FROM indicator_locale
+                  WHERE indicator_locale.indicator_id = indicator.id
+                    AND indicator_locale.locale_id = locale.id
+                    AND (?::int IS NULL OR indicator_locale.year = ?::int)
+                )
               ORDER BY indicator.id
             ) AS "row"
           ) "all"
