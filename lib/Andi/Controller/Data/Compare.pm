@@ -23,9 +23,9 @@ sub _validate_comparison {
 
     my %grant = (
         city    => [qw(state country region)],
-        state   => [qw(region)],
-        region  => [qw(country)],
-        country => [],
+        state   => [qw(region city)],
+        region  => [qw(city country state)],
+        country => [qw(city region)],
     );
     my ($first, $second) = map { $_->{type} } $c->pg->db->select("locale", [qw(type)], { id => \@locale_ids })->hashes->each;
 
