@@ -105,6 +105,7 @@ sub get {
                                     SELECT 1 FROM subindicator_locale
                                     WHERE subindicator_locale.subindicator_id = s2.id
                                       AND subindicator_locale.indicator_id = indicator.id
+                                      AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
                                       AND (?::int IS NULL OR subindicator_locale.year = ?::int)
                                   )
                               ) sx
