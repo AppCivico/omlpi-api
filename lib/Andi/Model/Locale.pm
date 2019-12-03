@@ -76,7 +76,7 @@ sub get {
                       SELECT ARRAY_AGG(subindicators)
                       FROM (
                         SELECT
-                          DISTINCT(subindicator.classification) AS classification,
+                          DISTINCT ON (classification) subindicator.classification AS classification,
                           COALESCE(
                             (
                               SELECT ARRAY_AGG(sx)
@@ -85,7 +85,7 @@ sub get {
                                   s2.id,
                                   s2.description,
                                   (
-                                    SELECT ARRAY_AGG(sl)
+                                    SELECT ROW_TO_JSON(sl)
                                     FROM (
                                       SELECT
                                         subindicator_locale.year,
@@ -93,11 +93,13 @@ sub get {
                                         subindicator_locale.value_absolute
                                       FROM subindicator_locale
                                       WHERE subindicator_locale.indicator_id = indicator.id
+                                        AND subindicator.classification = s2.classification
                                         AND subindicator_locale.subindicator_id = s2.id
                                         AND subindicator_locale.locale_id = locale.id
                                         AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
                                         AND (?::int IS NULL OR subindicator_locale.year = ?::int)
                                       ORDER BY subindicator_locale.year DESC
+                                      LIMIT 1
                                     ) sl
                                   ) AS values
                                 FROM subindicator s2
@@ -126,6 +128,7 @@ sub get {
                             )
                             AND (?::int IS NULL OR subindicator_locale.year = ?::int)
                         )
+                        --GROUP BY subindicator.classification
                       ) AS subindicators
                     ),
                     ARRAY[]::record[]
