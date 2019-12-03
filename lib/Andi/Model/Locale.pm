@@ -53,7 +53,7 @@ sub get {
                   indicator.base,
                   ROW_TO_JSON(area.*) AS area,
                   (
-                    SELECT ARRAY_AGG(indicator_values)
+                    SELECT ROW_TO_JSON(indicator_values)
                     FROM (
                       SELECT
                         indicator_locale.year           AS year,
@@ -68,6 +68,7 @@ sub get {
                             OR indicator_locale.value_relative IS NOT NULL
                           )
                       ORDER BY indicator_locale.year
+                      LIMIT 1
                     ) indicator_values
                   ) AS values,
                   COALESCE(

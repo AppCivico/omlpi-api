@@ -20,9 +20,9 @@ subtest_buffered 'Filter by locale' => sub {
       ->json_has('/locale/indicators/0/id')
       ->json_has('/locale/indicators/0/base')
       ->json_has('/locale/indicators/0/description')
-      ->json_has('/locale/indicators/0/values/0/year')
-      ->json_has('/locale/indicators/0/values/0/value_relative')
-      ->json_has('/locale/indicators/0/values/0/value_absolute');
+      ->json_has('/locale/indicators/0/values/year')
+      ->json_has('/locale/indicators/0/values/value_relative')
+      ->json_has('/locale/indicators/0/values/value_absolute');
 };
 
 subtest_buffered 'Filter by area_id' => sub {
@@ -54,8 +54,8 @@ subtest_buffered 'Filter by year' => sub {
       ->status_is(200);
 
     ok my $indicators = $t->tx->res->json->{locale}->{indicators};
-    is scalar(map { map { $_->{year} } @{ $_->{values} } } @{$indicators}),
-       scalar(grep { $_ == $year } map { map { $_->{year} } @{ $_->{values} } } @{$indicators}),
+    is scalar(map { $_->{values}->{year} } @{$indicators}),
+       scalar(grep { $_->{values}->{year} == $year } @{$indicators}),
        'all data of specified year';
 };
 
