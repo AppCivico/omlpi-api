@@ -19,7 +19,7 @@ $logger->info("Starting data import...");
 my $dataset = 'latest';
 #my $dataset = $ARGV[0] or $logger->logdie("Missing arguments");
 
-my $filepath = "$RealBin/../dataset/${dataset}";
+my $filepath = "$RealBin/../resources/dataset/${dataset}";
 if (!-e $filepath) {
     $logger->logdie("File '$filepath' not found.");
 }
