@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   description: 'The backend of the OMLPL project'
-  version: 1.2.1
+  version: 1.2.2
   title: OMLPL API
   contact:
     email: carlos@appcivico.com
@@ -185,23 +185,21 @@ definitions:
         type: string
         example: 'INEP: Censo Escolar - Matrículas'
       values:
-        type: array
-        items:
-          type: object
-          properties:
-            year:
-              type: integer
-              enum:
-                - 2017
-                - 2018
-                - 2019
-              example: 2019
-            value_relative:
-              type: integer
-              example: 0.25
-            value_absolute:
-              type: integer
-              example: 630.3
+        type: object
+        properties:
+          year:
+            type: integer
+            enum:
+              - 2017
+              - 2018
+              - 2019
+            example: 2019
+          value_relative:
+            type: integer
+            example: 0.25
+          value_absolute:
+            type: integer
+            example: 630.3
       subindicators:
         type: array
         items:
@@ -221,19 +219,17 @@ definitions:
                     type: integer
                     example: 28
                   values:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        value_relative:
-                          type: integer
-                          example: 3.7
-                        value_absolute:
-                          type: integer
-                          example: 8909
-                        year:
-                          type: integer
-                          example: 2019
+                    type: object
+                    properties:
+                      value_relative:
+                        type: integer
+                        example: 3.7
+                      value_absolute:
+                        type: integer
+                        example: 8909
+                      year:
+                        type: integer
+                        example: 2019
   Locales:
     type: object
     properties:
