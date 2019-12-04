@@ -120,6 +120,25 @@ paths:
                 type: array
                 items:
                   $ref: '#/definitions/Locale'
+  /data/download_resume:
+    get:
+      summary: Download a PDF file containing data about a locale
+      x-mojo-to: 'Data::DownloadResume#get'
+      operationId: downloadResume
+      tags:
+        - data
+      parameters:
+        - name: locale_id
+          description: The id of the locale to retrieve data from
+          in: query
+          type: integer
+        - name: year
+          description: Filter data by year
+          in: query
+          type: integer
+      responses:
+        200:
+          description: Attachment...
   /classifications:
     get:
       summary: Get a list of all data breakdown classifications
