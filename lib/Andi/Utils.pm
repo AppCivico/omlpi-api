@@ -1,10 +1,12 @@
 package Andi::Utils;
-use common::sense;
+use Mojo::Base -strict;
 
 use vars qw(@ISA @EXPORT);
 
 @ISA    = (qw(Exporter));
-@EXPORT = qw(is_test env nullif);
+@EXPORT = qw(is_test env nullif mojo_home);
+
+state $_home;
 
 sub is_test {
     if ($ENV{HARNESS_ACTIVE} || $0 =~ m{forkprove}) {
@@ -19,5 +21,12 @@ sub nullif {
 }
 
 sub env { return $ENV{${\shift}} }
+
+sub mojo_home {
+    return $_home if defined $_home;
+
+    my $home = Mojo::Home->new();
+    return $_home = $home->detect;
+}
 
 1;

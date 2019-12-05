@@ -1,6 +1,10 @@
 package Andi::Model::Data;
 use Mojo::Base 'MojoX::Model';
 
+use File::Temp;
+use Andi::Utils qw(mojo_home);
+use DDP;
+
 sub get {
     my ($self, %opts) = @_;
 
@@ -271,6 +275,24 @@ sub get_max_year {
         FROM subindicator_locale
       ) years
 SQL_QUERY
+}
+
+sub get_resume {
+    my ($self, %opts) = @_;
+
+    my $data = $self->get(%opts)->expand->hashes;
+    p $data;
+
+    my $home = mojo_home();
+    my $template = $home->rel_file('resources/template_resume.html')->to_abs;
+
+    my $fh = File::Temp->new(UNLINK => 1, SUFFIX => '.tmp');
+    my $mt = Mojo::Template->new(vars => 1);
+    my $res = $mt->render($template->slurp, {
+        locale_name => "",
+    });
+
+    p $res;
 }
 
 1;
