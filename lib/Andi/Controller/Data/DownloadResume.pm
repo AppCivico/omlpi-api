@@ -14,9 +14,14 @@ sub get {
     $year = $c->model('Data')->get_max_year()->hash->{year}
       if not defined $year;
 
-    my $res = $c->model('Data')->get_resume(locale_id => $locale_id, year => $year);
+    my $attachment = $c->model('Data')->get_resume(locale_id => $locale_id, year => $year);
 
-    return $c->reply_method_not_allowed();
+    return $c->render_file(
+        filepath => $attachment,
+        filename => 'report.pdf',
+        format   => 'pdf',
+        cleanup  => 1,
+    );
 }
 
 1;

@@ -1,9 +1,11 @@
 package Andi::Model::Data;
 use Mojo::Base 'MojoX::Model';
 
-use File::Temp qw(:POSIX);
+use File::Temp qw(tempfile);
 use Mojo::Util qw(decode);
 use Andi::Utils qw(mojo_home);
+use IPC::Run qw(run);
+
 use Data::Printer;
 
 sub get {
@@ -301,9 +303,13 @@ sub get_resume {
         locale_name => $data->{name},
         indicators  => $data->{indicators},
     });
+    close $fh;
 
+    # Generate another temporary file
+    my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf', DIR => "/home/junior/projects/andi-api/tmp");
+    run ['wkhtmltopdf', $fh->filename, $pdf_file], debug => 1;
 
-    p $fh->filename;
+    return $pdf_file;
 }
 
 1;
