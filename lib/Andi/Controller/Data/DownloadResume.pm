@@ -16,7 +16,6 @@ sub get {
 
     my $res = $c->model('Data')->get_resume(locale_id => $locale_id, year => $year);
 
-    #return $c->render(json => { locale => $res->expand->hash }, status => 200);
     return $c->reply_method_not_allowed();
 }
 

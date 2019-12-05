@@ -1,9 +1,10 @@
 package Andi::Model::Data;
 use Mojo::Base 'MojoX::Model';
 
-use File::Temp;
+use File::Temp qw(:POSIX);
+use Mojo::Util qw(decode);
 use Andi::Utils qw(mojo_home);
-use DDP;
+use Data::Printer;
 
 sub get {
     my ($self, %opts) = @_;
@@ -280,19 +281,29 @@ SQL_QUERY
 sub get_resume {
     my ($self, %opts) = @_;
 
-    my $data = $self->get(%opts)->expand->hashes;
-    p $data;
+    # Get data
+    my $data = $self->get(%opts)->expand->hash;
 
+    # Get template
     my $home = mojo_home();
     my $template = $home->rel_file('resources/template_resume.html')->to_abs;
-
-    my $fh = File::Temp->new(UNLINK => 1, SUFFIX => '.tmp');
     my $mt = Mojo::Template->new(vars => 1);
-    my $res = $mt->render($template->slurp, {
-        locale_name => "",
+
+    # Fix encoding issues
+    my $slurp = decode('UTF-8', $template->slurp);
+
+    # Create temporary file
+    my $fh = File::Temp->new(UNLINK => 0, SUFFIX => '.html', DIR => "/home/junior/projects/andi-api/tmp");
+    binmode $fh, ':utf8';
+
+    # Write to file
+    print $fh $mt->render($slurp, {
+        locale_name => $data->{name},
+        indicators  => $data->{indicators},
     });
 
-    p $res;
+
+    p $fh->filename;
 }
 
 1;
