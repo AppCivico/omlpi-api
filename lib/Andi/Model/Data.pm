@@ -337,9 +337,10 @@ sub get_all_data {
         ON area.id = indicator.area_id
       INNER JOIN LATERAL (
         SELECT
-          indicator.id AS indicator_id,
-          subindicator.description AS subindicator_description,
-          subindicator.id AS subindicator_id,
+          indicator.id                       AS indicator_id,
+          subindicator.description           AS subindicator_description,
+          subindicator.id                    AS subindicator_id,
+          subindicator.classification        AS subindicator_classification,
           subindicator_locale.value_relative AS subindicator_value_relative,
           subindicator_locale.value_absolute AS subindicator_value_absolute,
           subindicator_locale.year           AS subindicator_year
@@ -352,6 +353,7 @@ sub get_all_data {
           indicator.id AS indicator_id,
           NULL AS subindicator_id,
           NULL AS subindicator_description,
+          NULL AS subindicator_classification,
           NULL AS subindicator_value_absolute,
           NULL AS subindicator_value_relative,
           NULL AS subindicator_year
@@ -381,6 +383,7 @@ SQL_QUERY
         # Write data
         my %worksheets  = ();
         my %has_headers = ();
+        my %lines       = ();
         while (my $r = $res->hash) {
             # Get or create worksheet
             my $year = $r->{indicator_value_year};
@@ -390,6 +393,7 @@ SQL_QUERY
             }
 
             # Write headers if hasn't
+            $lines{$year} //= 0;
             if (!$has_headers{$year}++) {
                 # TODO Bold
                 my @headers = (
@@ -397,15 +401,21 @@ SQL_QUERY
                     'VALOR RELATIVO', 'VALOR ABSOLUTO',
                 );
                 for (my $i = 0; $i < scalar @headers; $i++) {
-                    $worksheet->write(0, $i, $headers[$i]);
+                    $worksheet->write($lines{$year}, $i, $headers[$i]);
                 }
+                $lines{$year}++;
             }
 
             # Write lines
-            #my @keys = qw(
-            #    locale_name
-            #);
-
+            my @keys = qw(
+                locale_name area_name indicator_description indicator_value_relative indicator_value_absolute
+                subindicator_description subindicator_classification subindicator_value_relative
+                subindicator_value_absolute
+            );
+            for (my $i = 0; $i < scalar @keys; $i++) {
+                $worksheet->write($lines{$year}, $i, $r->{$keys[$i]});
+            }
+            $lines{$year}++;
         }
 
         close $fh;
