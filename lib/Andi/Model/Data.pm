@@ -380,6 +380,10 @@ SQL_QUERY
         my $workbook = Excel::Writer::XLSX->new($fh->filename);
         $workbook->set_optimization();
 
+        # Formats
+        my $header_format = $workbook->add_format();
+        $header_format->set_bold();
+
         # Write data
         my %worksheets  = ();
         my %has_headers = ();
@@ -401,7 +405,7 @@ SQL_QUERY
                     'VALOR RELATIVO', 'VALOR ABSOLUTO',
                 );
                 for (my $i = 0; $i < scalar @headers; $i++) {
-                    $worksheet->write($lines{$year}, $i, $headers[$i]);
+                    $worksheet->write($lines{$year}, $i, $headers[$i], $header_format);
                 }
                 $lines{$year}++;
             }

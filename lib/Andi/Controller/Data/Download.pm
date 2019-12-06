@@ -14,7 +14,7 @@ sub get {
           return $c->render_file(
               filepath => $file->filename,
               filename => 'report.xlsx',
-              format   => 'pdf',
+              format   => 'xlsx',
               cleanup  => 1,
           );
       })
