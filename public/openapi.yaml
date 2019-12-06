@@ -139,6 +139,16 @@ paths:
       responses:
         200:
           description: Attachment...
+  /data/download:
+    get:
+      summary: Download all data
+      x-mojo-to: 'data-download#get'
+      operationId: downloadData
+      tags:
+        - data
+      responses:
+        200:
+          description: Download...
   /classifications:
     get:
       summary: Get a list of all data breakdown classifications
