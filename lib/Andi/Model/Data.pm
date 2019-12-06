@@ -295,7 +295,7 @@ sub get_resume {
     my $slurp = decode('UTF-8', $template->slurp);
 
     # Create temporary file
-    my $fh = File::Temp->new(UNLINK => 0, SUFFIX => '.html', DIR => "/home/junior/projects/andi-api/tmp");
+    my $fh = File::Temp->new(UNLINK => 1, SUFFIX => '.html');
     binmode $fh, ':utf8';
 
     # Write to file
@@ -306,7 +306,7 @@ sub get_resume {
     close $fh;
 
     # Generate another temporary file
-    my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf', DIR => "/home/junior/projects/andi-api/tmp");
+    my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf');
     run ['wkhtmltopdf', $fh->filename, $pdf_file], debug => 1;
 
     return $pdf_file;
