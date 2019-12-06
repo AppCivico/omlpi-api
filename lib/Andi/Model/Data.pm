@@ -353,15 +353,15 @@ sub get_all_data {
           NULL AS subindicator_value_relative,
           NULL AS subindicator_year
       ) s ON s.indicator_id = indicator.id
-      ORDER BY locale.name, indicator.id, indicator_locale.year, (s.subindicator_id IS NULL) DESC, s.subindicator_year
+      ORDER BY locale.name, indicator.id, indicator_locale.year DESC, (s.subindicator_id IS NULL) DESC, s.subindicator_year
 SQL_QUERY
 
     return $query->then(sub {
         my $res = shift;
 
         # Create temporary file
-        my $fh = File::Temp->new(UNLINK => 0, SUFFIX => '.xlsx');
-        binmode $fh, ':utf8';
+        my $fh = File::Temp->new(UNLINK => 0, SUFFIX => '.xlsx', DIR => "/home/junior/projects/omlpi-api/tmp");
+        #binmode $fh, ':utf8';
 
         # Spreadsheet
         my $workbook = Excel::Writer::XLSX->new($fh->filename);
@@ -378,15 +378,21 @@ SQL_QUERY
                 $worksheets{$year} = $worksheet = $workbook->add_worksheet($year);
             }
 
-            # Headers
+            # Write headers if hasn't
             if (!$has_headers{$year}++) {
+                # TODO Bold
+                p [ 'year', $year];
                 my @headers = (
                     qw(LOCALIDADE TEMA INDICADOR), 'VALOR RELATIVO', 'VALOR ABSOLUTO', qw(DESAGREGADOR CLASSIFICAÇÃO),
                     'VALOR RELATIVO', 'VALOR ABSOLUTO',
                 );
+                for (my $i = 0; $i < scalar @headers; $i++) {
+                    $worksheet->write(0, $i, $headers[$i]);
+                }
             }
-
         }
+
+        close $fh;
     });
 
 }
