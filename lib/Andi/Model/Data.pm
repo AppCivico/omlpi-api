@@ -353,7 +353,15 @@ sub get_all_data {
           NULL AS subindicator_value_relative,
           NULL AS subindicator_year
       ) s ON s.indicator_id = indicator.id
-      ORDER BY locale.name, indicator.id, indicator_locale.year DESC, (s.subindicator_id IS NULL) DESC, s.subindicator_year
+      ORDER BY (
+        CASE locale.type
+          WHEN 'country' THEN 1
+          WHEN 'region'  THEN 2
+          WHEN 'state'   THEN 3
+          WHEN 'city'    THEN 4
+        END
+      ),
+      locale.name, indicator.id, indicator_locale.year DESC, (s.subindicator_id IS NULL) DESC, s.subindicator_year
 SQL_QUERY
 
     return $query->then(sub {
@@ -381,7 +389,7 @@ SQL_QUERY
             # Write headers if hasn't
             if (!$has_headers{$year}++) {
                 # TODO Bold
-                p [ 'year', $year];
+                p [ 'year', $year, 'row', $r ];
                 my @headers = (
                     qw(LOCALIDADE TEMA INDICADOR), 'VALOR RELATIVO', 'VALOR ABSOLUTO', qw(DESAGREGADOR CLASSIFICAÇÃO),
                     'VALOR RELATIVO', 'VALOR ABSOLUTO',
