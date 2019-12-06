@@ -9,9 +9,14 @@ sub get {
     $c->render_later();
     return $c->model('Data')->get_all_data()
       ->then(sub {
-          p \@_;
+          my $file = shift;
 
-          ...
+          return $c->render_file(
+              filepath => $file->filename,
+              filename => 'report.xlsx',
+              format   => 'pdf',
+              cleanup  => 1,
+          );
       })
       ->catch(sub {
           return $c->reply_exception(@_);

@@ -419,8 +419,9 @@ SQL_QUERY
         }
 
         close $fh;
-    });
 
+        return $fh;
+    });
 }
 
 1;
