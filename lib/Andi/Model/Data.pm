@@ -1,6 +1,8 @@
 package Andi::Model::Data;
 use Mojo::Base 'MojoX::Model';
 
+use Text::CSV;
+use Excel::Writer::XLSX;
 use File::Temp qw(tempfile);
 use Mojo::Util qw(decode);
 use Andi::Utils qw(mojo_home);
@@ -357,10 +359,33 @@ SQL_QUERY
     return $query->then(sub {
         my $res = shift;
 
+        # Create temporary file
+        my $fh = File::Temp->new(UNLINK => 0, SUFFIX => '.xlsx');
+        binmode $fh, ':utf8';
 
+        # Spreadsheet
+        my $workbook = Excel::Writer::XLSX->new($fh->filename);
+        $workbook->set_optimization();
 
+        # Write data
+        my %worksheets  = ();
+        my %has_headers = ();
         while (my $r = $res->hash) {
-            p $r;
+            # Get or create worksheet
+            my $year = $r->{indicator_value_year};
+            my $worksheet = $worksheets{$year};
+            if (!defined($worksheet)) {
+                $worksheets{$year} = $worksheet = $workbook->add_worksheet($year);
+            }
+
+            # Headers
+            if (!$has_headers{$year}++) {
+                my @headers = (
+                    qw(LOCALIDADE TEMA INDICADOR), 'VALOR RELATIVO', 'VALOR ABSOLUTO', qw(DESAGREGADOR CLASSIFICAÇÃO),
+                    'VALOR RELATIVO', 'VALOR ABSOLUTO',
+                );
+            }
+
         }
     });
 
