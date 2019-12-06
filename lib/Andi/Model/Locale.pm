@@ -75,8 +75,9 @@ sub get {
                     (
                       SELECT ARRAY_AGG(subindicators)
                       FROM (
-                        SELECT
-                          DISTINCT ON (classification) subindicator.classification AS classification,
+                        SELECT DISTINCT ON (classification)
+                          subindicator.id AS id,
+                          subindicator.classification AS classification,
                           COALESCE(
                             (
                               SELECT ARRAY_AGG(sx)
