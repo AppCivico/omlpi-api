@@ -10,6 +10,7 @@ sub get {
     return $c->model('Data')->get_all_data()
       ->then(sub {
           p \@_;
+
           ...
       })
       ->catch(sub {

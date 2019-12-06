@@ -307,9 +307,63 @@ sub get_resume {
 
     # Generate another temporary file
     my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf');
-    run ['wkhtmltopdf', $fh->filename, $pdf_file], debug => 1;
+    run ['wkhtmltopdf', $fh->filename, $pdf_file];
 
     return $pdf_file;
+}
+
+sub get_all_data {
+    my $self = shift;
+
+    my $query = $self->app->pg->db->query_p(<<'SQL_QUERY');
+      SELECT
+        locale.id             AS locale_id,
+        locale.name           AS locale_name,
+        indicator.id          AS indicator_id,
+        indicator.description AS indicator_description,
+        indicator_locale.year AS indicator_value_year,
+        indicator_locale.value_relative AS indicator_value_relative,
+        indicator_locale.value_absolute AS indicator_value_absolute,
+        s.*
+      FROM locale
+      JOIN indicator_locale
+        ON locale.id = indicator_locale.locale_id
+      JOIN indicator
+        ON indicator.id = indicator_locale.indicator_id
+      INNER JOIN LATERAL (
+        SELECT
+          indicator.id AS indicator_id,
+          subindicator.description AS subindicator_description,
+          subindicator.id AS subindicator_id,
+          subindicator_locale.value_relative AS subindicator_value_relative,
+          subindicator_locale.value_absolute AS subindicator_value_absolute,
+          subindicator_locale.year           AS subindicator_year
+        FROM subindicator_locale
+        JOIN subindicator
+          ON subindicator.id = subindicator_locale.id
+        WHERE subindicator_locale.locale_id = locale.id
+        UNION
+        SELECT
+          indicator.id AS indicator_id,
+          NULL AS subindicator_id,
+          NULL AS subindicator_description,
+          NULL AS subindicator_value_absolute,
+          NULL AS subindicator_value_relative,
+          NULL AS subindicator_year
+      ) s ON s.indicator_id = indicator.id
+      ORDER BY locale.name, indicator.id, indicator_locale.year, (s.subindicator_id IS NULL) DESC, s.subindicator_year
+SQL_QUERY
+
+    return $query->then(sub {
+        my $res = shift;
+
+
+
+        while (my $r = $res->hash) {
+            p $r;
+        }
+    });
+
 }
 
 1;
