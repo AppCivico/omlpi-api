@@ -321,6 +321,7 @@ sub get_all_data {
       SELECT
         locale.id             AS locale_id,
         locale.name           AS locale_name,
+        area.name             AS area_name,
         indicator.id          AS indicator_id,
         indicator.description AS indicator_description,
         indicator_locale.year AS indicator_value_year,
@@ -332,6 +333,8 @@ sub get_all_data {
         ON locale.id = indicator_locale.locale_id
       JOIN indicator
         ON indicator.id = indicator_locale.indicator_id
+      JOIN area
+        ON area.id = indicator.area_id
       INNER JOIN LATERAL (
         SELECT
           indicator.id AS indicator_id,
@@ -389,7 +392,6 @@ SQL_QUERY
             # Write headers if hasn't
             if (!$has_headers{$year}++) {
                 # TODO Bold
-                p [ 'year', $year, 'row', $r ];
                 my @headers = (
                     qw(LOCALIDADE TEMA INDICADOR), 'VALOR RELATIVO', 'VALOR ABSOLUTO', qw(DESAGREGADOR CLASSIFICAÇÃO),
                     'VALOR RELATIVO', 'VALOR ABSOLUTO',
@@ -398,6 +400,12 @@ SQL_QUERY
                     $worksheet->write(0, $i, $headers[$i]);
                 }
             }
+
+            # Write lines
+            #my @keys = qw(
+            #    locale_name
+            #);
+
         }
 
         close $fh;
