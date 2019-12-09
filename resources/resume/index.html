@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="css/styles.css" type="text/css" />
+	<title>Relatório Observa</title>
+	<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+</head>
+<body>
+	<div id="content">
+		<span>
+				<script>
+				var myDate = new Date();
+				document.write(myDate.getDate()+"/"+(myDate.getMonth()+1)+"/"+myDate.getFullYear());
+				</script>
+		</span>
+			<p class="titulo_header">Observa - Relatório Personalizado</p>
+		<div id="container">
+			<img id="logo" src="img/logo.png" alt="Marca do site Observa">
+			<h2>Relatório Personalizado de <%= $locale_name %></h2>
+      % for my $indicator (@$indicators) {
+        <h3>Indicador: <%= $indicator->{description} %></h3>
+        <p>Tema: <%= $indicator->{area}->{name} %></p>
+        <p>Fonte: <%= $indicator->{base} %></p>
+        <p>Ano: <%= $indicator->{values}->{year} %></p>
+        <p>Valor relativo: <%= $indicator->{values}->{value_relative} %></p>
+        <p>Valor absoluto: <%= $indicator->{values}->{value_absolute} %></p>
+        <br>
+        % my $subindicators = $indicator->{subindicators};
+        % for my $subindicator (@$subindicators) {
+          % my $data = $subindicator->{data};
+          % for my $d (@$data) {
+            <h4>Desagregador: <%= $d->{description} %></h4>
+            <p>Ano: <%= $d->{values}->{year} %></p>
+            <p>Valor relativo: <%= $d->{values}->{value_relative} %></p>
+            <p>Valor absoluto: <%= $d->{values}->{value_absolute} %></p>
+          % }
+        % }
+      % }
+
+		</div>
+		<footer>
+			<span>01/01</span>
+			<p class="titulo_header">URL do site</p>
+		</footer>
+	</div>
+</body>
+</html>

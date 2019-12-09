@@ -1,0 +1,70 @@
+@import url(
+  'https://fonts.googleapis.com/css?family=Lato&display=swap'
+);
+
+html {
+    display: table;
+    margin: auto;
+    height: 100%;
+}
+body{
+  background-color: #ffffff;
+  font-family: Lato;
+  width: 595px;
+  height: 100%;
+  border: 1px solid black;
+}
+
+#content{
+  padding:24px;
+}
+h2{
+  font-family: Lato;
+  font-size: 22px;
+  font-weight: bold;
+  color: #463581;
+  margin-bottom: 24px;
+}
+h3{
+  font-family: Lato;
+  font-size: 18px;
+  font-weight:600;
+  color: #59449B;
+  margin-bottom: 24px;
+}
+h4{
+  font-family: Lato;
+  font-size: 18px;
+  font-weight:600;
+  color: #59449B;
+  margin-bottom: 24px;
+}
+.titulo_header{
+  font-family: lato;
+  font-size: 12px;
+  color: #A3A3A3;
+  padding-top:14px;
+  display: inline;
+}
+span{
+  font-family: lato;
+  font-size: 12px;
+  color: #A3A3A3;
+  display: inline;
+  float: right;
+}
+p{
+  font-family: Lato;
+  font-size: 14px;
+  font-weight: normal;
+  color: #6E6E6E;
+}
+img{
+  width: 176px;
+  height: 36px;
+  margin: 24px 0px 24px 0px;
+}
+footer{
+  margin-top: 24px;
+  margin-bottom: 24px;
+}

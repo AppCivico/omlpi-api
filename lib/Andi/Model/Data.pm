@@ -113,7 +113,6 @@ sub get {
                             )
                             AND (?::int IS NULL OR subindicator_locale.year = ?::int)
                         )
-                        --GROUP BY subindicator.classification
                       ) AS subindicators
                     ),
                     ARRAY[]::record[]
@@ -297,14 +296,23 @@ sub get_resume {
 
     # Get template
     my $home = mojo_home();
-    my $template = $home->rel_file('resources/template_resume.html')->to_abs;
+    #my $template = $home->rel_file('resources/template_resume.html')->to_abs;
+    my $template = $home->rel_file('resources/resume/index.html')->to_abs;
     my $mt = Mojo::Template->new(vars => 1);
 
     # Fix encoding issues
     my $slurp = decode('UTF-8', $template->slurp);
 
+    # Create temporary directory
+    #my $dir = File::Temp->newdir(CLEANUP => 1, DIR => "/home/junior/projects/omlpi-api/tmp");
+    #my $dir = File::Temp->newdir(CLEANUP => 0, DIR => "/home/junior/projects/omlpi-api/tmp");
+    my $dir = File::Temp->newdir(CLEANUP => 0);
+    symlink $home->rel_file("resources/resume/$_"), $dir->dirname . "/$_"
+      or die $!
+        for qw<css img>;
+
     # Create temporary file
-    my $fh = File::Temp->new(UNLINK => 1, SUFFIX => '.html');
+    my $fh = File::Temp->new(UNLINK => 0, SUFFIX => '.html', DIR => $dir->dirname);
     binmode $fh, ':utf8';
 
     # Write to file
@@ -315,8 +323,9 @@ sub get_resume {
     close $fh;
 
     # Generate another temporary file
-    my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf');
-    run ['wkhtmltopdf', $fh->filename, $pdf_file];
+    #my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf');
+    my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf', DIR => "/home/junior/projects/omlpi-api/tmp");
+    run ['wkhtmltopdf', '-q', $fh->filename, $pdf_file];
 
     return $pdf_file;
 }
