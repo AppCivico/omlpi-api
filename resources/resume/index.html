@@ -20,24 +20,26 @@
 			<h2>Relatório Personalizado de <%= $locale_name %></h2>
       % for my $indicator (@$indicators) {
         <h3>Indicador: <%= $indicator->{description} %></h3>
-        <p>Tema: <%= $indicator->{area}->{name} %></p>
-        <p>Fonte: <%= $indicator->{base} %></p>
-        <p>Ano: <%= $indicator->{values}->{year} %></p>
-        <p>Valor relativo: <%= $indicator->{values}->{value_relative} %></p>
-        <p>Valor absoluto: <%= $indicator->{values}->{value_absolute} %></p>
-        <br>
+        <p>Tema: <%= $indicator->{area}->{name} %>
+          <br>Fonte: <%= $indicator->{base} %>
+          <br>Ano: <%= $indicator->{values}->{year} %>
+          <br>Valor relativo: <%= $indicator->{values}->{value_relative} %>
+          <br>Valor absoluto: <%= $indicator->{values}->{value_absolute} %>
+        </p>
         % my $subindicators = $indicator->{subindicators};
         % for my $subindicator (@$subindicators) {
+          <h4>Desagregador: <%= $subindicator->{classification} %>:</h4>
           % my $data = $subindicator->{data};
           % for my $d (@$data) {
-            <h4>Desagregador: <%= $d->{description} %></h4>
-            <p>Ano: <%= $d->{values}->{year} %></p>
-            <p>Valor relativo: <%= $d->{values}->{value_relative} %></p>
-            <p>Valor absoluto: <%= $d->{values}->{value_absolute} %></p>
+            <p>
+              <b><%= $d->{description} %></b>
+              <br>Valor relativo: <%= $d->{values}->{value_relative} %>
+              <br>Valor absoluto: <%= $d->{values}->{value_absolute} %>
+            </p>
           % }
         % }
+        <br>
       % }
-
 		</div>
 		<footer>
 			<span>01/01</span>

@@ -306,7 +306,7 @@ sub get_resume {
     # Create temporary directory
     #my $dir = File::Temp->newdir(CLEANUP => 1, DIR => "/home/junior/projects/omlpi-api/tmp");
     #my $dir = File::Temp->newdir(CLEANUP => 0, DIR => "/home/junior/projects/omlpi-api/tmp");
-    my $dir = File::Temp->newdir(CLEANUP => 0);
+    my $dir = File::Temp->newdir(CLEANUP => 1);
     symlink $home->rel_file("resources/resume/$_"), $dir->dirname . "/$_"
       or die $!
         for qw<css img>;
@@ -323,8 +323,8 @@ sub get_resume {
     close $fh;
 
     # Generate another temporary file
-    #my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf');
-    my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf', DIR => "/home/junior/projects/omlpi-api/tmp");
+    #my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf', DIR => "/home/junior/projects/omlpi-api/tmp");
+    my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf');
     run ['wkhtmltopdf', '-q', $fh->filename, $pdf_file];
 
     return $pdf_file;

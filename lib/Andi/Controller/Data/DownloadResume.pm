@@ -18,7 +18,7 @@ sub get {
 
     return $c->render_file(
         filepath => $attachment,
-        filename => 'report.pdf',
+        filename => 'Resumo.pdf',
         format   => 'pdf',
         cleanup  => 1,
     );
