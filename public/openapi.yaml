@@ -132,6 +132,7 @@ paths:
           description: The id of the locale to retrieve data from.
           in: query
           type: integer
+          required: true
         - name: year
           description: Filter data by year.
           in: query
