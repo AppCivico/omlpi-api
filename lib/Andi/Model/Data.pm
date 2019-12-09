@@ -304,8 +304,6 @@ sub get_resume {
     my $slurp = decode('UTF-8', $template->slurp);
 
     # Create temporary directory
-    #my $dir = File::Temp->newdir(CLEANUP => 1, DIR => "/home/junior/projects/omlpi-api/tmp");
-    #my $dir = File::Temp->newdir(CLEANUP => 0, DIR => "/home/junior/projects/omlpi-api/tmp");
     my $dir = File::Temp->newdir(CLEANUP => 1);
     symlink $home->rel_file("resources/resume/$_"), $dir->dirname . "/$_"
       or die $!

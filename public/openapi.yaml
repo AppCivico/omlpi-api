@@ -122,23 +122,27 @@ paths:
                   $ref: '#/definitions/Locale'
   /data/download_resume:
     get:
-      summary: Download a PDF file containing data about a locale
+      summary: Download a PDF file containing data about a locale.
       x-mojo-to: 'Data::DownloadResume#get'
       operationId: downloadResume
       tags:
         - data
       parameters:
         - name: locale_id
-          description: The id of the locale to retrieve data from
+          description: The id of the locale to retrieve data from.
           in: query
           type: integer
         - name: year
-          description: Filter data by year
+          description: Filter data by year.
           in: query
           type: integer
+      produces:
+        - application/pdf
       responses:
         200:
-          description: Attachment...
+          description: A PDF file.
+          schema:
+            type: file
   /data/download:
     get:
       summary: Download all data
