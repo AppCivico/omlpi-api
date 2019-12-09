@@ -151,9 +151,13 @@ paths:
       operationId: downloadData
       tags:
         - data
+      produces:
+        - application/pdf
       responses:
         200:
-          description: Download...
+          description: Returns a spreadsheet with data about all locales.
+          schema:
+            type: file
   /classifications:
     get:
       summary: Get a list of all data breakdown classifications
