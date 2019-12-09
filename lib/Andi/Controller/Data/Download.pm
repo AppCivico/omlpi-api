@@ -13,7 +13,7 @@ sub get {
 
           return $c->render_file(
               filepath => $file->filename,
-              filename => 'report.xlsx',
+              filename => 'Andi_Dados.xlsx',
               format   => 'xlsx',
               cleanup  => 1,
           );

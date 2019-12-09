@@ -399,7 +399,6 @@ SQL_QUERY
             # Write headers if hasn't
             $lines{$year} //= 0;
             if (!$has_headers{$year}++) {
-                # TODO Bold
                 my @headers = (
                     qw(LOCALIDADE TEMA INDICADOR), 'VALOR RELATIVO', 'VALOR ABSOLUTO', qw(DESAGREGADOR CLASSIFICAÇÃO),
                     'VALOR RELATIVO', 'VALOR ABSOLUTO',
