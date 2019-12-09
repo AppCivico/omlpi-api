@@ -20,8 +20,11 @@ sub get {
 
     return $self->app->pg->db->query(<<"SQL_QUERY", @binds);
       SELECT
-        locale.id   AS id,
-        locale.name AS name,
+        locale.id AS id,
+        CASE
+          WHEN locale.type = 'city' THEN CONCAT(locale.name, ', ', state.uf)
+          ELSE locale.name
+        END AS name,
         locale.type AS type,
         COALESCE(
           (
@@ -136,6 +139,10 @@ sub get {
           '[]'::json
         ) AS indicators
       FROM locale
+      LEFT JOIN city
+        ON locale.type = 'city' AND locale.id = city.id
+      LEFT JOIN state
+        ON locale.type = 'city' AND city.state_id = state.id
       WHERE locale.id = ?
       GROUP BY 1,2,3
 SQL_QUERY
