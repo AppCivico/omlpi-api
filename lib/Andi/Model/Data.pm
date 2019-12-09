@@ -387,7 +387,8 @@ SQL_QUERY
         my $res = shift;
 
         # Create temporary file
-        my $fh = File::Temp->new(UNLINK => 0, SUFFIX => '.xlsx', DIR => "/home/junior/projects/omlpi-api/tmp");
+        #my $fh = File::Temp->new(UNLINK => 0, SUFFIX => '.xlsx', DIR => "/home/junior/projects/omlpi-api/tmp");
+        my $fh = File::Temp->new(UNLINK => 0, SUFFIX => '.xlsx');
         #binmode $fh, ':utf8';
 
         # Spreadsheet
