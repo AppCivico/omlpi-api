@@ -10,10 +10,10 @@ sub get {
     my $year      = $c->param('year');
     my $locale_id = $c->param('locale_id');
 
-    $year = $c->model('Locale')->get_max_year()->hash->{year}
+    $year = $c->model('Data')->get_max_year()->hash->{year}
       if not defined $year;
 
-    my $res = $c->model('Locale')->get(locale_id => $locale_id, area_id => $area_id, year => $year);
+    my $res = $c->model('Data')->get(locale_id => $locale_id, area_id => $area_id, year => $year);
 
     return $c->render(json => { locale => $res->expand->hash }, status => 200);
 }

@@ -30,7 +30,7 @@ USER root
 RUN apt-get update && apt-get install -y \
     imagemagick \
     shared-mime-info \
-    redis-server \
+    wkhtmltopdf \
 && rm -rf /var/lib/apt/lists/* && apt-get clean
 
 USER app

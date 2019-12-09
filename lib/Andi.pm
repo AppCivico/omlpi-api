@@ -20,7 +20,10 @@ sub startup {
 
     # Plugins
     $self->plugin('Model');
+    $self->plugin('RenderFile');
     $self->plugin('ParamLogger');
+
+    # OpenAPI
     $self->plugin(OpenAPI => {
         plugins => [qw(+SpecRenderer)],
         spec    => $self->static->file("openapi.yaml")->path,

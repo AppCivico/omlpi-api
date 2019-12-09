@@ -119,7 +119,130 @@ paths:
               comparison:
                 type: array
                 items:
-                  $ref: '#/definitions/Locale'
+                  type: object
+                  properties:
+                    locales:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 3550308
+                          name:
+                            type: string
+                            example: São Paulo
+                          type:
+                            type: string
+                            example: city
+                            enum:
+                              - country
+                              - region
+                              - state
+                              - city
+                          indicators:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                  example: 5
+                                name:
+                                  type: string
+                                  example: 'Número de matrículas de educação infantil - Creche'
+                                area:
+                                  $ref: '#/definitions/Area'
+                                base:
+                                  type: string
+                                  example: 'INEP: Censo Escolar - Matrículas'
+                                values:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      year:
+                                        type: integer
+                                        enum:
+                                          - 2017
+                                          - 2018
+                                          - 2019
+                                        example: 2019
+                                      value_relative:
+                                        type: integer
+                                        example: 0.25
+                                      value_absolute:
+                                        type: integer
+                                        example: 630.3
+                                subindicators:
+                                  type: array
+                                  items:
+                                    properties:
+                                      classification:
+                                        type: string
+                                        example: Sexo
+                                      data:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            description:
+                                              type: string
+                                              example: Feminino
+                                            id:
+                                              type: integer
+                                              example: 28
+                                            values:
+                                              type: array
+                                              items:
+                                                properties:
+                                                  value_relative:
+                                                    type: integer
+                                                    example: 3.7
+                                                  value_absolute:
+                                                    type: integer
+                                                    example: 8909
+                                                  year:
+                                                    type: integer
+                                                    example: 2019
+  /data/download_resume:
+    get:
+      summary: Download a PDF file containing data about a locale
+      x-mojo-to: 'Data::DownloadResume#get'
+      operationId: downloadResume
+      tags:
+        - data
+      parameters:
+        - name: locale_id
+          description: The id of the locale to retrieve data from
+          in: query
+          type: integer
+          required: true
+        - name: year
+          description: Filter data by year
+          in: query
+          type: integer
+      produces:
+        - application/pdf
+      responses:
+        200:
+          description: A PDF file
+          schema:
+            type: file
+  /data/download:
+    get:
+      summary: Download all data
+      x-mojo-to: 'data-download#get'
+      operationId: downloadData
+      tags:
+        - data
+      produces:
+        - application/pdf
+      responses:
+        200:
+          description: Returns a spreadsheet with data about all locales
+          schema:
+            type: file
   /classifications:
     get:
       summary: Get a list of all data breakdown classifications
