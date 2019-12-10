@@ -296,7 +296,6 @@ sub get_resume {
 
     # Get template
     my $home = mojo_home();
-    #my $template = $home->rel_file('resources/template_resume.html')->to_abs;
     my $template = $home->rel_file('resources/resume/index.html')->to_abs;
     my $mt = Mojo::Template->new(vars => 1);
 
@@ -322,7 +321,6 @@ sub get_resume {
     close $fh;
 
     # Generate another temporary file
-    #my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf', DIR => "/home/junior/projects/omlpi-api/tmp");
     my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf');
     run ['xvfb-run', 'wkhtmltopdf', '-q', $fh->filename, $pdf_file];
 
@@ -388,7 +386,6 @@ SQL_QUERY
         my $res = shift;
 
         # Create temporary file
-        #my $fh = File::Temp->new(UNLINK => 0, SUFFIX => '.xlsx', DIR => "/home/junior/projects/omlpi-api/tmp");
         my $fh = File::Temp->new(UNLINK => 0, SUFFIX => '.xlsx');
         #binmode $fh, ':utf8';
 
