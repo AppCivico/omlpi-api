@@ -8,13 +8,8 @@
 </head>
 <body>
 	<div id="content">
-		<span>
-				<script>
-				var myDate = new Date();
-				document.write(myDate.getDate()+"/"+(myDate.getMonth()+1)+"/"+myDate.getFullYear());
-				</script>
-		</span>
-			<p class="titulo_header">Observa - Relatório Personalizado</p>
+    <span><%= $now->strftime('%d/%m/%Y') %></span>
+	  <p class="titulo_header">Observa - Relatório Personalizado</p>
 		<div id="container">
 			<img id="logo" src="img/logo.png" alt="Marca do site Observa">
 			<h2>Relatório Personalizado de <%= $locale_name %></h2>
