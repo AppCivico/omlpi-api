@@ -315,6 +315,7 @@ sub get_resume {
 
     # Write to file
     print $fh $mt->render($slurp, {
+        now         => $self->app->model('DateTime')->now(),
         locale_name => $data->{name},
         indicators  => $data->{indicators},
     });
