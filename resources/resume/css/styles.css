@@ -1,70 +1,74 @@
 @import url(
-  'https://fonts.googleapis.com/css?family=Lato&display=swap'
+  'https://fonts.googleapis.com/css?family=lato&display=swap'
 );
 
 html {
-    display: table;
-    margin: auto;
-    height: 100%;
-}
-body{
-  background-color: #ffffff;
-  font-family: Lato;
-  width: 595px;
-  /* height: 100%; */
-  border: 1px solid black;
+  margin: auto;
+  font-size: 1.4em;
 }
 
-#content{
-  padding:24px;
+body {
+  background-color: #ffffff;
+  font-family: lato;
 }
-h2{
-  font-family: Lato;
-  font-size: 22px;
+
+#content {
+  padding: 24px;
+}
+
+h2 {
+  font-family: lato;
+  font-size: 1.375em;
   font-weight: bold;
   color: #463581;
   margin-bottom: 24px;
 }
-h3{
-  font-family: Lato;
-  font-size: 18px;
-  font-weight:600;
-  color: #59449B;
-  margin-bottom: 24px;
-}
-h4{
-  font-family: Lato;
-  font-size: 18px;
-  font-weight:600;
-  color: #59449B;
-  margin-bottom: 24px;
-}
-.titulo_header{
+
+h3 {
   font-family: lato;
-  font-size: 12px;
+  font-size: 1.125em;
+  font-weight: 600;
+  color: #59449B;
+  margin-bottom: 24px;
+}
+
+h4 {
+  font-family: lato;
+  font-size: 1.125em;
+  font-weight:600;
+  color: #59449B;
+  margin-bottom: 24px;
+}
+
+.titulo_header {
+  font-family: lato;
+  font-size: 0.75em;
   color: #A3A3A3;
   padding-top:14px;
   display: inline;
 }
-span{
+
+span {
   font-family: lato;
-  font-size: 12px;
+  font-size: 0.75em;
   color: #A3A3A3;
   display: inline;
   float: right;
 }
-p{
-  font-family: Lato;
-  font-size: 14px;
+
+p {
+  font-family: lato;
+  font-size: 0.875em;
   font-weight: normal;
   color: #6E6E6E;
 }
-img{
-  width: 176px;
+
+img {
   height: 36px;
   margin: 24px 0px 24px 0px;
 }
-footer{
-  margin-top: 24px;
-  margin-bottom: 24px;
+
+footer {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
 }

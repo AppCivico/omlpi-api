@@ -28,7 +28,7 @@
         </p>
         % my $subindicators = $indicator->{subindicators};
         % for my $subindicator (@$subindicators) {
-          <h4>Desagregador: <%= $subindicator->{classification} %>:</h4>
+          <h4>Desagregador: <%= $subindicator->{classification} %></h4>
           % my $data = $subindicator->{data};
           % for my $d (@$data) {
             <p>
@@ -42,8 +42,8 @@
       % }
 		</div>
 		<footer>
-			<span>01/01</span>
-			<p class="titulo_header">URL do site</p>
+			<!-- <span>01/01</span>
+			<p class="titulo_header">URL do site</p>  -->
 		</footer>
 	</div>
 </body>
