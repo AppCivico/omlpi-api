@@ -323,7 +323,7 @@ sub get_resume {
     # Generate another temporary file
     #my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf', DIR => "/home/junior/projects/omlpi-api/tmp");
     my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf');
-    run ['wkhtmltopdf', '-q', $fh->filename, $pdf_file];
+    run ['xvfb-run', 'wkhtmltopdf', '-q', $fh->filename, $pdf_file];
 
     return $pdf_file;
 }

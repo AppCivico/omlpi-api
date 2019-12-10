@@ -30,6 +30,7 @@ USER root
 RUN apt-get update && apt-get install -y \
     imagemagick \
     shared-mime-info \
+    xvfb \
     wkhtmltopdf \
 && rm -rf /var/lib/apt/lists/* && apt-get clean
 
