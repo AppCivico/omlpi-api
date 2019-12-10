@@ -387,7 +387,6 @@ SQL_QUERY
 
         # Create temporary file
         my $fh = File::Temp->new(UNLINK => 0, SUFFIX => '.xlsx');
-        #binmode $fh, ':utf8';
 
         # Spreadsheet
         my $workbook = Excel::Writer::XLSX->new($fh->filename);

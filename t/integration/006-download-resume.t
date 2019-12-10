@@ -9,7 +9,7 @@ my $pg = $t->app->pg;
 
 my $locale_id = 2803609;
 
-$t->get_ok("/v1/data/download_resume", form => { locale_id => $locale_id })
+$t->get_ok("/v1/data/resume", form => { locale_id => $locale_id })
   ->status_is(200);
 
 my $headers = $t->tx->res->content->headers;

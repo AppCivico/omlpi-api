@@ -205,10 +205,10 @@ paths:
                                                   year:
                                                     type: integer
                                                     example: 2019
-  /data/download_resume:
+  /data/resume:
     get:
       summary: Download a PDF file containing data about a locale
-      x-mojo-to: 'Data::DownloadResume#get'
+      x-mojo-to: 'Data::Resume#get'
       operationId: downloadResume
       tags:
         - data

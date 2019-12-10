@@ -1,4 +1,4 @@
-package Andi::Controller::Data::DownloadResume;
+package Andi::Controller::Data::Resume;
 use Mojo::Base 'Andi::Controller';
 
 use Data::Printer;
