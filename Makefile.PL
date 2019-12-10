@@ -24,6 +24,7 @@ my %WriteMakefileArgs = (
     "DBD::Pg" => 0,
     "Data::Printer" => 0,
     "DateTime" => 0,
+    "DateTime::Format::DateParse" => 0,
     "EV" => "4.30",
     "Excel::Writer::XLSX" => 0,
     "Exporter" => 0,
@@ -69,7 +70,7 @@ my %WriteMakefileArgs = (
     "constant" => 0,
     "lib" => 0
   },
-  "VERSION" => 20191209,
+  "VERSION" => 20191210,
   "test" => {
     "TESTS" => "t/*.t t/integration/*.t t/unit/*.t"
   }
@@ -84,6 +85,7 @@ my %FallbackPrereqs = (
   "DBD::Pg" => 0,
   "Data::Printer" => 0,
   "DateTime" => 0,
+  "DateTime::Format::DateParse" => 0,
   "EV" => "4.30",
   "Env::Path" => "0.18",
   "Excel::Writer::XLSX" => 0,
