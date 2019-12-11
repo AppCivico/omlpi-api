@@ -73,8 +73,8 @@ eval {
         my $csv = Tie::Handle::CSV->new($tmp, header => 1);
         my %unique_subindicator;
         while (my $line = <$csv>) {
-            my $description = $line->{Nome};
-            next if $unique_subindicator{$description}++;
+            my $id = $line->{Id};
+            next if $unique_subindicator{$id}++;
             $sql_query .= '(?, ?, ?), ';
             push @binds, @{$line}{qw(Id Nome Classificador)};
         }
@@ -116,7 +116,8 @@ SQL_QUERY
             my $area_id      = delete $line->{Tema};
             my $year         = delete $line->{Ano};
             my $indicator_id = delete $line->{Indicador};
-            my $locale_id    = delete $line->{Localidade};
+            #my $locale_id    = delete $line->{Localidade};
+            my $locale_id    = delete $line->{'Localidade_7'};
 
             # Get indicator values
             my $value_relative = $line->{'D0_R'};
@@ -164,7 +165,8 @@ SQL_QUERY
             my $area_id      = delete $line->{Tema};
             my $year         = delete $line->{Ano};
             my $indicator_id = delete $line->{Indicador};
-            my $locale_id    = delete $line->{Localidade};
+            #my $locale_id    = delete $line->{Localidade};
+            my $locale_id    = delete $line->{'Localidade_7'};
 
             my %subindicators = map { s{(_[RA])$}{}; $_ => 1 } grep { m{^D} } keys %{$line};
             for my $k (keys %subindicators) {

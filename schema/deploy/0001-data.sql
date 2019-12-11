@@ -17,17 +17,10 @@ CREATE TABLE indicator (
     base        TEXT
 );
 
---CREATE TABLE subindicator_category (
---    id INT PRIMARY KEY,
---    name TEXT NOT NULL
---);
-
 CREATE TABLE subindicator (
     id INT NOT NULL PRIMARY KEY,
     description TEXT NOT NULL,
-    classification TEXT NOT NULL,
-    UNIQUE(description)
-    --subindicator_category_id INT NOT NULL REFERENCES subindicator_category(id)
+    classification TEXT NOT NULL
 );
 
 CREATE TABLE indicator_locale (
