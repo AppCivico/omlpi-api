@@ -74,7 +74,7 @@ eval {
         my %unique_subindicator;
         while (my $line = <$csv>) {
             my $id = $line->{Id};
-            next if $unique_subindicator{$id}++;
+            next if $id == 0 || $unique_subindicator{$id}++;
             $sql_query .= '(?, ?, ?), ';
             push @binds, @{$line}{qw(Id Nome Classificador)};
         }
@@ -115,9 +115,10 @@ SQL_QUERY
             $line = { %$line };
             my $area_id      = delete $line->{Tema};
             my $year         = delete $line->{Ano};
-            my $indicator_id = delete $line->{Indicador};
             #my $locale_id    = delete $line->{Localidade};
             my $locale_id    = delete $line->{'Localidade_7'};
+            my $indicator_id = delete $line->{Indicador};
+            next if $indicator_id == 0;
 
             # Get indicator values
             my $value_relative = $line->{'D0_R'};
