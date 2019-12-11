@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   description: 'The backend of the OMLPL project'
-  version: 1.2.2
+  version: 1.3.1
   title: OMLPL API
   contact:
     email: carlos@appcivico.com
@@ -51,6 +51,23 @@ paths:
           description: List locales
           schema:
             $ref: '#/definitions/Locales'
+  /states:
+    get:
+      x-mojo-to: 'states#list'
+      operationId: listStates
+      tags:
+        - locales
+      summary: List of brazilian states in alphabetical order
+      responses:
+        200:
+          description: List of states
+          schema:
+            type: object
+            properties:
+              states:
+                type: array
+                items:
+                  $ref: '#/definitions/State'
   /data:
     get:
       operationId: showData
@@ -383,6 +400,16 @@ definitions:
         items:
           type: string
           example: Sexo
+  State:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 518
+      name:
+        type: string
+        example: Paraná
+
   Error:
     type: object
     required:
