@@ -181,9 +181,11 @@ SQL_QUERY
                 $value_relative    = nullif($value_relative, '');
                 $value_absolute    = nullif($value_absolute, '');
 
-                # Insert data
-                $text_csv->combine($indicator_id, $subindicator_id, $locale_id, $year, $value_relative, $value_absolute);
-                $dbh->pg_putcopydata($text_csv->string());
+                # Insert data if has data
+                if (defined($value_relative) || defined($value_absolute)) {
+                    $text_csv->combine($indicator_id, $subindicator_id, $locale_id, $year, $value_relative, $value_absolute);
+                    $dbh->pg_putcopydata($text_csv->string());
+                }
             }
         }
         $dbh->pg_putcopyend() or $logger->logdie("Error on pg_putcopyend()");
