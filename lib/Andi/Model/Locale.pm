@@ -6,19 +6,21 @@ sub list {
 
     return $self->app->pg->db->query_p(<<'SQL_QUERY');
       SELECT
-        l.id,
+        locale.id,
         CASE
-          WHEN l.type = 'city' THEN CONCAT(l.name, ', ', s.uf)
-          ELSE l.name
+          WHEN locale.type = 'city' THEN CONCAT(locale.name, ', ', state.uf)
+          ELSE locale.name
         END AS name,
-        l.type
-      FROM locale l
-      LEFT JOIN city ct
-        ON l.type = 'city' AND l.id = ct.id
-      LEFT JOIN state s
-        ON l.type = 'city' AND ct.state_id = s.id
+        locale.type,
+        locale.latitude,
+        locale.longitude
+      FROM locale
+      LEFT JOIN city
+        ON locale.type = 'city' AND locale.id = city.id
+      LEFT JOIN state
+        ON locale.type = 'city' AND city.state_id = state.id
       ORDER BY (
-        CASE l.type
+        CASE locale.type
           WHEN 'country' THEN 1
           WHEN 'region'  THEN 2
           WHEN 'state'   THEN 3

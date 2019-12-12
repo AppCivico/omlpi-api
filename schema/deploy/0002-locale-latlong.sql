@@ -5627,4 +5627,7 @@ SET
 FROM country
 WHERE country.id = locale.id;
 
+--ALTER TABLE locale ALTER COLUMN latitude SET NOT NULL,
+--                   ALTER COLUMN longitude SET NOT NULL;
+
 COMMIT;

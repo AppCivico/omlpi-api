@@ -39,6 +39,7 @@ paths:
           description: List of areas
           schema:
             $ref: '#/definitions/Areas'
+
   /locales:
     get:
       x-mojo-to: 'locales#list'
@@ -50,7 +51,34 @@ paths:
         200:
           description: List locales
           schema:
-            $ref: '#/definitions/Locales'
+            type: object
+            properties:
+              locales:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 3550308
+                    name:
+                      type: string
+                      example: São Paulo
+                    type:
+                      type: string
+                      example: city
+                      enum:
+                        - country
+                        - region
+                        - state
+                        - city
+                    latitude:
+                      type: number
+                      example: -23.5329
+                    longitude:
+                      type: number
+                      example: -46.6395
+
   /states:
     get:
       x-mojo-to: 'states#list'
@@ -370,28 +398,7 @@ definitions:
                       year:
                         type: integer
                         example: 2019
-  Locales:
-    type: object
-    properties:
-      locales:
-        type: array
-        items:
-          type: object
-          properties:
-            id:
-              type: integer
-              example: 3550308
-            name:
-              type: string
-              example: São Paulo
-            type:
-              type: string
-              example: city
-              enum:
-                - country
-                - region
-                - state
-                - city
+
   Classifications:
     type: object
     properties:
@@ -409,7 +416,6 @@ definitions:
       name:
         type: string
         example: Paraná
-
   Error:
     type: object
     required:
