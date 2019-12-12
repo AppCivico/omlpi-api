@@ -16,6 +16,8 @@ subtest_buffered 'Filter by locale' => sub {
       ->json_has('/locale/id')
       ->json_has('/locale/name')
       ->json_has('/locale/type')
+      ->json_has('/locale/latitude')
+      ->json_has('/locale/longitude')
       ->json_has('/locale/indicators')
       ->json_has('/locale/indicators/0/id')
       ->json_has('/locale/indicators/0/base')

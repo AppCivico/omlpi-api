@@ -20,12 +20,14 @@ sub get {
 
     return $self->app->pg->db->query(<<"SQL_QUERY", @binds);
       SELECT
-        locale.id AS id,
+        locale.id,
         CASE
           WHEN locale.type = 'city' THEN CONCAT(locale.name, ', ', state.uf)
           ELSE locale.name
         END AS name,
-        locale.type AS type,
+        locale.type,
+        locale.latitude,
+        locale.longitude,
         COALESCE(
           (
             SELECT JSON_AGG("all".result)
