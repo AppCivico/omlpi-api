@@ -28,7 +28,7 @@ subtest_buffered 'Compare two locales' => sub {
         my $tx = $pg->db->begin();
 
         my $city_id = 2803609;
-        my $state_id = 526;
+        my $state_id = 35;
         $pg->db->query(<<'SQL_QUERY', $state_id, $city_id);
           UPDATE indicator_locale
             SET locale_id = ?
