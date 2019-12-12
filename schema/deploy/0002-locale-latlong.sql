@@ -5583,6 +5583,14 @@ ALTER TABLE city ALTER COLUMN capital SET NOT NULL,
                  ALTER COLUMN latitude SET NOT NULL,
                  ALTER COLUMN longitude SET NOT NULL;
 
+UPDATE state
+SET
+  latitude = city.latitude,
+  longitude = city.longitude
+FROM city
+WHERE city.state_id = state.id
+  AND capital IS TRUE;
+
 UPDATE locale
 SET
   latitude = city.latitude,
