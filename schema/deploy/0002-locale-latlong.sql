@@ -6,6 +6,7 @@ BEGIN;
 ALTER TABLE locale ADD COLUMN latitude FLOAT(8), ADD COLUMN longitude FLOAT(8);
 ALTER TABLE city ADD COLUMN latitude FLOAT(8), ADD COLUMN longitude FLOAT(8), ADD COLUMN capital BOOLEAN;
 ALTER TABLE state ADD COLUMN latitude FLOAT(8), ADD COLUMN longitude FLOAT(8);
+ALTER TABLE country ADD COLUMN latitude FLOAT(8), ADD COLUMN longitude FLOAT(8);
 
 UPDATE city SET latitude = '-16.757300', longitude = '-49.441200', capital = 0::boolean WHERE id = 5200050 AND state_id = 52;
 UPDATE city SET latitude = '-18.483100', longitude = '-47.391600', capital = 0::boolean WHERE id = 3100104 AND state_id = 31;
@@ -5591,6 +5592,20 @@ FROM city
 WHERE city.state_id = state.id
   AND capital IS TRUE;
 
+ALTER TABLE state ALTER COLUMN latitude SET NOT NULL,
+                  ALTER COLUMN longitude SET NOT NULL;
+
+UPDATE country
+SET
+  latitude = state.latitude,
+  longitude = state.longitude
+FROM state
+WHERE country.id = 1
+  AND state.id = 53;
+
+ALTER TABLE country ALTER COLUMN latitude SET NOT NULL,
+                  ALTER COLUMN longitude SET NOT NULL;
+
 UPDATE locale
 SET
   latitude = city.latitude,
@@ -5604,5 +5619,12 @@ SET
   longitude = state.longitude
 FROM state
 WHERE state.id = locale.id;
+
+UPDATE locale
+SET
+  latitude  = country.latitude,
+  longitude = country.longitude
+FROM country
+WHERE country.id = locale.id;
 
 COMMIT;
