@@ -6,7 +6,7 @@ sub list {
 
     return $self->app->pg->db->select_p(
         "state",
-        [qw(id name)],
+        [qw(id name latitude longitude)],
         undef,
         { order_by => {'-asc' => 'name'} },
     );

@@ -10,6 +10,8 @@ my $pg = $t->app->pg;
 $t->get_ok("/v1/states")
   ->status_is(200)
   ->json_has('/states/0/id')
+  ->json_has('/states/0/latitude')
+  ->json_has('/states/0/longitude')
   ->json_is('/states/0/name', 'Acre');
 
 is scalar @{$t->tx->res->json->{states}}, 27;

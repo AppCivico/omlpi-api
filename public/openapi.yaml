@@ -416,6 +416,12 @@ definitions:
       name:
         type: string
         example: Paraná
+      latitude:
+        type: number
+        example: -25.4195
+      longitude:
+        type: number
+        example: -49.2646
   Error:
     type: object
     required:
