@@ -4,6 +4,7 @@
 BEGIN;
 
 ALTER TABLE locale ADD COLUMN latitude FLOAT(8), ADD COLUMN longitude FLOAT(8);
+ALTER TABLE region ADD COLUMN latitude FLOAT(8), ADD COLUMN longitude FLOAT(8);
 ALTER TABLE city ADD COLUMN latitude FLOAT(8), ADD COLUMN longitude FLOAT(8), ADD COLUMN capital BOOLEAN;
 ALTER TABLE state ADD COLUMN latitude FLOAT(8), ADD COLUMN longitude FLOAT(8);
 ALTER TABLE country ADD COLUMN latitude FLOAT(8), ADD COLUMN longitude FLOAT(8);
@@ -5606,6 +5607,22 @@ WHERE country.id = 1
 ALTER TABLE country ALTER COLUMN latitude SET NOT NULL,
                   ALTER COLUMN longitude SET NOT NULL;
 
+UPDATE region SET latitude = '-4.286938', longitude = '-57.325300' WHERE name = 'Norte';
+UPDATE region SET latitude = '-6.963586', longitude = '-40.576512' WHERE name = 'Nordeste';
+UPDATE region SET latitude = '-16.577960', longitude = '-54.777017' WHERE name = 'Centro-Oeste';
+UPDATE region SET latitude = '-21.316444', longitude = '-45.621258' WHERE name = 'Sudeste';
+UPDATE region SET latitude = '-27.214321', longitude = '-50.876124' WHERE name = 'Sul';
+
+ALTER TABLE region ALTER COLUMN latitude SET NOT NULL,
+                  ALTER COLUMN longitude SET NOT NULL;
+
+UPDATE locale
+SET
+  latitude  = region.latitude,
+  longitude = region.longitude
+FROM region
+WHERE region.id = locale.id;
+
 UPDATE locale
 SET
   latitude = city.latitude,
@@ -5627,7 +5644,7 @@ SET
 FROM country
 WHERE country.id = locale.id;
 
---ALTER TABLE locale ALTER COLUMN latitude SET NOT NULL,
---                   ALTER COLUMN longitude SET NOT NULL;
+ALTER TABLE locale ALTER COLUMN latitude SET NOT NULL,
+                   ALTER COLUMN longitude SET NOT NULL;
 
 COMMIT;
