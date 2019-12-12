@@ -11,7 +11,7 @@ my $csv = Tie::Handle::CSV->new("$RealBin/municipios.csv", header => 1);
 while (my $r = <$csv>) {
     my $id = $r->{"\x{feff}codigo_ibge"};
     printf
-        "UPDATE city SET latitude = '%f', longitude = '%f' WHERE id = %d AND state_id = %d;\n",
-        @{$r}{qw(latitude longitude)}, $id, $r->{codigo_uf};
+        "UPDATE city SET latitude = '%f', longitude = '%f', capital = %d::boolean WHERE id = %d AND state_id = %d;\n",
+        @{$r}{qw(latitude longitude capital)}, $id, $r->{codigo_uf};
 }
 close $csv;
