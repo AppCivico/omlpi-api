@@ -405,7 +405,7 @@ definitions:
     properties:
       id:
         type: integer
-        example: 518
+        example: 41
       name:
         type: string
         example: Paraná

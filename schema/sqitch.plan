@@ -3,3 +3,4 @@
 
 0000-locales 2019-11-05T14:51:28Z Junior Moraes <juniorfvox@gmail.com> # Init sqitch
 0001-data [0000-locales] 2019-11-06T18:47:40Z junior,,, <junior@fvox> # ta
+0002-locale-latlong [0001-data] 2019-12-12T13:31:24Z junior,,, <junior@fvox> # cale-latlong

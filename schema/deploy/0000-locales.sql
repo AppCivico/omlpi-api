@@ -22,37 +22,6 @@ CREATE TABLE state (
     region_id INTEGER NOT NULL REFERENCES region(id)
 );
 
---INSERT INTO state (id, name, uf, region_id)
---VALUES
---  (501, 'Acre', 'AC', 303),
---  (502, 'Alagoas', 'AL', 302),
---  (503, 'Amazonas', 'AM', 303),
---  (504, 'Amapá', 'AP', 303),
---  (505, 'Bahia', 'BA', 302),
---  (506, 'Ceará', 'CE', 302),
---  (507, 'Distrito Federal', 'DF', 301),
---  (508, 'Espírito Santo', 'ES', 304),
---  (509, 'Goiás', 'GO', 301),
---  (510, 'Maranhão', 'MA', 302),
---  (511, 'Minas Gerais', 'MG', 304),
---  (512, 'Mato Grosso do Sul', 'MS', 301),
---  (513, 'Mato Grosso', 'MT', 301),
---  (514, 'Pará', 'PA', 303),
---  (515, 'Paraíba', 'PB', 302),
---  (516, 'Pernambuco', 'PE', 302),
---  (517, 'Piauí', 'PI', 302),
---  (518, 'Paraná', 'PR', 305),
---  (519, 'Rio de Janeiro', 'RJ', 304),
---  (520, 'Rio Grande do Norte', 'RN', 302),
---  (521, 'Rondônia', 'RO', 303),
---  (522, 'Roraima', 'RR', 303),
---  (523, 'Rio Grande do Sul', 'RS', 305),
---  (524, 'Santa Catarina', 'SC', 305),
---  (525, 'Sergipe', 'SE', 302),
---  (526, 'São Paulo', 'SP', 304),
---  (527, 'Tocantins', 'TO', 303)
---;
-
 INSERT INTO state (id, name, uf, region_id)
 VALUES
   (12, 'Acre', 'AC', 303),
