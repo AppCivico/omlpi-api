@@ -288,6 +288,28 @@ paths:
           description: Returns a spreadsheet with data about all locales
           schema:
             type: file
+  /data/download_indicator:
+    get:
+      summary: ...
+      x-mojo-to: 'Data::DownloadIndicator#get'
+      operationId: downloadIndicator
+      tags:
+        - data
+      parameters:
+        - name: locale_id
+          description: The id of the locale to retrieve data from
+          in: query
+          type: integer
+          required: true
+        - name: year
+          description: Filter data by year
+          in: query
+          type: integer
+      responses:
+        200:
+          description: A XLSX file
+          schema:
+            type: file
   /classifications:
     get:
       summary: Get a list of all data breakdown classifications

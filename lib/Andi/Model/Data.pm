@@ -442,4 +442,12 @@ SQL_QUERY
     });
 }
 
+sub download_indicator {
+    my ($self, %opts) = @_;
+
+    my $query = $self->app->pg->db->query_p(<<'SQL_QUERY');
+      SELECT 1
+SQL_QUERY
+}
+
 1;
