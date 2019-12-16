@@ -462,7 +462,7 @@ sub download_indicator {
         subs.value_relative              AS subindicator_value_relative,
         subs.value_absolute              AS subindicator_value_absolute
       FROM indicator
-      LEFT JOIN indicator_locale
+      JOIN indicator_locale
         ON indicator_locale.id = indicator.id
       JOIN area
         ON area.id = indicator.area_id
@@ -487,8 +487,12 @@ sub download_indicator {
       ORDER BY indicator.id
 SQL_QUERY
 
-    return $query_p->then(sub {
+    my $locale_p = $self->app->pg->db->select_p("locale", [qw(name)], { id => $locale_id });
+
+    return Mojo::Promise->all($query_p, $locale_p)
+      ->then(sub {
         my $res = shift;
+        my $locale = shift;
 
         # Create temporary file
         my $fh = File::Temp->new(UNLINK => 0, SUFFIX => '.xlsx');
@@ -515,9 +519,8 @@ SQL_QUERY
         }
 
         # Write data
-        my $locale_name;
         my $line = 1;
-        while (my $r = $res->hash) {
+        while (my $r = $res->[0]->hash) {
             # Write lines
             my @keys = qw(
                 locale_name area_name indicator_description indicator_value_relative indicator_value_absolute
@@ -528,11 +531,10 @@ SQL_QUERY
                 $worksheet->write($line, $i, $r->{$keys[$i]});
             }
             $line++;
-            $locale_name //= $r->{locale_name};
         }
 
         close $fh;
-        return $fh, $locale_name;
+        return $fh, $locale->[0]->hash->{name};
     });
 }
 
