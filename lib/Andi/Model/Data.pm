@@ -448,8 +448,9 @@ sub download_indicator {
     my $year      = $opts{year};
     my $locale_id = $opts{locale_id};
 
-    my $query_p = $self->app->pg->db->query_p(<<'SQL_QUERY');
+    my $query_p = $self->app->pg->db->query_p(<<'SQL_QUERY', $locale_id, $year);
       SELECT
+        locale.name                      AS locale_name,
         indicator.description            AS indicator_description,
         indicator_locale.year            AS year,
         area.name                        AS area_name,
@@ -464,6 +465,8 @@ sub download_indicator {
         ON indicator_locale.id = indicator.id
       JOIN area
         ON area.id = indicator.area_id
+      JOIN locale
+        ON locale.id = indicator_locale.locale_id
       INNER JOIN LATERAL (
         SELECT
           subindicator.description,
@@ -474,18 +477,15 @@ sub download_indicator {
         FROM subindicator_locale
         JOIN subindicator
           ON subindicator.id = subindicator_locale.subindicator_id
+        WHERE subindicator_locale.locale_id = locale.id
         ORDER BY subindicator_locale.indicator_id, subindicator_locale.subindicator_id
       ) subs ON subs.indicator_id = indicator.id
-      WHERE indicator_locale.locale_id = 2803609
-        AND indicator_locale.year = 2018
+      WHERE indicator_locale.locale_id = ?
+        AND indicator_locale.year = ?
       ORDER BY indicator.id
 SQL_QUERY
 
-    my $locale_p = $self->app->pg->db->select_p("locale", [qw(name)], { id => $locale_id });
-
-    return Mojo::Promise->all($locale_p, $query_p)
-      ->then(sub {
-        my $locale = shift;
+    return $query_p->then(sub {
         my $res = shift;
 
         # Create temporary file
@@ -500,7 +500,32 @@ SQL_QUERY
         $header_format->set_bold();
 
         # Worksheet
-        my $worksheet = $workbook->add_worksheet($locale->[0]->hash);
+        my $worksheet = $workbook->add_worksheet($year);
+
+        # Headers
+        my @headers = (
+            qw(LOCALIDADE TEMA INDICADOR), 'MÉDIA RELATIVA', 'MÉDIA ABSOLUTA', qw(DESAGREGADOR CLASSIFICAÇÃO),
+            'VALOR RELATIVO', 'VALOR ABSOLUTO',
+        );
+
+        for (my $i = 0; $i < scalar @headers; $i++) {
+            $worksheet->write(0, $i, $headers[$i], $header_format);
+        }
+
+        # Write data
+        my $line = 1;
+        while (my $r = $res->hash) {
+            # Write lines
+            my @keys = qw(
+                locale_name area_name indicator_description indicator_value_relative indicator_value_absolute
+                subindicator_description subindicator_classification subindicator_value_relative
+                subindicator_value_absolute
+            );
+            for (my $i = 0; $i < scalar @keys; $i++) {
+                $worksheet->write($line, $i, $r->{$keys[$i]});
+            }
+            $line++;
+        }
 
         close $fh;
         return $fh;

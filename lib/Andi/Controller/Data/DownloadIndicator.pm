@@ -8,7 +8,7 @@ sub get {
 
     $c->openapi->valid_input or return;
 
-    my $year      = $c->param('year');
+    my $year      = $c->param('year') || $c->model('Data')->get_max_year()->hash->{year};
     my $locale_id = $c->param('locale_id');
 
     $c->render_later();
@@ -20,7 +20,8 @@ sub get {
               filepath => $file->filename,
               filename => 'Indicador.xlsx',
               format   => 'xlsx',
-              cleanup  => 1,
+              cleanup  => 0,
+              #cleanup  => 1,
           );
       })
       ->catch(sub {
