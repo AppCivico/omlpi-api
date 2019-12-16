@@ -8,20 +8,25 @@ sub get {
 
     $c->openapi->valid_input or return;
 
-    my $year      = $c->param('year') || $c->model('Data')->get_max_year()->hash->{year};
-    my $locale_id = $c->param('locale_id');
+    my $locale_id    = $c->param('locale_id');
+    my $indicator_id = $c->param('indicator_id');
+    my $year         = $c->param('year') || $c->model('Data')->get_max_year()->hash->{year};
 
     $c->render_later();
-    return $c->model('Data')->download_indicator(locale_id => $locale_id, year => $year)
+    return $c->model('Data')->download_indicator(locale_id => $locale_id, year => $year, indicator_id => $indicator_id)
       ->then(sub {
-          my $file = shift;
+          my $file   = shift;
+          my $locale_name = shift;
+
+          p $locale_name;
+
+          my $filename = sprintf("%s_Indicador_%d.xlsx", $locale_name, $indicator_id);
 
           return $c->render_file(
               filepath => $file->filename,
               filename => 'Indicador.xlsx',
               format   => 'xlsx',
-              cleanup  => 0,
-              #cleanup  => 1,
+              cleanup  => 1,
           );
       })
       ->catch(sub {

@@ -445,10 +445,11 @@ SQL_QUERY
 sub download_indicator {
     my ($self, %opts) = @_;
 
-    my $year      = $opts{year};
-    my $locale_id = $opts{locale_id};
+    my $year         = $opts{year};
+    my $locale_id    = $opts{locale_id};
+    my $indicator_id = $opts{indicator_id};
 
-    my $query_p = $self->app->pg->db->query_p(<<'SQL_QUERY', $locale_id, $year);
+    my $query_p = $self->app->pg->db->query_p(<<'SQL_QUERY', $indicator_id, $locale_id, $year);
       SELECT
         locale.name                      AS locale_name,
         indicator.description            AS indicator_description,
@@ -461,7 +462,7 @@ sub download_indicator {
         subs.value_relative              AS subindicator_value_relative,
         subs.value_absolute              AS subindicator_value_absolute
       FROM indicator
-      JOIN indicator_locale
+      LEFT JOIN indicator_locale
         ON indicator_locale.id = indicator.id
       JOIN area
         ON area.id = indicator.area_id
@@ -480,7 +481,8 @@ sub download_indicator {
         WHERE subindicator_locale.locale_id = locale.id
         ORDER BY subindicator_locale.indicator_id, subindicator_locale.subindicator_id
       ) subs ON subs.indicator_id = indicator.id
-      WHERE indicator_locale.locale_id = ?
+      WHERE indicator.id = ?
+        AND indicator_locale.locale_id = ?
         AND indicator_locale.year = ?
       ORDER BY indicator.id
 SQL_QUERY
@@ -513,6 +515,7 @@ SQL_QUERY
         }
 
         # Write data
+        my $locale_name;
         my $line = 1;
         while (my $r = $res->hash) {
             # Write lines
@@ -525,10 +528,11 @@ SQL_QUERY
                 $worksheet->write($line, $i, $r->{$keys[$i]});
             }
             $line++;
+            $locale_name //= $r->{locale_name};
         }
 
         close $fh;
-        return $fh;
+        return $fh, $locale_name;
     });
 }
 

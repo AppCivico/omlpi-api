@@ -301,6 +301,11 @@ paths:
           in: query
           type: integer
           required: true
+        - name: indicator_id
+          description: The id of the indicator
+          in: query
+          type: integer
+          required: true
         - name: year
           description: Filter data by year
           in: query
