@@ -445,9 +445,66 @@ SQL_QUERY
 sub download_indicator {
     my ($self, %opts) = @_;
 
-    my $query = $self->app->pg->db->query_p(<<'SQL_QUERY');
-      SELECT 1
+    my $year      = $opts{year};
+    my $locale_id = $opts{locale_id};
+
+    my $query_p = $self->app->pg->db->query_p(<<'SQL_QUERY');
+      SELECT
+        indicator.description            AS indicator_description,
+        indicator_locale.year            AS year,
+        area.name                        AS area_name,
+        indicator_locale.value_relative  AS average_relative,
+        indicator_locale.value_absolute  AS average_absolute,
+        subs.description                 AS subindicator_description,
+        subs.classification              AS subindicator_classification,
+        subs.value_relative              AS subindicator_value_relative,
+        subs.value_absolute              AS subindicator_value_absolute
+      FROM indicator
+      JOIN indicator_locale
+        ON indicator_locale.id = indicator.id
+      JOIN area
+        ON area.id = indicator.area_id
+      INNER JOIN LATERAL (
+        SELECT
+          subindicator.description,
+          subindicator.classification,
+          subindicator_locale.value_absolute,
+          subindicator_locale.value_relative,
+          subindicator_locale.indicator_id
+        FROM subindicator_locale
+        JOIN subindicator
+          ON subindicator.id = subindicator_locale.subindicator_id
+        ORDER BY subindicator_locale.indicator_id, subindicator_locale.subindicator_id
+      ) subs ON subs.indicator_id = indicator.id
+      WHERE indicator_locale.locale_id = 2803609
+        AND indicator_locale.year = 2018
+      ORDER BY indicator.id
 SQL_QUERY
+
+    my $locale_p = $self->app->pg->db->select_p("locale", [qw(name)], { id => $locale_id });
+
+    return Mojo::Promise->all($locale_p, $query_p)
+      ->then(sub {
+        my $locale = shift;
+        my $res = shift;
+
+        # Create temporary file
+        my $fh = File::Temp->new(UNLINK => 0, SUFFIX => '.xlsx');
+
+        # Spreadsheet
+        my $workbook = Excel::Writer::XLSX->new($fh->filename);
+        $workbook->set_optimization();
+
+        # Formats
+        my $header_format = $workbook->add_format();
+        $header_format->set_bold();
+
+        # Worksheet
+        my $worksheet = $workbook->add_worksheet($locale->[0]->hash);
+
+        close $fh;
+        return $fh;
+    });
 }
 
 1;

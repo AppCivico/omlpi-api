@@ -6,8 +6,13 @@ use Data::Printer;
 sub get {
     my $c = shift;
 
+    $c->openapi->valid_input or return;
+
+    my $year      = $c->param('year');
+    my $locale_id = $c->param('locale_id');
+
     $c->render_later();
-    return $c->model('Data')->download_indicator()
+    return $c->model('Data')->download_indicator(locale_id => $locale_id, year => $year)
       ->then(sub {
           my $file = shift;
 
