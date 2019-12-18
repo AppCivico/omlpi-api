@@ -308,7 +308,7 @@ paths:
             type: file
   /data/download_indicator:
     get:
-      summary: Download a spreadsheet containing indicator data for a specific location
+      summary: Download indicator data for a specific location
       x-mojo-to: 'Data::DownloadIndicator#get'
       operationId: downloadIndicator
       tags:
