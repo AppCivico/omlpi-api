@@ -4,8 +4,11 @@ use Mojo::Base 'Andi::Controller';
 sub list {
     my $c = shift;
 
+    $c->openapi->valid_input() or return;
+    my $state_id = $c->param('state_id');
+
     $c->render_later();
-    $c->model('City')->list()
+    $c->model('City')->list(state_id => $state_id)
       ->then(sub {
           my $results = shift;
 

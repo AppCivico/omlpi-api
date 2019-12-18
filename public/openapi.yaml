@@ -105,9 +105,15 @@ paths:
     get:
       x-mojo-to: 'cities#list'
       operationId: listCities
+      summary: List of cities in alphabetical order
       tags:
         - locales
-      summary: List of cities in alphabetical order
+      parameters:
+        - name: state_id
+          description: The state id to filter the cities
+          in: query
+          type: integer
+          required: false
       responses:
         200:
           description: List of cities
