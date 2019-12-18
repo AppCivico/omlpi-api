@@ -22,7 +22,7 @@ sub get {
 
           return $c->render_file(
               filepath => $file->filename,
-              filename => 'Indicador.xlsx',
+              filename => $filename,
               format   => 'xlsx',
               cleanup  => 1,
           );
