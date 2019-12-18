@@ -26,6 +26,23 @@ tags:
   - name: classification
     description: Data breakdown classifications
 
+parameters:
+  yearParam:
+    in: query
+    name: year
+    required: false
+    type: integer
+    enum:
+      - 2017
+      - 2018
+      - 2019
+  localeParam:
+    name: locale_id
+    in: query
+    description: The id of the locale to retrieve data from
+    type: integer
+    required: true
+
 paths:
   /areas:
     get:
@@ -132,25 +149,13 @@ paths:
       tags:
         - data
       parameters:
-        - name: locale_id
-          in: query
-          required: true
-          description: The id of the locale to retrieve data from
-          type: integer
+        - $ref: '#/parameters/localeParam'
         - name: area_id
           in: query
           description: Filter data by an area
           required: false
           type: integer
-        - name: year
-          in: query
-          type: integer
-          description: Filter data by year
-          required: false
-          enum:
-            - 2017
-            - 2018
-            - 2019
+        - $ref: '#/parameters/yearParam'
       responses:
         200:
           description: Info for a specific locale
@@ -174,15 +179,7 @@ paths:
           uniqueItems: true
           minItems: 2
           maxItems: 2
-        - name: year
-          in: query
-          type: integer
-          description: Filter data by year
-          required: false
-          enum:
-            - 2017
-            - 2018
-            - 2019
+        - $ref: '#/parameters/yearParam'
       responses:
         200:
           description: The comparison between two locales
@@ -286,11 +283,7 @@ paths:
       tags:
         - data
       parameters:
-        - name: locale_id
-          description: The id of the locale to retrieve data from
-          in: query
-          type: integer
-          required: true
+        - $ref: '#/parameters/localeParam'
         - name: year
           description: Filter data by year
           in: query
@@ -324,20 +317,13 @@ paths:
       tags:
         - data
       parameters:
-        - name: locale_id
-          description: The id of the locale
-          in: query
-          type: integer
-          required: true
+        - $ref: '#/parameters/localeParam'
         - name: indicator_id
           description: The id of the indicator
           in: query
           type: integer
           required: true
-        - name: year
-          description: Filter data by year
-          in: query
-          type: integer
+        - $ref: '#/parameters/yearParam'
       responses:
         200:
           description: A XLSX file
