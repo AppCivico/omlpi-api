@@ -101,6 +101,23 @@ paths:
                 type: array
                 items:
                   $ref: '#/definitions/State'
+  /cities:
+    get:
+      x-mojo-to: 'cities#list'
+      operationId: listCities
+      tags:
+        - locales
+      summary: List of cities in alphabetical order
+      responses:
+        200:
+          description: List of cities
+          schema:
+            type: object
+            properties:
+              cities:
+                type: array
+                items:
+                  $ref: '#/definitions/City'
   /data:
     get:
       operationId: showData
@@ -453,6 +470,21 @@ definitions:
       longitude:
         type: number
         example: -49.2646
+  City:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 4115200
+      name:
+        type: string
+        example: Maringá
+      latitude:
+        type: number
+        example: -23.4273
+      longitude:
+        type: number
+        example: -51.9375
   Error:
     type: object
     required:
