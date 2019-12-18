@@ -284,10 +284,7 @@ paths:
         - data
       parameters:
         - $ref: '#/parameters/localeParam'
-        - name: year
-          description: Filter data by year
-          in: query
-          type: integer
+        - $ref: '#/parameters/yearParam'
       produces:
         - application/pdf
       responses:
