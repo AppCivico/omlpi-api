@@ -295,14 +295,14 @@ paths:
             type: file
   /data/download_indicator:
     get:
-      summary: ...
+      summary: Download a spreadsheet containing indicator data for a specific location
       x-mojo-to: 'Data::DownloadIndicator#get'
       operationId: downloadIndicator
       tags:
         - data
       parameters:
         - name: locale_id
-          description: The id of the locale to retrieve data from
+          description: The id of the locale
           in: query
           type: integer
           required: true
