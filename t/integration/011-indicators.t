@@ -1,0 +1,20 @@
+use Mojo::Base -strict;
+use FindBin qw($RealBin);
+use lib "$RealBin/../lib";
+
+use Andi::Test;
+
+my $t = test_instance();
+my $pg = $t->app->pg;
+
+subtest_buffered 'Indicators | list' => sub {
+
+    $t->get_ok("/v1/indicators")
+      ->status_is(200)
+      ->json_has('/indicators/0/id')
+      ->json_has('/indicators/0/description')
+      ->json_has('/indicators/0/area/id')
+      ->json_has('/indicators/0/area/name');
+};
+
+done_testing();

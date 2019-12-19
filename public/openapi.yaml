@@ -141,6 +141,28 @@ paths:
                 type: array
                 items:
                   $ref: '#/definitions/City'
+  /indicators:
+    get:
+      operationId: listIndicators
+      x-mojo-to: 'indicators#list'
+      summary: List all indicators
+      tags:
+        - data
+      responses:
+        200:
+          description: List of indicators
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 7
+              description:
+                type: string
+                example: Número de matrículas de educação infantil - Creche
+              base:
+                type: string
+                example: "INEP: Censo Escolar - Matrículas"
   /data:
     get:
       operationId: showData
