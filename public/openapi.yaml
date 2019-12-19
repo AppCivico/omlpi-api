@@ -154,15 +154,20 @@ paths:
           schema:
             type: object
             properties:
-              id:
-                type: integer
-                example: 7
-              description:
-                type: string
-                example: Número de matrículas de educação infantil - Creche
-              base:
-                type: string
-                example: "INEP: Censo Escolar - Matrículas"
+              indicators:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 7
+                    description:
+                      type: string
+                      example: Número de matrículas de educação infantil - Creche
+                    base:
+                      type: string
+                      example: "INEP: Censo Escolar - Matrículas"
   /data:
     get:
       operationId: showData
