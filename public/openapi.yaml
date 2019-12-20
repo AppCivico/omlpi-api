@@ -25,6 +25,8 @@ tags:
     description: Indicators and breakdown data from locales
   - name: classification
     description: Data breakdown classifications
+  - name: uploads
+    description: Contribute with us by sending data
 
 parameters:
   yearParam:
@@ -367,6 +369,23 @@ paths:
           description: List of classifications
           schema:
             $ref: '#/definitions/Classifications'
+  /upload_plan:
+    post:
+      summary: Send a municipal or state plan
+      x-mojo-to: 'UploadPlan#post'
+      tags:
+        - uploads
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          description: The PDF file
+          name: file
+          type: file
+      responses:
+        200:
+          description: File uploaded successfully
+
 definitions:
   Area:
     type: object
@@ -464,7 +483,6 @@ definitions:
                       year:
                         type: integer
                         example: 2019
-
   Classifications:
     type: object
     properties:
