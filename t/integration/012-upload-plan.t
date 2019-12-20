@@ -9,8 +9,11 @@ my $pg = $t->app->pg;
 
 subtest_buffered 'UploadPlan | post' => sub {
 
-    $t->post_ok("/v1/upload_plan", form => { })
+    my $city = $pg->db->select('city', ['id'], undef, { limit => 1 } )->hash;
+
+    $t->post_ok("/v1/upload_plan", form => { name => 'Junior M', city_id => $city->{id}, email => 'foobar@appcivico.com' })
       ->status_is(200);
+    p $t->tx->res->json;
 };
 
 done_testing();

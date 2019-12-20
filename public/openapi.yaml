@@ -378,10 +378,27 @@ paths:
       consumes:
         - multipart/form-data
       parameters:
-        - in: formData
+        - name: file
+          in: formData
           description: The PDF file
-          name: file
           type: file
+        - name: name
+          in: formData
+          description: Your name
+          type: string
+          required: true
+        - name: city_id
+          in: formData
+          description: The id of your city
+          type: string
+          required: true
+        - name: email
+          in: formData
+          description: Your email address
+          type: string
+          format: email
+          required: true
+
       responses:
         200:
           description: File uploaded successfully

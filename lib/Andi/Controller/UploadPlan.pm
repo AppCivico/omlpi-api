@@ -6,7 +6,7 @@ use DDP;
 sub post {
     my $c = shift;
 
-    p $c;
+    $c->openapi->valid_input() or return;
 }
 
 1;
