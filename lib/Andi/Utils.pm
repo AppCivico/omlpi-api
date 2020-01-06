@@ -17,7 +17,7 @@ sub is_test {
 
 sub nullif {
     my $value = shift;
-    return $value eq shift ? undef : $value;
+    return defined $value && $value eq shift ? undef : $value;
 }
 
 sub env { return $ENV{${\shift}} }
