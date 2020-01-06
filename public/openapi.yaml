@@ -382,6 +382,7 @@ paths:
           in: formData
           description: The PDF file
           type: file
+          required: true
         - name: name
           in: formData
           description: Your name
