@@ -1,6 +1,7 @@
 package Andi::Minion::Task::SendEmail;
 use Mojo::Base 'Mojolicious::Plugin';
 
+use DDP;
 use Andi::TrapSignals;
 
 sub register {
@@ -10,9 +11,11 @@ sub register {
 }
 
 sub do {
-    my ($job) = @_;
+    my ($job, $email) = @_;
 
     my $pg = $job->app->pg;
+
+    p $email;
 
     return $job->finish(1);
 }
