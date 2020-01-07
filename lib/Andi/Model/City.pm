@@ -20,4 +20,13 @@ sub list {
     );
 }
 
+sub get_name_with_uf {
+    my ($self, $city_id) = @_;
+
+    return $self->app->pg->db->select(
+        ['city', ['state', id => 'state_id']],
+        [\"city.name || ' — ' || state.uf AS name"],
+    );
+}
+
 1;

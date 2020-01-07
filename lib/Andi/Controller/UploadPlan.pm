@@ -16,6 +16,8 @@ sub post {
     my $fh = File::Temp->new(UNLINK => 1);
     $upload->move_to($fh);
 
+    my $city = $c->model('City')->get_name_with_uf($c->param('city_id'))->hash->{name};
+
     my $email = Andi::Minion::Task::SendEmail::Mailer::Template->new(
         to       => 'carlos@appcivico.com',
         from     => 'no-reply@appcivico.com',
@@ -24,6 +26,7 @@ sub post {
         vars     => {
             name  => $c->param('name'),
             email => $c->param('email'),
+            city  => $city,
         },
         attachments => [
             {
