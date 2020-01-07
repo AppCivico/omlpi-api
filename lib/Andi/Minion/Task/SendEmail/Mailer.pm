@@ -6,10 +6,10 @@ use Email::Sender::Transport::SMTP::TLS;
 
 use Andi::Utils;
 
-has smtp_server   => undef;
-has smtp_port     => undef;
-has smtp_username => undef;
-has smtp_password => undef;
+has smtp_server   => $ENV{SMTP_SERVER};
+has smtp_port     => $ENV{SMTP_PORT};
+has smtp_username => $ENV{SMTP_USERNAME};
+has smtp_password => $ENV{SMTP_PASSWORD};
 has smtp_timeout  => 20;
 
 has _transport => sub {
@@ -42,7 +42,5 @@ sub send {
 
     return 1;
 }
-
-__PACKAGE__->meta->make_immutable;
 
 1;

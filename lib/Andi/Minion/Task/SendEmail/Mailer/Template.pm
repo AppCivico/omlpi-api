@@ -25,6 +25,7 @@ sub build_email {
         \$content,
     );
 
+    utf8::encode($content);
     my $email = MIME::Lite->new(
         To       => $self->to,
         Subject  => Encode::encode("MIME-Header", $self->subject),
