@@ -33,6 +33,9 @@ sub startup {
     $self->helper(pg => sub { state $pg = Andi::DatabaseConnection->get_mojo_pg() });
     $self->helper('reply.exception' => sub { Andi::Controller::reply_exception(@_) });
     $self->helper('reply.not_found' => sub { Andi::Controller::reply_not_found(@_) });
+
+    # Minion
+    $self->plugin('Andi::Minion');
 }
 
 1;
