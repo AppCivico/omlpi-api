@@ -8,9 +8,12 @@ my $t = test_instance();
 my $pg = $t->app->pg;
 my $db = $pg->db;
 
-ok $db->query('truncate minion_jobs restart identity');
-ok $db->query('truncate minion_locks restart identity');
-ok $db->query('truncate minion_workers restart identity');
+eval {
+    $db->query('truncate minion_jobs restart identity');
+    $db->query('truncate minion_locks restart identity');
+    $db->query('truncate minion_workers restart identity');
+};
+ok $@ eq '' || $@ =~ m{relation "minion_(jobs|locks|workers)" does not exist at};
 
 subtest_buffered 'UploadPlan | post' => sub {
 
