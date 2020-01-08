@@ -6,6 +6,11 @@ use Andi::Test;
 
 my $t = test_instance();
 my $pg = $t->app->pg;
+my $db = $pg->db;
+
+ok $db->query('truncate minion_jobs restart identity');
+ok $db->query('truncate minion_locks restart identity');
+ok $db->query('truncate minion_workers restart identity');
 
 subtest_buffered 'UploadPlan | post' => sub {
 
@@ -22,6 +27,10 @@ subtest_buffered 'UploadPlan | post' => sub {
     p $t->tx->res->json;
 
     ok $t->app->minion->perform_jobs();
+    my $stats = $t->app->minion->stats;
+    is $stats->{failed_jobs},   0, 'failed_jobs=0';
+    is $stats->{finished_jobs}, 1, 'finished_jobs=1';
 };
+
 
 done_testing();
