@@ -3,6 +3,7 @@ use Mojo::Base 'Mojolicious::Plugin';
 
 use Minion;
 use Mojo::Loader qw(find_modules load_class);
+use Andi::DatabaseConnection;
 
 my $minion;
 
@@ -28,10 +29,10 @@ sub register {
 
 sub instance {
     return $minion if defined $minion;
-    my $pg = TouchBase::SchemaConnected::get_mojo_pg();
+    my $pg = Andi::DatabaseConnection->get_mojo_pg();
     $minion = Minion->new(Pg => $pg);
 
-    return $minion
+    return $minion;
 }
 
 1;
