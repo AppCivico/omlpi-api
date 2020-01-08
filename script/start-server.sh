@@ -3,7 +3,7 @@ source /home/app/perl5/perlbrew/etc/bashrc
 
 mkdir -p /data/log/;
 
-export ANDI_API_LOG_DIR=/data/log/
+export OMLPI_API_LOG_DIR=/data/log/
 
 cd /src;
 if [ -f envfile_local.sh ]; then
@@ -17,6 +17,6 @@ export SQITCH_DEPLOY=${SQITCH_DEPLOY:=docker}
 cpanm -nv . --installdeps
 sqitch deploy -t $SQITCH_DEPLOY
 
-LIBEV_FLAGS=4 MOJO_IOLOOP_DEBUG=1 hypnotoad script/andi-api
+LIBEV_FLAGS=4 MOJO_IOLOOP_DEBUG=1 hypnotoad script/omlpi-api
 
 sleep infinity

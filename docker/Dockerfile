@@ -41,8 +41,8 @@ ADD install-cpan-extra-modules.sh /tmp/install-cpan-extra-modules.sh
 RUN /tmp/install-cpan-extra-modules.sh
 
 USER root
-RUN mkdir /etc/service/andi
-COPY andi.sh /etc/service/andi/run
+RUN mkdir /etc/service/omlpi
+COPY omlpi.sh /etc/service/omlpi/run
 
 RUN mkdir /etc/service/omlpi-minion-worker
 COPY omlpi-minion-worker.sh /etc/service/omlpi-minion-worker/run

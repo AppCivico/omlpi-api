@@ -3,7 +3,7 @@ source /home/app/perl5/perlbrew/etc/bashrc
 
 mkdir -p /data/log/;
 
-export ANDI_API_LOG_DIR=/data/log/
+export OMLPI_API_LOG_DIR=/data/log/
 
 cd /src;
 if [ -f envfile_local.sh ]; then
@@ -12,4 +12,4 @@ else
     source envfile.sh
 fi
 
-APP_NAME=MINION perl /src/script/andi-api minion worker
+APP_NAME=MINION perl /src/script/omlpi-api minion worker
