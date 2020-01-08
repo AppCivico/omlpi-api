@@ -1,7 +1,6 @@
 package Andi::Minion::Task::SendEmail;
 use Mojo::Base 'Mojolicious::Plugin';
 
-use DDP;
 use Andi::TrapSignals;
 use Andi::Minion::Task::SendEmail::Mailer;
 
@@ -12,7 +11,7 @@ sub register {
 }
 
 sub do {
-    my ($job, $email) = @_;
+    my ($job, $email, $bcc) = @_;
 
     my $pg = $job->app->pg;
 
@@ -23,9 +22,10 @@ sub do {
         smtp_password => $ENV{SMTP_PASSWORD},
     );
 
-    if ($mailer->send($email->body, $email->bcc)) {
+    if ($mailer->send($email, $bcc)) {
         return $job->finish(1);
     }
+    return $job->fail();
 }
 
 1;
