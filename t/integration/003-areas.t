@@ -2,7 +2,7 @@ use Mojo::Base -strict;
 use FindBin qw($RealBin);
 use lib "$RealBin/../lib";
 
-use Andi::Test;
+use OMLPI::Test;
 
 my $t = test_instance();
 my $pg = $t->app->pg;

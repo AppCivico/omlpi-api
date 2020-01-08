@@ -22,4 +22,4 @@ perl script/import_data.pl
 
 # Run tests
 rm -f /src/test-logs/*
-yath test -It/lib  -PAndi::Preload --no-color -j 18 -T -L
+yath test -It/lib  -POMLPI::Preload --no-color -j 18 -T -L
