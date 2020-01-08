@@ -54,7 +54,7 @@ sub get {
                             indicator_locale.value_absolute IS NOT NULL
                             OR indicator_locale.value_relative IS NOT NULL
                           )
-                      ORDER BY indicator_locale.year
+                      ORDER BY indicator_locale.year DESC
                       LIMIT 1
                     ) indicator_values
                   ) AS values,
