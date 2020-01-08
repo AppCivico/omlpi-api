@@ -9,7 +9,7 @@ my $pg = $t->app->pg;
 
 my $locale_id = 2803609;
 
-subtest_buffered 'Filter by locale' => sub {
+subtest_buffered 'Get data from locale' => sub {
 
     $t->get_ok("/v1/data?locale_id=$locale_id")
       ->status_is(200)
