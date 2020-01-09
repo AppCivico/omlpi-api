@@ -30,4 +30,26 @@ sub list {
 SQL_QUERY
 }
 
+sub get_state_or_city_name_with_uf {
+    my ($self, $id) = @_;
+
+    return $self->app->pg->db->query(<<'SQL_QUERY', $id);
+      SELECT
+        locale.id,
+        CASE
+          WHEN locale.type = 'city' THEN CONCAT(locale.name, ' — ', state.uf)
+          ELSE locale.name
+        END AS name,
+        locale.type,
+        locale.latitude,
+        locale.longitude
+      FROM locale
+      LEFT JOIN city
+        ON locale.type = 'city' AND locale.id = city.id
+      LEFT JOIN state
+        ON locale.type = 'city' AND city.state_id = state.id
+      WHERE locale.id = ?
+SQL_QUERY
+}
+
 1;

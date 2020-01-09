@@ -18,7 +18,9 @@ sub post {
     my $fh = File::Temp->new(UNLINK => 1);
     $upload->move_to($fh);
 
-    my $city = $c->model('City')->get_name_with_uf($c->param('city_id'))->hash->{name};
+    # Locale name
+    my $locale_id = $c->param('locale_id');
+    my $locale = $c->model('Locale')->get_state_or_city_name_with_uf($locale_id)->hash;
 
     # Get template
     my $home = mojo_home();
@@ -35,7 +37,7 @@ sub post {
         vars     => {
             name  => $c->param('name'),
             email => $c->param('email'),
-            city  => $city,
+            city  => $locale->{name},
         },
         attachments => [
             {

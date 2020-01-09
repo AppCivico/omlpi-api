@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   description: 'The backend of the OMLPL project'
-  version: 1.3.2
+  version: 1.3.3
   title: OMLPL API
   contact:
     email: carlos@appcivico.com
@@ -17,14 +17,10 @@ produces:
   - application/json
 
 tags:
-  - name: areas
-    description: All about the thematic axis
   - name: locales
     description: A locale can be a city, a region, a state or a country
   - name: data
     description: Indicators and breakdown data from locales
-  - name: classification
-    description: Data breakdown classifications
   - name: uploads
     description: Contribute with us by sending data
 
@@ -46,24 +42,6 @@ parameters:
     required: true
 
 paths:
-  /areas:
-    get:
-      x-mojo-to: 'areas#list'
-      operationId: listAreas
-      tags:
-        - areas
-      summary: List all thematic axis
-      responses:
-        200:
-          description: List of areas
-          schema:
-            type: object
-            properties:
-              areas:
-                type: array
-                items:
-                  $ref: '#/definitions/Area'
-
   /locales:
     get:
       x-mojo-to: 'locales#list'
@@ -143,6 +121,38 @@ paths:
                 type: array
                 items:
                   $ref: '#/definitions/City'
+
+  /areas:
+    get:
+      x-mojo-to: 'areas#list'
+      operationId: listAreas
+      tags:
+        - data
+      summary: List all thematic axis
+      responses:
+        200:
+          description: List of areas
+          schema:
+            type: object
+            properties:
+              areas:
+                type: array
+                items:
+                  $ref: '#/definitions/Area'
+
+  /classifications:
+    get:
+      summary: Get a list of all data breakdown classifications
+      x-mojo-to: 'classifications#get'
+      operationId: showClassifications
+      tags:
+        - data
+      responses:
+        200:
+          description: List of classifications
+          schema:
+            $ref: '#/definitions/Classifications'
+
   /indicators:
     get:
       operationId: listIndicators
@@ -357,18 +367,7 @@ paths:
           description: A XLSX file
           schema:
             type: file
-  /classifications:
-    get:
-      summary: Get a list of all data breakdown classifications
-      x-mojo-to: 'classifications#get'
-      operationId: showClassifications
-      tags:
-        - classification
-      responses:
-        200:
-          description: List of classifications
-          schema:
-            $ref: '#/definitions/Classifications'
+
   /upload_plan:
     post:
       summary: Send a municipal or state plan
@@ -388,9 +387,9 @@ paths:
           description: Your name
           type: string
           required: true
-        - name: city_id
+        - name: locale_id
           in: formData
-          description: The id of your city
+          description: The id of your locale. It should be a city or a state.
           type: string
           required: true
         - name: email
