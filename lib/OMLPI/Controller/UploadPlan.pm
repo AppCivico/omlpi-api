@@ -1,10 +1,12 @@
 package OMLPI::Controller::UploadPlan;
 use Mojo::Base 'OMLPI::Controller';
 
-use DDP;
-use Data::Section::Simple qw(get_data_section);
-use OMLPI::Minion::Task::SendEmail::Mailer::Template;
 use File::Temp;
+use Mojo::Util qw(decode);
+use OMLPI::Utils qw(mojo_home);
+use OMLPI::Minion::Task::SendEmail::Mailer::Template;
+
+use DDP;
 
 sub post {
     my $c = shift;
@@ -18,11 +20,18 @@ sub post {
 
     my $city = $c->model('City')->get_name_with_uf($c->param('city_id'))->hash->{name};
 
+    # Get template
+    my $home = mojo_home();
+    my $template = $home->rel_file('resources/plan/template.tt')->to_abs;
+
+    # Fix encoding issues
+    my $slurp = decode('UTF-8', $template->slurp);
+
     my $email = OMLPI::Minion::Task::SendEmail::Mailer::Template->new(
         to       => 'carlos@appcivico.com',
         from     => 'no-reply@appcivico.com',
-        subject  => 'Upload de plano municipal',
-        template => get_data_section('template.tt'),
+        subject  => 'Upload de plano',
+        template => $slurp,
         vars     => {
             name  => $c->param('name'),
             email => $c->param('email'),
@@ -44,13 +53,3 @@ sub post {
 }
 
 1;
-
-__DATA__
-
-@@ template.tt
-
-Nome: [%name%]
-<br>
-Email: [%email%]
-<br>
-Cidade: [%city%]
