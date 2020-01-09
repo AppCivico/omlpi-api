@@ -18,9 +18,24 @@ sub post {
     my $fh = File::Temp->new(UNLINK => 1);
     $upload->move_to($fh);
 
-    # Locale name
+    # Locale
     my $locale_id = $c->param('locale_id');
     my $locale = $c->model('Locale')->get_state_or_city_name_with_uf($locale_id)->hash;
+    my $locale_type = $locale->{type};
+    if (!$locale_type =~ m{^(city|state)$}) {
+        return $c->render(
+            json => {
+                errors => [
+                    {
+                        message => "Expected a city or a state - got $locale_type.",
+                        path    => '/locale_id',
+                    },
+                ],
+                status => 400,
+            },
+            status => 400,
+        );
+    }
 
     # Get template
     my $home = mojo_home();

@@ -389,8 +389,8 @@ paths:
           required: true
         - name: locale_id
           in: formData
-          description: The id of your locale. It should be a city or a state.
-          type: string
+          description: The id of your locale. It should be a city or a state
+          type: integer
           required: true
         - name: email
           in: formData

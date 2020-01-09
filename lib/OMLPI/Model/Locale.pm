@@ -40,9 +40,7 @@ sub get_state_or_city_name_with_uf {
           WHEN locale.type = 'city' THEN CONCAT(locale.name, ' — ', state.uf)
           ELSE locale.name
         END AS name,
-        locale.type,
-        locale.latitude,
-        locale.longitude
+        locale.type
       FROM locale
       LEFT JOIN city
         ON locale.type = 'city' AND locale.id = city.id
