@@ -27,8 +27,6 @@ subtest_buffered 'UploadPlan | post' => sub {
       })
       ->status_is(200);
 
-    p $t->tx->res->json;
-
     ok $t->app->minion->perform_jobs();
     my $stats = $t->app->minion->stats;
     is $stats->{failed_jobs},   0, 'failed_jobs=0';
