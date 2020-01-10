@@ -2,6 +2,7 @@ package OMLPI::Model::PlanUpload;
 use Mojo::Base 'MojoX::Model';
 
 use File::Temp;
+use Digest::SHA;
 use Mojo::Util qw(decode);
 use OMLPI::Utils qw(mojo_home);
 #use IO::Compress::Zip qw(zip $ZipError);
@@ -18,6 +19,12 @@ sub create {
     my $fh = File::Temp->new(UNLINK => 1);
     $upload->move_to($fh);
 
+    # Checksum
+    my $sha256 = Digest::SHA->new(256);
+    $sha256->addfile($fh);
+    my $digest = $sha256->hexdigest;
+
+    # Zip file
     my $zip = Archive::Zip->new();
     my $filename = $upload->filename;
     $zip->addFile($fh->filename, $filename);
@@ -62,12 +69,10 @@ sub create {
             email => $args{email},
             city  => $locale->{name},
         },
-        attachments => [
-            {
-                fh   => $zipfile,
-                name => $filename,
-            }
-        ]
+        attachments => [{
+            fh   => $zipfile,
+            name => $filename,
+        }]
     )->build_email();
 
     $self->app->minion->enqueue(send_email => [ $email->as_string() ]);
@@ -84,7 +89,7 @@ sub create {
             locale_id     => $locale_id,
             filename      => $upload->filename,
             filepath      => 'foobar',
-            sha256_digest => 'foobar',
+            sha256_digest => $digest,
         },
         { returning => 'id'}
     )->hash->{id};
