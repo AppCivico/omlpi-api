@@ -9,7 +9,6 @@ CREATE TABLE plan_upload (
   email          TEXT NOT NULL,
   locale_id      INT NOT NULL REFERENCES locale(id),
   filename       TEXT NOT NULL,
-  filepath       TEXT NOT NULL,
   sha256_digest  TEXT NOT NULL,
   created_at     TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
 );

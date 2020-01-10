@@ -3,11 +3,13 @@ use Mojo::Base 'MojoX::Model';
 
 use File::Temp;
 use Digest::SHA;
+use Scope::OnExit;
 use Mojo::Util qw(decode);
 use OMLPI::Utils qw(mojo_home);
 #use IO::Compress::Zip qw(zip $ZipError);
 use Archive::Zip qw( :ERROR_CODES :CONSTANTS );
 use OMLPI::Minion::Task::SendEmail::Mailer::Template;
+
 
 use Data::Printer;
 
@@ -31,6 +33,10 @@ sub create {
 
     my $zipfile = File::Temp->new(UNLINK => 0, SUFFIX => ".zip");
     $zip->writeToFileNamed($zipfile->filename);
+
+    on_scope_exit {
+        unlink $zipfile->filename or die $!;
+    };
 
     close $fh;
 
@@ -75,26 +81,36 @@ sub create {
         }]
     )->build_email();
 
-    $self->app->minion->enqueue(send_email => [ $email->as_string() ]);
+    my $plan_upload = eval {
+        my $db = $self->app->pg->db;
+        my $tx = $db->begin();
 
-    close $zipfile;
-    unlink $zipfile->filename or die $!;
+        $self->app->minion->enqueue(send_email => [ $email->as_string() ]);
 
-    # Save on database
-    my $db = $self->app->pg->db;
-    my $r = $db->insert('plan_upload',
-        {
-            name          => $args{name},
-            email         => $args{email},
-            locale_id     => $locale_id,
-            filename      => $upload->filename,
-            filepath      => 'foobar',
-            sha256_digest => $digest,
-        },
-        { returning => 'id'}
-    )->hash->{id};
-    p $r;
-    #return $self->app->pg->db->select_p("area", [qw<id name>]);
+        close $zipfile;
+
+        # Save on database
+        my $pu = $db->insert('plan_upload',
+            {
+                name          => $args{name},
+                email         => $args{email},
+                locale_id     => $locale_id,
+                filename      => $upload->filename,
+                sha256_digest => $digest,
+            },
+            { returning => 'id'}
+        )->hash;
+
+        $tx->commit();
+
+        return $pu;
+    };
+    if ($@) {
+        $self->app->log->error($@);
+        die $@;
+    }
+
+    return $plan_upload->{id};
 }
 
 1;
