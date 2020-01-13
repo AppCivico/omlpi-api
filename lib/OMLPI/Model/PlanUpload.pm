@@ -26,6 +26,22 @@ sub create {
     $sha256->addfile($fh);
     my $digest = $sha256->hexdigest;
 
+    # Check if this upload already submitted
+    my $db = $self->app->pg->db;
+    my $plan_upload = $db->select(
+        'plan_upload',
+        [qw(id)],
+        {
+            email         => $args{email},
+            locale_id     => $args{locale_id},
+            sha256_digest => $digest,
+            created_at    => {'>' => \"NOW() - '15 minutes'::interval"},
+        }
+    )->hash;
+    if (defined($plan_upload)) {
+        return $plan_upload->{id};
+    }
+
     # Zip file
     my $zip = Archive::Zip->new();
     my $filename = $upload->filename;
@@ -81,8 +97,7 @@ sub create {
         }]
     )->build_email();
 
-    my $plan_upload = eval {
-        my $db = $self->app->pg->db;
+    $plan_upload = eval {
         my $tx = $db->begin();
 
         $self->app->minion->enqueue(send_email => [ $email->as_string() ]);
