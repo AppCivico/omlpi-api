@@ -105,7 +105,8 @@ sub create {
         close $zipfile;
 
         # Save on database
-        my $pu = $db->insert('plan_upload',
+        my $pu = $db->insert(
+            'plan_upload',
             {
                 name          => $args{name},
                 email         => $args{email},
@@ -113,7 +114,7 @@ sub create {
                 filename      => $upload->filename,
                 sha256_digest => $digest,
             },
-            { returning => 'id'}
+            { returning => 'id' }
         )->hash;
 
         $tx->commit();
