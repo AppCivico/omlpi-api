@@ -62,4 +62,25 @@ sub get_type {
     return $type;
 }
 
+sub get_locales_of_the_same_scope {
+    my ($self, $locale_id) = @_;
+
+    return $self->app->pg->db->query(<<'SQL_QUERY', $locale_id)->array->[0];
+      SELECT
+        ARRAY(
+          SELECT *
+          FROM UNNEST(ARRAY[city.id, state.id, region.id, region.country_id]) EXCEPT SELECT NULL
+        )
+      FROM locale
+      LEFT JOIN city
+        ON city.id = locale.id
+      LEFT JOIN state
+        ON state.id = city.state_id OR state.id = locale.id
+      LEFT JOIN region
+        ON region.id = state.region_id OR region.id = locale.id
+      WHERE locale.id = ?
+        AND locale.type IN('city', 'state', 'region');
+SQL_QUERY
+}
+
 1;
