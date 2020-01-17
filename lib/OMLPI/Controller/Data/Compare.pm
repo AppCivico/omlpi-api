@@ -6,41 +6,31 @@ sub get {
 
     $c->openapi->valid_input or return;
 
-    my $locale_ids = $c->every_param('locale_id');
-    my $year       = $c->param('year');
+    my $locale_id = $c->param('locale_id');
+    my $year      = $c->param('year');
 
-    $c->_validate_comparison(@{$locale_ids});
+    $c->_validate_comparison($locale_id);
 
-    my $res = $c->model('Data')->compare(locale_id => $locale_ids, year => $year);
+    my $res = $c->model('Data')->compare(locale_id => $locale_id, year => $year);
 
     return $c->render(json => { comparison => $res->expand->hashes }, status => 200 );
 }
 
 sub _validate_comparison {
-    my ($c, @locale_ids) = @_;
+    my ($c, $locale_id) = @_;
 
-    my %grant = (
-        city    => [qw(state country region)],
-        state   => [qw(region city)],
-        region  => [qw(city country state)],
-        country => [qw(city region)],
-    );
-    my ($first, $second) = map { $_->{type} } $c->pg->db->select("locale", [qw(type)], { id => \@locale_ids })->hashes->each;
-
-    my %options = map { $_ => 1 } @{ $grant{$first} };
-    if (exists $options{$second}) {
-        return 1;
+    my $type = $c->model('Locale')->get_type($locale_id);
+    if (!($type =~ m{^(city|state)$})) {
+        die {
+            errors => [
+                {
+                    message => "Can't compare a ${type}.",
+                    path    => "/locale_id/0",
+                }
+            ],
+            status => 400,
+        };
     }
-
-    die {
-        errors => [
-            {
-                message => "Can't compare a ${first} with a ${second}.",
-                path    => "/locale_id/1",
-            }
-        ],
-        status => 400,
-    };
 }
 
 1;

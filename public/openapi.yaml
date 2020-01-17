@@ -202,6 +202,7 @@ paths:
           description: Info for a specific locale
           schema:
             $ref: '#/definitions/Locale'
+
   /data/compare:
     get:
       summary: Make a comparison between two locales
@@ -213,13 +214,8 @@ paths:
         - name: locale_id
           description: The id of the locale to retrieve data from
           in: query
-          type: array
+          type: integer
           required: true
-          items:
-            type: integer
-          uniqueItems: true
-          minItems: 2
-          maxItems: 2
         - $ref: '#/parameters/yearParam'
       responses:
         200:
