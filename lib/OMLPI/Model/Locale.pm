@@ -1,9 +1,6 @@
 package OMLPI::Model::Locale;
 use Mojo::Base 'MojoX::Model';
 
-use Memoize;
-memoize('get_type');
-
 sub list {
     my $self = shift;
 
