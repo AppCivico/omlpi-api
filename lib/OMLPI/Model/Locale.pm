@@ -1,6 +1,9 @@
 package OMLPI::Model::Locale;
 use Mojo::Base 'MojoX::Model';
 
+use Memoize;
+memoize('get_type');
+
 sub list {
     my $self = shift;
 
@@ -48,6 +51,15 @@ sub get_state_or_city_name_with_uf {
         ON locale.type = 'city' AND city.state_id = state.id
       WHERE locale.id = ?
 SQL_QUERY
+}
+
+sub get_type {
+    my ($self, $locale_id) = @_;
+
+    my $type = $self->app->pg->db->select("locale", [qw(type)], { id => $locale_id })
+      ->hash->{type};
+
+    return $type;
 }
 
 1;
