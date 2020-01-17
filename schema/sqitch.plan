@@ -5,3 +5,4 @@
 0001-data [0000-locales] 2019-11-06T18:47:40Z junior,,, <junior@fvox> # ta
 0002-locale-latlong [0001-data] 2019-12-12T13:31:24Z junior,,, <junior@fvox> # cale-latlong
 0003-plan-upload [0002-locale-latlong] 2020-01-10T18:39:01Z junior,,, <junior@fvox> # an-upload
+0004-state-country [0003-plan-upload] 2020-01-17T18:59:13Z junior,,, <junior@fvox> # ate-country
