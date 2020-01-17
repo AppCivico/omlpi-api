@@ -7,22 +7,17 @@ use OMLPI::Test;
 my $t = test_instance();
 my $pg = $t->app->pg;
 
-subtest_buffered 'Cant compare cities' => sub {
+subtest_buffered 'Cant compare country' => sub {
 
-    # Get two random cities
-    ok my @locale_ids = map {  $_->[0] }
-                        $pg->db->select("locale", [qw(id)], { type => 'city' }, { limit => 2, order_by => \'RANDOM()' } )
-                          ->arrays
-                          ->each;
-
-    $t->get_ok("/v1/data/compare", form => { locale_id => \@locale_ids })
+    my $locale_id = 1;
+    $t->get_ok("/v1/data/compare", form => { locale_id => $locale_id })
       ->status_is(400)
-      ->json_is('/errors/0/message', "Can't compare a city with a city.");
+      ->json_is('/errors/0/message', "Can't compare a country.");
 };
 
 subtest_buffered 'Compare two locales' => sub {
 
-    # In this development state, I do not have any data about states, regions or country. As I can't compare two
+    # At this development state, I do not have any data about states, regions or country. As I can't compare two
     # cities, I will update data from some random locale just for test this feature.
     eval {
         my $tx = $pg->db->begin();
@@ -51,7 +46,7 @@ SQL_QUERY
           )
 SQL_QUERY
 
-        $t->get_ok("/v1/data/compare", form => { locale_id => [$city_id, $state_id] })
+        $t->get_ok("/v1/data/compare", form => { locale_id => [$city_id] })
           ->status_is(200)
           ->json_has('/comparison/0/id')
           ->json_has('/comparison/0/name')
