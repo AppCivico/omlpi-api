@@ -150,12 +150,38 @@ sub get {
 SQL_QUERY
 }
 
+sub _get_locales_of_the_same_scope {
+    my ($self, $locale_id) = @_;
+
+    # Get locale type
+    my $type = $self->app->model('Locale')->get_type($locale_id);
+
+    my $sql_query;
+    if ($type eq 'city') {
+        $sql_query = <<'SQL_QUERY'
+          SELECT ARRAY[city.id, state.id, region.id, region.country_id]
+          FROM city
+          JOIN state
+            ON state.id = city.state_id
+          JOIN region
+            ON region.id = state.region_id
+          WHERE city.id = ?
+SQL_QUERY
+    }
+    else {
+        ...
+    }
+
+    return $self->app->pg->db->query($sql_query, $locale_id);
+}
+
 sub compare {
     my ($self, %opts) = @_;
 
     my $year       = $opts{year};
     my $area_id    = $opts{area_id};
-    my @locale_ids = @{$opts{locale_id}};
+    my $locale_id  = $opts{locale_id};
+    my @locale_ids = @{ $self->_get_locales_of_the_same_scope($locale_id)->array->[0] };
     my @binds      = ((($year) x 8), (($area_id) x 2), (($year) x 2), @locale_ids);
 
     return $self->app->pg->db->query(<<"SQL_QUERY", @binds);
