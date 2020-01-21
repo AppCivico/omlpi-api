@@ -7,15 +7,15 @@ use 5.024;
 use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
-  "ABSTRACT" => "Andi API",
+  "ABSTRACT" => "OMLPI API",
   "AUTHOR" => "Junior Moraes <juniorfvox[at]gmail.com>",
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => 0
   },
-  "DISTNAME" => "Andi",
+  "DISTNAME" => "OMLPI",
   "LICENSE" => "open_source",
   "MIN_PERL_VERSION" => "5.024",
-  "NAME" => "Andi",
+  "NAME" => "OMLPI",
   "PREREQ_PM" => {
     "App::Sqitch" => 0,
     "Archive::Zip" => 0,
@@ -24,9 +24,9 @@ my %WriteMakefileArgs = (
     "DBD::Pg" => 0,
     "DDP" => 0,
     "Data::Printer" => 0,
-    "Data::Section::Simple" => 0,
     "DateTime" => 0,
     "DateTime::Format::DateParse" => 0,
+    "Digest::SHA" => 0,
     "EV" => "4.30",
     "Email::Sender::Simple" => 0,
     "Email::Sender::Transport::SMTP::TLS" => 0,
@@ -35,7 +35,6 @@ my %WriteMakefileArgs = (
     "Exporter" => 0,
     "File::MimeInfo" => 0,
     "File::Temp" => 0,
-    "FindBin" => 0,
     "IO::Handle" => 0,
     "IPC::Run" => 0,
     "JSON::XS" => "4.02",
@@ -69,6 +68,7 @@ my %WriteMakefileArgs = (
   "TEST_REQUIRES" => {
     "Env::Path" => "0.18",
     "File::Spec" => 0,
+    "FindBin" => 0,
     "IO::Handle" => 0,
     "IPC::Open3" => 0,
     "JSON" => 0,
@@ -80,7 +80,7 @@ my %WriteMakefileArgs = (
     "constant" => 0,
     "lib" => 0
   },
-  "VERSION" => 20200108,
+  "VERSION" => 20200121,
   "test" => {
     "TESTS" => "t/*.t t/integration/*.t t/unit/*.t"
   }
@@ -95,9 +95,9 @@ my %FallbackPrereqs = (
   "DBD::Pg" => 0,
   "DDP" => 0,
   "Data::Printer" => 0,
-  "Data::Section::Simple" => 0,
   "DateTime" => 0,
   "DateTime::Format::DateParse" => 0,
+  "Digest::SHA" => 0,
   "EV" => "4.30",
   "Email::Sender::Simple" => 0,
   "Email::Sender::Transport::SMTP::TLS" => 0,
