@@ -24,7 +24,7 @@ sub _validate_comparison {
         die {
             errors => [
                 {
-                    message => "Can't compare a ${type}.",
+                    message => "Can't compare with a ${type}.",
                     path    => "/locale_id/0",
                 }
             ],
