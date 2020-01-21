@@ -16,6 +16,7 @@ schemes:
 produces:
   - application/json
 
+
 tags:
   - name: locales
     description: A locale can be a city, a region, a state or a country
@@ -23,6 +24,7 @@ tags:
     description: Indicators and breakdown data from locales
   - name: uploads
     description: Contribute with us by sending data
+
 
 parameters:
   yearParam:
@@ -34,12 +36,21 @@ parameters:
       - 2017
       - 2018
       - 2019
+
   localeParam:
     name: locale_id
     in: query
     description: The id of the locale to retrieve data from
     type: integer
     required: true
+
+  areaParam:
+    name: area_id
+    in: query
+    description: Filter data by an area
+    required: false
+    type: integer
+
 
 paths:
   /locales:
@@ -191,11 +202,7 @@ paths:
         - data
       parameters:
         - $ref: '#/parameters/localeParam'
-        - name: area_id
-          in: query
-          description: Filter data by an area
-          required: false
-          type: integer
+        - $ref: '#/parameters/areaParam'
         - $ref: '#/parameters/yearParam'
       responses:
         200:
@@ -318,6 +325,7 @@ paths:
         - data
       parameters:
         - $ref: '#/parameters/localeParam'
+        - $ref: '#/parameters/areaParam'
       responses:
         200:
           description: The historical series of the specified locale
