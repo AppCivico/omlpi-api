@@ -329,9 +329,99 @@ paths:
       responses:
         200:
           description: The historical series of the specified locale
-          #schema:
-          #  type: object
-          #  properties:
+          schema:
+            type: object
+            properties:
+              historical:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    locales:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 3550308
+                          name:
+                            type: string
+                            example: São Paulo
+                          type:
+                            type: string
+                            example: city
+                            enum:
+                              - country
+                              - region
+                              - state
+                              - city
+                          indicators:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                  example: 5
+                                name:
+                                  type: string
+                                  example: 'Número de matrículas de educação infantil - Creche'
+                                area:
+                                  $ref: '#/definitions/Area'
+                                base:
+                                  type: string
+                                  example: 'INEP: Censo Escolar - Matrículas'
+                                values:
+                                  type: array
+                                  items:
+                                    type: object
+                                    properties:
+                                      year:
+                                        type: integer
+                                        enum:
+                                          - 2017
+                                          - 2018
+                                          - 2019
+                                        example: 2019
+                                      value_relative:
+                                        type: integer
+                                        example: 0.25
+                                      value_absolute:
+                                        type: integer
+                                        example: 630.3
+                                subindicators:
+                                  type: array
+                                  items:
+                                    properties:
+                                      classification:
+                                        type: string
+                                        example: Sexo
+                                      data:
+                                        type: array
+                                        items:
+                                          type: object
+                                          properties:
+                                            description:
+                                              type: string
+                                              example: Feminino
+                                            id:
+                                              type: integer
+                                              example: 28
+                                            values:
+                                              type: array
+                                              items:
+                                                properties:
+                                                  value_relative:
+                                                    type: integer
+                                                    example: 3.7
+                                                  value_absolute:
+                                                    type: integer
+                                                    example: 8909
+                                                  year:
+                                                    type: integer
+                                                    example: 2019
+
 
   /data/resume:
     get:
