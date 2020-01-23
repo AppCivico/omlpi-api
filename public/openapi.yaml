@@ -212,7 +212,7 @@ paths:
 
   /data/compare:
     get:
-      summary: Make a comparison between two locales
+      summary: Compare locales
       x-mojo-to: 'data-compare#get'
       operationId: showDataCompare
       tags:
@@ -222,7 +222,7 @@ paths:
         - $ref: '#/parameters/yearParam'
       responses:
         200:
-          description: The comparison between two locales
+          description: The comparison between all locales of the same scope
           schema:
             type: object
             properties:
