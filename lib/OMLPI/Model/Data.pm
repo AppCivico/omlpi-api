@@ -671,4 +671,45 @@ sub get_historical {
 SQL_QUERY
 }
 
+sub get_random_indicator {
+    my $self = shift;
+
+    my $year = $self->app->model('Data')->get_max_year()->array->[0];
+
+    return $self->app->pg->db->query(<<"SQL_QUERY", $year);
+      SELECT
+        locale.id,
+        CASE
+          WHEN locale.type = 'city' THEN CONCAT(locale.name, ', ', state.uf)
+          ELSE locale.name
+        END AS name,
+        locale.type,
+        locale.latitude,
+        locale.longitude
+      FROM locale
+      LEFT JOIN city
+        ON locale.type = 'city' AND locale.id = city.id
+      LEFT JOIN state
+        ON locale.type = 'city' AND city.state_id = state.id
+      WHERE locale.id = 1
+        OR locale.id = (
+          SELECT l2.id
+          FROM locale l2
+          WHERE l2.type = 'city'
+            AND EXISTS (
+              SELECT 1
+              FROM indicator_locale
+              WHERE indicator_locale.locale_id = l2.id
+                AND indicator_locale.year = ?
+              --WHERE indicator_locale.indicator_id = indicator.id
+              --  AND indicator_locale.locale_id = l2.id
+              LIMIT 1
+            )
+          ORDER BY RANDOM()
+          LIMIT 1
+      )
+      ORDER BY locale.id
+SQL_QUERY
+}
+
 1;
