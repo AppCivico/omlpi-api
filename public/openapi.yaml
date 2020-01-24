@@ -422,6 +422,16 @@ paths:
                                                     type: integer
                                                     example: 2019
 
+  /data/random_indicator:
+    get:
+      summary: Get random indicator
+      x-mojo-to: 'Data::RandomIndicator#get'
+      operationId: showDataRandomIndicator
+      tags:
+        - data
+      responses:
+        200:
+          description: Random indicator data
 
   /data/resume:
     get:
