@@ -675,8 +675,22 @@ sub get_random_indicator {
     my $self = shift;
 
     my $year = $self->app->model('Data')->get_max_year()->array->[0];
+    my $pg = $self->app->pg;
 
-    return $self->app->pg->db->query(<<"SQL_QUERY", $year);
+    # Get some random locale which contains data
+    my $random = $pg->db->query(<<'SQL_QUERY');
+      SELECT locale.id, indicator_locale.indicator_id
+      FROM locale
+      INNER JOIN indicator_locale
+        ON indicator_locale.locale_id = locale.id
+      WHERE locale.type = 'city'
+      ORDER BY RANDOM()
+      LIMIT 1
+SQL_QUERY
+
+    my ($locale_id, $indicator_id) = @{ $random->array };
+
+    return $pg->db->query(<<"SQL_QUERY", $locale_id);
       SELECT
         locale.id,
         CASE
@@ -685,29 +699,60 @@ sub get_random_indicator {
         END AS name,
         locale.type,
         locale.latitude,
-        locale.longitude
+        locale.longitude,
+        COALESCE(
+          (
+            SELECT JSON_AGG("all".result)
+            FROM (
+              SELECT ROW_TO_JSON("row") result
+              FROM (
+                SELECT
+                  indicator.id,
+                  indicator.description,
+                  indicator.base,
+                  ROW_TO_JSON(area.*) AS area,
+                  (
+                    SELECT ROW_TO_JSON(indicator_values)
+                    FROM (
+                      SELECT
+                        indicator_locale.year           AS year,
+                        indicator_locale.value_relative AS value_relative,
+                        indicator_locale.value_absolute AS value_absolute
+                      FROM indicator_locale
+                        WHERE indicator_locale.indicator_id = indicator.id
+                          AND indicator_locale.locale_id = locale.id
+                          AND (
+                            indicator_locale.value_absolute IS NOT NULL
+                            OR indicator_locale.value_relative IS NOT NULL
+                          )
+                      ORDER BY indicator_locale.year DESC
+                    ) indicator_values
+                  ) AS values
+                FROM indicator
+                JOIN area
+                  ON area.id = indicator.area_id
+                JOIN indicator_locale
+                  ON indicator.id = indicator_locale.indicator_id
+                    AND indicator_locale.locale_id = locale.id
+                  AND EXISTS (
+                    SELECT 1
+                    FROM indicator_locale
+                    WHERE indicator_locale.indicator_id = indicator.id
+                      AND indicator_locale.locale_id = locale.id
+                  )
+                ORDER BY indicator.id
+              ) AS "row"
+            ) "all"
+          ),
+          '[]'::json
+        ) AS indicator
       FROM locale
       LEFT JOIN city
         ON locale.type = 'city' AND locale.id = city.id
       LEFT JOIN state
         ON locale.type = 'city' AND city.state_id = state.id
       WHERE locale.id = 1
-        OR locale.id = (
-          SELECT l2.id
-          FROM locale l2
-          WHERE l2.type = 'city'
-            AND EXISTS (
-              SELECT 1
-              FROM indicator_locale
-              WHERE indicator_locale.locale_id = l2.id
-                AND indicator_locale.year = ?
-              --WHERE indicator_locale.indicator_id = indicator.id
-              --  AND indicator_locale.locale_id = l2.id
-              LIMIT 1
-            )
-          ORDER BY RANDOM()
-          LIMIT 1
-      )
+        OR locale.id = ?
       ORDER BY locale.id
 SQL_QUERY
 }
