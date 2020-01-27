@@ -674,23 +674,25 @@ SQL_QUERY
 sub get_random_indicator {
     my $self = shift;
 
+    my $db = $self->app->pg->db;
+
     my $year = $self->app->model('Data')->get_max_year()->array->[0];
-    my $pg = $self->app->pg;
 
     # Get some random locale which contains data
-    my $random = $pg->db->query(<<'SQL_QUERY');
+    my $random = $db->query(<<'SQL_QUERY', $year);
       SELECT locale.id, indicator_locale.indicator_id
       FROM locale
       INNER JOIN indicator_locale
         ON indicator_locale.locale_id = locale.id
       WHERE locale.type = 'city'
+        AND indicator_locale.year = ?
       ORDER BY RANDOM()
       LIMIT 1
 SQL_QUERY
 
-    my ($locale_id, $indicator_id) = @{ $random->array };
+     my ($locale_id, $indicator_id) = @{ $random->array };
 
-    return $pg->db->query(<<"SQL_QUERY", $locale_id);
+    return $db->query(<<"SQL_QUERY", $year, $indicator_id, $locale_id);
       SELECT
         locale.id,
         CASE
@@ -720,11 +722,8 @@ SQL_QUERY
                         indicator_locale.value_absolute AS value_absolute
                       FROM indicator_locale
                         WHERE indicator_locale.indicator_id = indicator.id
-                          AND indicator_locale.locale_id = locale.id
-                          AND (
-                            indicator_locale.value_absolute IS NOT NULL
-                            OR indicator_locale.value_relative IS NOT NULL
-                          )
+                          AND indicator_locale.locale_id    = locale.id
+                          AND indicator_locale.year         = ?
                       ORDER BY indicator_locale.year DESC
                     ) indicator_values
                   ) AS values
@@ -734,12 +733,7 @@ SQL_QUERY
                 JOIN indicator_locale
                   ON indicator.id = indicator_locale.indicator_id
                     AND indicator_locale.locale_id = locale.id
-                  AND EXISTS (
-                    SELECT 1
-                    FROM indicator_locale
-                    WHERE indicator_locale.indicator_id = indicator.id
-                      AND indicator_locale.locale_id = locale.id
-                  )
+                WHERE indicator.id = ?
                 ORDER BY indicator.id
               ) AS "row"
             ) "all"
@@ -751,8 +745,7 @@ SQL_QUERY
         ON locale.type = 'city' AND locale.id = city.id
       LEFT JOIN state
         ON locale.type = 'city' AND city.state_id = state.id
-      WHERE locale.id = 1
-        OR locale.id = ?
+      WHERE locale.id IN(1, ?)
       ORDER BY locale.id
 SQL_QUERY
 }
