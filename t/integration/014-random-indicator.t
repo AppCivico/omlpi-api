@@ -38,7 +38,6 @@ SQL_QUERY
           ->json_has('/locales/1/indicator/values/year')
           ->json_has('/locales/1/indicator/values/value_absolute')
           ->json_has('/locales/1/indicator/values/value_relative');
-        p $t->tx->res->json;
 
         #$tx->commit();
         undef $tx;

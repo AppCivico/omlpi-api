@@ -702,44 +702,37 @@ SQL_QUERY
         locale.type,
         locale.latitude,
         locale.longitude,
-        COALESCE(
-          (
-            SELECT JSON_AGG("all".result)
-            FROM (
-              SELECT ROW_TO_JSON("row") result
-              FROM (
-                SELECT
-                  indicator.id,
-                  indicator.description,
-                  indicator.base,
-                  ROW_TO_JSON(area.*) AS area,
-                  (
-                    SELECT ROW_TO_JSON(indicator_values)
-                    FROM (
-                      SELECT
-                        indicator_locale.year           AS year,
-                        indicator_locale.value_relative AS value_relative,
-                        indicator_locale.value_absolute AS value_absolute
-                      FROM indicator_locale
-                        WHERE indicator_locale.indicator_id = indicator.id
-                          AND indicator_locale.locale_id    = locale.id
-                          AND indicator_locale.year         = ?
-                      ORDER BY indicator_locale.year DESC
-                      LIMIT 1
-                    ) indicator_values
-                  ) AS values
-                FROM indicator
-                JOIN area
-                  ON area.id = indicator.area_id
-                JOIN indicator_locale
-                  ON indicator.id = indicator_locale.indicator_id
-                    AND indicator_locale.locale_id = locale.id
-                WHERE indicator.id = ?
-                ORDER BY indicator.id
-              ) AS "row"
-            ) "all"
-          ),
-          '[]'::json
+        (
+          SELECT ROW_TO_JSON("row") result
+          FROM (
+            SELECT
+              indicator.id,
+              indicator.description,
+              indicator.base,
+              ROW_TO_JSON(area.*) AS area,
+              (
+                SELECT JSON_BUILD_OBJECT(
+                  'year', indicator_locale.year,
+                  'value_relative', indicator_locale.value_relative,
+                  'value_absolute', indicator_locale.value_absolute
+                )
+                FROM indicator_locale
+                  WHERE indicator_locale.indicator_id = indicator.id
+                    AND indicator_locale.locale_id    = locale.id
+                    AND indicator_locale.year         = ?
+                ORDER BY indicator_locale.year DESC
+                LIMIT 1
+              ) AS values
+            FROM indicator
+            JOIN area
+              ON area.id = indicator.area_id
+            JOIN indicator_locale
+              ON indicator.id = indicator_locale.indicator_id
+                AND indicator_locale.locale_id = locale.id
+            WHERE indicator.id = ?
+            ORDER BY indicator.id
+            LIMIT 1
+          ) AS "row"
         ) AS indicator
       FROM locale
       LEFT JOIN city
