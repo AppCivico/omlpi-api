@@ -6,7 +6,7 @@ sub get {
 
     my $res = $c->model('Data')->get_random_indicator();
 
-    return $c->render(json => { indicator => $res->expand->hashes }, status => 200 );
+    return $c->render(json => { locales => $res->expand->hashes }, status => 200 );
 }
 
 1;

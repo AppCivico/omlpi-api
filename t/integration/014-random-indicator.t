@@ -25,7 +25,19 @@ subtest_buffered 'Get random indicator' => sub {
 SQL_QUERY
 
         $t->get_ok("/v1/data/random_indicator")
-          ->status_is(200);
+          ->status_is(200)
+          ->json_is('/locales/0/name', 'Brasil')
+          ->json_has('/locales/0/indicator/area/name')
+          ->json_has('/locales/0/indicator/description')
+          ->json_has('/locales/0/indicator/values/year')
+          ->json_has('/locales/0/indicator/values/value_absolute')
+          ->json_has('/locales/0/indicator/values/value_relative')
+          ->json_has('/locales/1/name')
+          ->json_has('/locales/1/indicator/area/name')
+          ->json_has('/locales/1/indicator/description')
+          ->json_has('/locales/1/indicator/values/year')
+          ->json_has('/locales/1/indicator/values/value_absolute')
+          ->json_has('/locales/1/indicator/values/value_relative');
         p $t->tx->res->json;
 
         #$tx->commit();

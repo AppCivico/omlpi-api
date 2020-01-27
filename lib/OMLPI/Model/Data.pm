@@ -725,6 +725,7 @@ SQL_QUERY
                           AND indicator_locale.locale_id    = locale.id
                           AND indicator_locale.year         = ?
                       ORDER BY indicator_locale.year DESC
+                      LIMIT 1
                     ) indicator_values
                   ) AS values
                 FROM indicator
