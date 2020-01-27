@@ -39,7 +39,7 @@ SQL_QUERY
           ->json_has('/locales/1/indicator/values/value_absolute')
           ->json_has('/locales/1/indicator/values/value_relative');
 
-        #$tx->commit();
+        # Rollback
         undef $tx;
     };
     is $@, '';
