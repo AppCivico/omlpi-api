@@ -432,6 +432,31 @@ paths:
       responses:
         200:
           description: Random indicator data
+          schema:
+            type: object
+            properties:
+              locales:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    latitude:
+                      type: integer
+                      example: -15.7795
+                    longitude:
+                      type: integer
+                      example: -47.9297
+                    name:
+                      type: string
+                      example: Brasil
+                    type:
+                      type: string
+                      example: country
+                    indicator:
+                      $ref: '#/definitions/Indicator'
 
   /data/resume:
     get:
@@ -525,6 +550,7 @@ paths:
                 type: integer
                 example: 335
 
+
 definitions:
   Area:
     type: object
@@ -561,8 +587,40 @@ definitions:
       indicators:
         type: array
         items:
-          $ref: '#/definitions/Indicator'
+          $ref: '#/definitions/IndicatorWithSubindicator'
+
   Indicator:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 5
+      name:
+        type: string
+        example: 'Número de matrículas de educação infantil - Creche'
+      area:
+        $ref: '#/definitions/Area'
+      base:
+        type: string
+        example: 'INEP: Censo Escolar - Matrículas'
+      values:
+        type: object
+        properties:
+          year:
+            type: integer
+            enum:
+              - 2017
+              - 2018
+              - 2019
+            example: 2019
+          value_relative:
+            type: integer
+            example: 0.25
+          value_absolute:
+            type: integer
+            example: 630.3
+
+  IndicatorWithSubindicator:
     type: object
     properties:
       id:
@@ -622,6 +680,7 @@ definitions:
                       year:
                         type: integer
                         example: 2019
+
   Classifications:
     type: object
     properties:
