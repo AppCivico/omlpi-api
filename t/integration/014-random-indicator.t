@@ -9,21 +9,24 @@ my $pg = $t->app->pg;
 
 subtest_buffered 'Get random indicator' => sub {
 
-    # At this development state, I do not have data about Brazil. So I will mock data for testing purposes
+    # Mock data for testing purposes
     eval {
         my $tx = $pg->db->begin();
 
-        $pg->db->query(<<'SQL_QUERY');
+        my $year = $t->app->model('Data')->get_max_year()->array->[0];
+
+        $pg->db->query(<<'SQL_QUERY', $year);
           INSERT INTO indicator_locale (indicator_id, locale_id, year, value_relative, value_absolute)
           SELECT
             id                            AS indicator_id,
             1                             AS locale_id,
-            2019                          AS year,
+            ?                             AS year,
             RANDOM() * (100 + 1)          AS value_relative,
             FLOOR(random() * (10000 + 1)) AS value_relative
           FROM indicator
 SQL_QUERY
 
+        # Test endpoint
         $t->get_ok("/v1/data/random_indicator")
           ->status_is(200)
           ->json_is('/locales/0/name', 'Brasil')
