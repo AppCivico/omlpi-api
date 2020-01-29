@@ -11,4 +11,4 @@ BEGIN {
 use Mojolicious::Commands;
 
 # Start command line interface for application
-Mojolicious::Commands->start_app('Andi');
+Mojolicious::Commands->start_app('OMLPI');
