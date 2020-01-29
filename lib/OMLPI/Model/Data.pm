@@ -679,18 +679,25 @@ sub get_random_indicator {
     my $year = $self->app->model('Data')->get_max_year()->array->[0];
 
     # Get some random locale which contains data
-    my $random = $db->query(<<'SQL_QUERY', $year);
+    my $random = $db->query(<<'SQL_QUERY', $year, $year);
       SELECT locale.id, indicator_locale.indicator_id
       FROM locale
       INNER JOIN indicator_locale
         ON indicator_locale.locale_id = locale.id
       WHERE locale.type = 'city'
         AND indicator_locale.year = ?
+        AND EXISTS (
+          SELECT 1
+          FROM indicator_locale il
+          WHERE il.locale_id = 1
+            AND il.year = ?
+            AND il.indicator_id = indicator_locale.indicator_id
+        )
       ORDER BY RANDOM()
       LIMIT 1
 SQL_QUERY
 
-     my ($locale_id, $indicator_id) = @{ $random->array };
+    my ($locale_id, $indicator_id) = @{ $random->array };
 
     return $db->query(<<"SQL_QUERY", $year, $indicator_id, $locale_id);
       SELECT
