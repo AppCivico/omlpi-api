@@ -3,6 +3,14 @@
 
 BEGIN;
 
+CREATE FUNCTION random_pick(p_items anyarray)
+RETURNS anyelement AS
+$$
+   SELECT unnest(p_items)
+   ORDER BY RANDOM()
+   LIMIT 1;
+$$ LANGUAGE SQL;
+
 CREATE MATERIALIZED VIEW random_locale_indicator AS
   SELECT
     data.r AS locale_id,
