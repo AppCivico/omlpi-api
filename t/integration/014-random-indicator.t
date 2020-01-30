@@ -5,26 +5,36 @@ use lib "$RealBin/../lib";
 use OMLPI::Test;
 
 my $t = test_instance();
-my $pg = $t->app->pg;
+my $db = $t->app->db;
 
 subtest_buffered 'Get random indicator' => sub {
 
     # Mock data for testing purposes
     eval {
-        my $tx = $pg->db->begin();
+        my $tx = $db->begin();
 
         my $year = $t->app->model('Data')->get_max_year()->array->[0];
 
-        $pg->db->query(<<'SQL_QUERY', $year);
+        $db->query(<<'SQL_QUERY', $year, 3520301, $year);
           INSERT INTO indicator_locale (indicator_id, locale_id, year, value_relative, value_absolute)
           SELECT
             id                            AS indicator_id,
             1                             AS locale_id,
-            ?                             AS year,
+            ?::int                        AS year,
+            RANDOM() * (100 + 1)          AS value_relative,
+            FLOOR(random() * (10000 + 1)) AS value_relative
+          FROM indicator
+          UNION
+          SELECT
+            id                            AS indicator_id,
+            ?::int                        AS locale_id,
+            ?::int                        AS year,
             RANDOM() * (100 + 1)          AS value_relative,
             FLOOR(random() * (10000 + 1)) AS value_relative
           FROM indicator
 SQL_QUERY
+
+        ok $db->query("REFRESH MATERIALIZED VIEW random_locale_indicator;"), 'refresh materialized view';
 
         # Test endpoint
         $t->get_ok("/v1/data/random_indicator")
