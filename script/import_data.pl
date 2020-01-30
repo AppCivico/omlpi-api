@@ -204,6 +204,11 @@ SQL_QUERY
 SQL_QUERY
         $logger->info("Subindicators data loaded!");
     }
+
+    $logger->info("Updating random_locale_indicator materialized view...");
+    $db->query("REFRESH MATERIALIZED VIEW random_locale_indicator");
+    $logger->info("Materialized view refreshed!");
+
     $tx->commit();
     $logger->info("Data loaded!");
 };
