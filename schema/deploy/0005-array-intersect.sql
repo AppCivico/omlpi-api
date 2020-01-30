@@ -31,6 +31,15 @@ CREATE MATERIALIZED VIEW random_locale_indicator AS
           indicator_id    AS a3,
           x.locale_id     AS r
             FROM (
+              WITH max_year AS (
+                SELECT MAX(year.max) AS year
+                FROM (
+                  SELECT MAX(year)
+                  FROM indicator_locale
+                  UNION SELECT MAX(year)
+                  FROM subindicator_locale
+                ) year
+              )
               SELECT
                 indicator.area_id,
                 indicator_locale.indicator_id,
@@ -41,11 +50,11 @@ CREATE MATERIALIZED VIEW random_locale_indicator AS
               JOIN indicator_locale il2
                 ON il2.indicator_id = indicator_locale.indicator_id
                   AND il2.locale_id = 1
-                  AND il2.year = 2019
+                  AND il2.year = ( SELECT year FROM max_year )
               JOIN locale
                 ON locale.id = indicator_locale.locale_id
               WHERE locale.type = 'city'
-                AND indicator_locale.year = 2019
+                AND indicator_locale.year = ( SELECT year FROM max_year )
             ) x
             LEFT JOIN indicator i1
               ON i1.id = x.indicator_id
