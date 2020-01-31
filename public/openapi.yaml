@@ -1,7 +1,7 @@
 swagger: "2.0"
 info:
   description: 'The backend of the OMLPL project'
-  version: 1.4.1
+  version: 1.4.2
   title: OMLPL API
   contact:
     email: carlos@appcivico.com
@@ -456,8 +456,8 @@ paths:
                     type:
                       type: string
                       example: country
-                    indicator:
-                      $ref: '#/definitions/Indicator'
+                    indicators:
+                      $ref: '#/definitions/Indicators'
 
   /data/resume:
     get:
@@ -590,36 +590,38 @@ definitions:
         items:
           $ref: '#/definitions/IndicatorWithSubindicator'
 
-  Indicator:
-    type: object
-    properties:
-      id:
-        type: integer
-        example: 5
-      name:
-        type: string
-        example: 'Número de matrículas de educação infantil - Creche'
-      area:
-        $ref: '#/definitions/Area'
-      base:
-        type: string
-        example: 'INEP: Censo Escolar - Matrículas'
-      values:
-        type: object
-        properties:
-          year:
-            type: integer
-            enum:
-              - 2017
-              - 2018
-              - 2019
-            example: 2019
-          value_relative:
-            type: integer
-            example: 0.25
-          value_absolute:
-            type: integer
-            example: 630.3
+  Indicators:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5
+        name:
+          type: string
+          example: 'Número de matrículas de educação infantil - Creche'
+        area:
+          $ref: '#/definitions/Area'
+        base:
+          type: string
+          example: 'INEP: Censo Escolar - Matrículas'
+        values:
+          type: object
+          properties:
+            year:
+              type: integer
+              enum:
+                - 2017
+                - 2018
+                - 2019
+              example: 2019
+            value_relative:
+              type: integer
+              example: 0.25
+            value_absolute:
+              type: integer
+              example: 630.3
 
   IndicatorWithSubindicator:
     type: object
