@@ -676,30 +676,21 @@ sub get_random_indicator {
 
     my $db = $self->app->pg->db;
 
-    my $year = $self->app->model('Data')->get_max_year()->array->[0];
+    #my $year = $self->app->model('Data')->get_max_year()->array->[0];
 
     # Get some random locale which contains data
-    my $random = $db->query(<<'SQL_QUERY', $year, $year);
-      SELECT locale.id, indicator_locale.indicator_id
-      FROM locale
-      INNER JOIN indicator_locale
-        ON indicator_locale.locale_id = locale.id
-      WHERE locale.type = 'city'
-        AND indicator_locale.year = ?
-        AND EXISTS (
-          SELECT 1
-          FROM indicator_locale il
-          WHERE il.locale_id = 1
-            AND il.year = ?
-            AND il.indicator_id = indicator_locale.indicator_id
-        )
+    my $random = $db->query(<<'SQL_QUERY');
+      SELECT
+        locale_id,
+        ARRAY[random_pick(area_a1), random_pick(area_a2), random_pick(area_a3)] AS indicators
+      FROM random_locale_indicator
       ORDER BY RANDOM()
       LIMIT 1
 SQL_QUERY
 
-    my ($locale_id, $indicator_id) = @{ $random->array };
+    my ($locale_id, $indicator_ids) = @{ $random->array };
 
-    return $db->query(<<"SQL_QUERY", $year, $indicator_id, $locale_id);
+    return $db->query(<<"SQL_QUERY", @{ $indicator_ids }, $locale_id);
       SELECT
         locale.id,
         CASE
@@ -718,6 +709,15 @@ SQL_QUERY
               indicator.base,
               ROW_TO_JSON(area.*) AS area,
               (
+                WITH max_year AS (
+                  SELECT MAX(year.max) AS year
+                  FROM (
+                    SELECT MAX(year)
+                    FROM indicator_locale
+                    UNION SELECT MAX(year)
+                    FROM subindicator_locale
+                  ) year
+                )
                 SELECT JSON_BUILD_OBJECT(
                   'year', indicator_locale.year,
                   'value_relative', indicator_locale.value_relative,
@@ -726,7 +726,7 @@ SQL_QUERY
                 FROM indicator_locale
                   WHERE indicator_locale.indicator_id = indicator.id
                     AND indicator_locale.locale_id    = locale.id
-                    AND indicator_locale.year         = ?
+                    AND indicator_locale.year         = ( SELECT year FROM max_year )
                 ORDER BY indicator_locale.year DESC
                 LIMIT 1
               ) AS values
@@ -736,7 +736,7 @@ SQL_QUERY
             JOIN indicator_locale
               ON indicator.id = indicator_locale.indicator_id
                 AND indicator_locale.locale_id = locale.id
-            WHERE indicator.id = ?
+            WHERE indicator.id IN (@{[join ',', map '?', @{ $indicator_ids }]})
             ORDER BY indicator.id
             LIMIT 1
           ) AS "row"

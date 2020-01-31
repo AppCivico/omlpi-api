@@ -193,6 +193,7 @@ paths:
                       example: "INEP: Censo Escolar - Matrículas"
                     area:
                       $ref: '#/definitions/Area'
+
   /data:
     get:
       operationId: showData
