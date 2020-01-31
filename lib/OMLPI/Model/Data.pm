@@ -674,7 +674,7 @@ SQL_QUERY
 sub get_random_indicator {
     my $self = shift;
 
-    my $db = $self->app->db;
+    my $db = $self->app->pg->db;
 
     #my $year = $self->app->model('Data')->get_max_year()->array->[0];
 

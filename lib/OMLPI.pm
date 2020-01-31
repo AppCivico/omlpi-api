@@ -31,7 +31,6 @@ sub startup {
 
     # Helpers
     $self->helper(pg => sub { state $pg = OMLPI::DatabaseConnection->get_mojo_pg() });
-    $self->helper(db => sub { state $db = $self->pg->db });
     $self->helper('reply.exception' => sub { OMLPI::Controller::reply_exception(@_) });
     $self->helper('reply.not_found' => sub { OMLPI::Controller::reply_not_found(@_) });
 
