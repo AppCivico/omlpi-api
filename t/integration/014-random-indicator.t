@@ -34,7 +34,7 @@ subtest_buffered 'Get random indicator' => sub {
           FROM indicator
 SQL_QUERY
 
-        ok $db->query("REFRESH MATERIALIZED VIEW random_locale_indicator;"), 'refresh materialized view';
+        ok $db->query("REFRESH MATERIALIZED VIEW random_locale_indicator"), 'refresh materialized view';
 
         # Test endpoint
         $t->get_ok("/v1/data/random_indicator")
