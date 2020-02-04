@@ -430,6 +430,12 @@ paths:
       operationId: showDataRandomIndicator
       tags:
         - data
+      parameters:
+        - name: locale_id_ne
+          description: The ids of the locales to exclude from results
+          in: query
+          type: integer
+          required: false
       responses:
         200:
           description: Random indicator data

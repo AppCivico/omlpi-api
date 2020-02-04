@@ -672,22 +672,28 @@ SQL_QUERY
 }
 
 sub get_random_indicator {
-    my $self = shift;
+    my ($self, %args) = @_;
+
+    my $locale_id_ne = $args{locale_id_ne};
 
     my $db = $self->app->pg->db;
 
-    #my $year = $self->app->model('Data')->get_max_year()->array->[0];
-
     # Get some random locale which contains data
-    my $random = $db->query(<<'SQL_QUERY');
+    my $cond_locale = '';
+    $cond_locale = "WHERE locale_id NOT IN(@{[join ',', map '?', @{ $locale_id_ne }]})\n"
+      if defined $locale_id_ne && scalar @{$locale_id_ne} > 0;
+
+    my $random = $db->query(<<"SQL_QUERY", @{ $locale_id_ne || [] });
       SELECT
         locale_id,
         ARRAY[random_pick(area_a1), random_pick(area_a2), random_pick(area_a3)] AS indicators
       FROM random_locale_indicator
+      $cond_locale
       ORDER BY RANDOM()
       LIMIT 1
 SQL_QUERY
 
+    # Get data
     my ($locale_id, $indicator_ids) = @{ $random->array };
 
     return $db->query(<<"SQL_QUERY", @{ $indicator_ids }, $locale_id);
