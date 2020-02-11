@@ -568,7 +568,7 @@ sub get_historical {
                   indicator.base,
                   ROW_TO_JSON(area.*) AS area,
                   (
-                    SELECT ROW_TO_JSON(indicator_values)
+                    SELECT ARRAY_AGG(indicator_values)
                     FROM (
                       SELECT
                         indicator_locale.year           AS year,
