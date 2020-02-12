@@ -598,7 +598,7 @@ sub get_historical {
                                   s2.id,
                                   s2.description,
                                   (
-                                    SELECT ROW_TO_JSON(sl)
+                                    SELECT ARRAY_AGG(sl)
                                     FROM (
                                       SELECT
                                         subindicator_locale.year,
