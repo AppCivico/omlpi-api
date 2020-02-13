@@ -47,10 +47,8 @@ eval {
         my @binds = ();
         my $csv = Tie::Handle::CSV->new($tmp, header => 1);
         while (my $line = <$csv>) {
-            #my $area    = $line->{'EIXO_TEMÁTICO'};
-            #my $area_id = $areas{$area} or $logger->logdie("Area '$area' doesn't exists");
             $sql_query .= "(?, ?, ?, ?), ";
-            push @binds, @{$line}{qw(Indicador Nome Tema Base)};
+            push @binds, @{$line}{(qw(Id Nome Tema), 'Fonte de dados')};
         }
         close $csv;
 
@@ -73,15 +71,18 @@ eval {
         my $csv = Tie::Handle::CSV->new($tmp, header => 1);
         my %unique_subindicator;
         while (my $line = <$csv>) {
-            my $id = $line->{Id};
+            my $id = int($line->{ID});
             next if $id == 0 || $unique_subindicator{$id}++;
             $sql_query .= '(?, ?, ?), ';
-            push @binds, @{$line}{qw(Id Nome Classificador)};
+            push @binds, ($id, @{$line}{(qw(Nome Classificador))});
         }
         close $csv;
 
         $sql_query =~ s{, $}{};
         $sql_query .= " ON CONFLICT (id) DO UPDATE SET description = EXCLUDED.description";
+
+        p $sql_query;
+        p \@binds;
 
         $pg->db->query($sql_query, @binds);
         $logger->info("Subindicators loaded!");
@@ -115,8 +116,7 @@ SQL_QUERY
             $line = { %$line };
             my $area_id      = delete $line->{Tema};
             my $year         = delete $line->{Ano};
-            #my $locale_id    = delete $line->{Localidade};
-            my $locale_id    = delete $line->{'Localidade_7'};
+            my $locale_id    = delete $line->{Localidade};
             my $indicator_id = delete $line->{Indicador};
             next if $indicator_id == 0;
 
