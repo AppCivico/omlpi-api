@@ -519,7 +519,7 @@ paths:
 
   /upload_plan:
     post:
-      summary: Send a municipal or state plan
+      summary: Submit a locale plan
       x-mojo-to: 'UploadPlan#post'
       tags:
         - uploads
