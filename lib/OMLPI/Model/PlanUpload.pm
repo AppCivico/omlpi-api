@@ -33,7 +33,7 @@ sub create {
         [qw(id)],
         {
             email         => $args{email},
-            locale_id     => $args{locale_id},
+            message       => $args{message},
             sha256_digest => $digest,
             created_at    => {'>' => \"NOW() - '15 minutes'::interval"},
         }
@@ -56,22 +56,6 @@ sub create {
 
     close $fh;
 
-    # Locale
-    my $locale_id   = $args{locale_id};
-    my $locale      = $self->app->model('Locale')->get_state_or_city_name_with_uf($locale_id)->hash;
-    my $locale_type = $locale->{type};
-    if (!$locale_type =~ m{^(city|state)$}) {
-        die {
-            errors => [
-                {
-                    message => "Expected a city or a state - got $locale_type.",
-                    path    => '/locale_id',
-                },
-            ],
-            status => 400,
-        };
-    }
-
     # Get template
     my $home = mojo_home();
     my $template = $home->rel_file('resources/plan/template.tt')->to_abs;
@@ -87,9 +71,9 @@ sub create {
         subject  => 'Upload de plano',
         template => $slurp,
         vars     => {
-            name  => $args{name},
-            email => $args{email},
-            city  => $locale->{name},
+            name     => $args{name},
+            email    => $args{email},
+            message  => $args{message},
         },
         attachments => [{
             fh   => $zipfile,
@@ -110,7 +94,7 @@ sub create {
             {
                 name          => $args{name},
                 email         => $args{email},
-                locale_id     => $locale_id,
+                message       => $args{message},
                 filename      => $upload->filename,
                 sha256_digest => $digest,
             },
