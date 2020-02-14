@@ -9,20 +9,18 @@ my $pg = $t->app->pg;
 my $db = $pg->db;
 
 eval {
-    $db->query('truncate plan_upload restart identity');
-    $db->query('truncate minion_jobs restart identity');
-    $db->query('truncate minion_locks restart identity');
-    $db->query('truncate minion_workers restart identity');
+    $db->query(qq{truncate "$_" restart identity})
+      for qw(plan_upload minion_jobs minion_locks minion_workers);
 };
 ok $@ eq '' || $@ =~ m{relation "minion_(jobs|locks|workers)" does not exist at};
 
 subtest_buffered 'UploadPlan | post' => sub {
 
-    my $city = $pg->db->select('city', ['id'], undef, { limit => 1 } )->hash;
+    my $message = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dignissim lorem sit amet.';
 
     $t->post_ok("/v1/upload_plan", form => {
         name      => 'Junior M',
-        locale_id => $city->{id},
+        message   => $message,
         email     => 'carlos@appcivico.com',
         file      => { file => "$RealBin/../data/logo.pdf" },
       })
@@ -30,7 +28,7 @@ subtest_buffered 'UploadPlan | post' => sub {
 
     $t->post_ok("/v1/upload_plan", form => {
         name      => 'Junior M',
-        locale_id => $city->{id},
+        message   => $message,
         email     => 'carlos@appcivico.com',
         file      => { file => "$RealBin/../data/logo.pdf" },
       })

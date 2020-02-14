@@ -7,3 +7,4 @@
 0003-plan-upload [0002-locale-latlong] 2020-01-10T18:39:01Z junior,,, <junior@fvox> # an-upload
 0004-state-country [0003-plan-upload] 2020-01-17T18:59:13Z junior,,, <junior@fvox> # ate-country
 0005-array-intersect [0004-state-country] 2020-01-30T17:26:04Z Junior Moraes <juniorfvox@gmail.com> # iarray-intersect
+0006-change-plan-upload-fields [0005-array-intersect] 2020-02-14T12:06:38Z Junior Moraes <juniorfvox@gmail.com> # ichange-plan-upload-fields
