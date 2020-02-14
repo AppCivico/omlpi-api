@@ -536,10 +536,10 @@ paths:
           description: Your name
           type: string
           required: true
-        - name: locale_id
+        - name: message
           in: formData
-          description: The id of your locale. It should be a city or a state
-          type: integer
+          description: Write an message
+          type: string
           required: true
         - name: email
           in: formData
