@@ -645,9 +645,6 @@ sub get_historical {
                 FROM indicator
                 JOIN area
                   ON area.id = indicator.area_id
-                JOIN indicator_locale
-                  ON indicator.id = indicator_locale.indicator_id
-                    AND indicator_locale.locale_id = locale.id
                 WHERE (?::text IS NULL OR area.id = ?::int)
                   AND EXISTS (
                     SELECT 1
