@@ -20,7 +20,8 @@ sub _validate_comparison {
     my ($c, $locale_id) = @_;
 
     my $type = $c->model('Locale')->get_type($locale_id);
-    if (!($type =~ m{^(city|state)$})) {
+    #if (!($type =~ m{^(city|state)$})) {
+    if ($type eq 'country') {
         die {
             errors => [
                 {
