@@ -9,7 +9,7 @@ my $pg = $t->app->pg;
 
 subtest_buffered 'Get historical series' => sub {
 
-    my $locale_id = 2803609;
+    my $locale_id = 1100122;
     $t->get_ok("/v1/data/historical", form => { locale_id => $locale_id })
       ->json_has('/historical')
       ->status_is(200)
@@ -18,11 +18,11 @@ subtest_buffered 'Get historical series' => sub {
       ->json_has('/historical/0/indicators/0/id')
       ->json_has('/historical/0/indicators/0/description')
       ->json_has('/historical/0/indicators/0/base')
-      ->json_has('/historical/0/indicators/0/subindicators')
-      ->json_has('/historical/0/indicators/0/subindicators/0/classification')
-      ->json_has('/historical/0/indicators/0/subindicators/0/data')
-      ->json_has('/historical/0/indicators/0/subindicators/0/data/0/description')
-      ->json_has('/historical/0/indicators/0/subindicators/0/data/0/values');
+      ->json_has('/historical/0/indicators/3/subindicators')
+      ->json_has('/historical/0/indicators/3/subindicators/0/classification')
+      ->json_has('/historical/0/indicators/3/subindicators/0/data')
+      ->json_has('/historical/0/indicators/3/subindicators/0/data/0/description')
+      ->json_has('/historical/0/indicators/3/subindicators/0/data/0/values');
 };
 
 done_testing();

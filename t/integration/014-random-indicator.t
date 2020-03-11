@@ -4,6 +4,8 @@ use lib "$RealBin/../lib";
 
 use OMLPI::Test;
 
+plan skip_all => 'skip for a while';
+
 my $t = test_instance();
 my $db = $t->app->pg->db;
 

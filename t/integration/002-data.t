@@ -7,7 +7,7 @@ use OMLPI::Test;
 my $t = test_instance();
 my $pg = $t->app->pg;
 
-my $locale_id = 2803609;
+my $locale_id = 1100122;
 
 subtest_buffered 'Get data from locale' => sub {
 
