@@ -34,6 +34,9 @@ my $db = $pg->db;
 my %areas = map { $_->{name} => $_->{id} }
             @{ $pg->db->select('area', [qw<id name>])->hashes };
 
+my %locales = map { $_->{id} => 1 }
+            @{ $pg->db->select('locale', [qw(id)])->hashes };
+
 eval {
     my $tx = $db->begin();
     {
@@ -47,10 +50,8 @@ eval {
         my @binds = ();
         my $csv = Tie::Handle::CSV->new($tmp, header => 1);
         while (my $line = <$csv>) {
-            #my $area    = $line->{'EIXO_TEMÁTICO'};
-            #my $area_id = $areas{$area} or $logger->logdie("Area '$area' doesn't exists");
             $sql_query .= "(?, ?, ?, ?), ";
-            push @binds, @{$line}{qw(Indicador Nome Tema Base)};
+            push @binds, @{$line}{(qw(Id Nome Tema), 'Fonte de dados')};
         }
         close $csv;
 
@@ -73,10 +74,10 @@ eval {
         my $csv = Tie::Handle::CSV->new($tmp, header => 1);
         my %unique_subindicator;
         while (my $line = <$csv>) {
-            my $id = $line->{Id};
+            my $id = int($line->{ID}) or next;
             next if $id == 0 || $unique_subindicator{$id}++;
             $sql_query .= '(?, ?, ?), ';
-            push @binds, @{$line}{qw(Id Nome Classificador)};
+            push @binds, ($id, @{$line}{(qw(Nome Classificador))});
         }
         close $csv;
 
@@ -115,10 +116,14 @@ SQL_QUERY
             $line = { %$line };
             my $area_id      = delete $line->{Tema};
             my $year         = delete $line->{Ano};
-            #my $locale_id    = delete $line->{Localidade};
-            my $locale_id    = delete $line->{'Localidade_7'};
             my $indicator_id = delete $line->{Indicador};
+            my $locale_id    = delete($line->{Localidade});
             next if $indicator_id == 0;
+
+            if (!$locales{$locale_id}) {
+                $logger->warn(sprintf "A locale id '%d' não existe no banco!", $locale_id);
+                next;
+            }
 
             # Get indicator values
             my $value_relative = $line->{'D0_R'};
@@ -166,8 +171,11 @@ SQL_QUERY
             my $area_id      = delete $line->{Tema};
             my $year         = delete $line->{Ano};
             my $indicator_id = delete $line->{Indicador};
-            #my $locale_id    = delete $line->{Localidade};
-            my $locale_id    = delete $line->{'Localidade_7'};
+            my $locale_id    = delete $line->{Localidade};
+            if (!$locales{$locale_id}) {
+                $logger->warn(sprintf "A locale id '%d' não existe no banco!", $locale_id);
+                next;
+            }
 
             my %subindicators = map { s{(_[RA])$}{}; $_ => 1 } grep { m{^D} } keys %{$line};
             for my $k (keys %subindicators) {

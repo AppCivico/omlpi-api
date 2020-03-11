@@ -1,0 +1,8 @@
+"Indicador","Nome","Tema","Base"
+1,"Número de matrículas de educação infantil - Creche",2,"INEP: Censo Escolar - Matrículas"
+2,"Número de matrículas de educação infantil - Pré-escola",2,"INEP: Censo Escolar - Matrículas"
+3,"Proporção de docentes da educação infantil com ensino superior completo - Creches",2,"INEP: Censo Escolar - Docentes"
+4,"Proporção de docentes da educação infantil com ensino superior completo - Pré-escola",2,"INEP: Censo Escolar - Docentes"
+5,"Proporção de nascidos vivos cujas mães realizaram pelo menos 7 consultas pré-natal",3,"Ministério da Saúde: Sistema de Informações sobre Nascidos Vivos (Sinasc)"
+6,"Número de Centros de Referência em Assistência Social – CRAS",1,"Ministério da Cidadania: Censo SUAS"
+7,"Número de crianças beneficiárias do Programa Bolsa Família",1,"Ministério da Cidadania: Senarc"
