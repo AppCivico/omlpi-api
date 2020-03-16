@@ -24,27 +24,27 @@ subtest_buffered 'Compare two locales' => sub {
 
         my $city_id = 2803609;
         my $state_id = 28;
-        $pg->db->query(<<'SQL_QUERY', $state_id, $city_id);
-          UPDATE indicator_locale
-            SET locale_id = ?
-          WHERE locale_id IN (
-            SELECT DISTINCT(locale_id)
-            FROM indicator_locale
-            WHERE locale_id <> ?
-            LIMIT 1
-          )
-SQL_QUERY
+#         $pg->db->query(<<'SQL_QUERY', $state_id, $city_id);
+#           UPDATE indicator_locale
+#             SET locale_id = ?
+#           WHERE locale_id IN (
+#             SELECT DISTINCT(locale_id)
+#             FROM indicator_locale
+#             WHERE locale_id <> ?
+#             LIMIT 1
+#           )
+# SQL_QUERY
 
-        $pg->db->query(<<'SQL_QUERY', $state_id, $city_id);
-          UPDATE subindicator_locale
-            SET locale_id = ?
-          WHERE locale_id IN (
-            SELECT DISTINCT(locale_id)
-            FROM subindicator_locale
-            WHERE locale_id <> ?
-            LIMIT 1
-          )
-SQL_QUERY
+#         $pg->db->query(<<'SQL_QUERY', $state_id, $city_id);
+#           UPDATE subindicator_locale
+#             SET locale_id = ?
+#           WHERE locale_id IN (
+#             SELECT DISTINCT(locale_id)
+#             FROM subindicator_locale
+#             WHERE locale_id <> ?
+#             LIMIT 1
+#           )
+# SQL_QUERY
 
         $t->get_ok("/v1/data/compare", form => { locale_id => $city_id })
           ->status_is(200)
