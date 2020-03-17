@@ -56,7 +56,7 @@ eval {
         close $csv;
 
         $sql_query =~ s{, $}{};
-        $sql_query .= " ON CONFLICT (id) DO UPDATE SET description = EXCLUDED.description, base = EXCLUDED.base";
+        $sql_query .= " ON CONFLICT (id) DO UPDATE SET description = EXCLUDED.description, base = EXCLUDED.base, area_id = EXCLUDED.area_id";
 
         $pg->db->query($sql_query, @binds);
         $logger->info("Indicators loaded!");
