@@ -518,7 +518,7 @@ SQL_QUERY
         while (my $r = $res->[0]->hash) {
             # Write lines
             my @keys = qw(
-                locale_name area_name indicator_description indicator_value_relative indicator_value_absolute
+                locale_name area_name indicator_description average_relative average_absolute
                 subindicator_description subindicator_classification subindicator_value_relative
                 subindicator_value_absolute
             );
