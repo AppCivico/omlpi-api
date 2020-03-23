@@ -456,14 +456,14 @@ sub download_indicator {
         subs.classification              AS subindicator_classification,
         subs.value_relative              AS subindicator_value_relative,
         subs.value_absolute              AS subindicator_value_absolute
-      FROM indicator
-      JOIN indicator_locale
-        ON indicator_locale.id = indicator.id
+      FROM indicator_locale
+      JOIN indicator
+        ON indicator_locale.indicator_id = indicator.id
       JOIN area
         ON area.id = indicator.area_id
       JOIN locale
         ON locale.id = indicator_locale.locale_id
-      INNER JOIN LATERAL (
+      LEFT JOIN LATERAL (
         SELECT
           subindicator.description,
           subindicator.classification,
