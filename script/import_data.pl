@@ -11,7 +11,7 @@ use Scope::OnExit;
 use Archive::Zip;
 use File::Temp qw(:POSIX);
 use Data::Printer;
-use OMLPI::Utils qw(nullif);
+use OMLPI::Utils qw(nullif trim);
 
 my $logger = get_logger();
 
@@ -130,8 +130,8 @@ SQL_QUERY
             my $value_absolute = $line->{'D0_A'};
             $value_relative    =~ s/,/./ if $value_relative =~ m{^[0-9+]+,[0-9]+$};
             $value_absolute    =~ s/,/./ if $value_absolute =~ m{^[0-9+]+,[0-9]+$};
-            $value_relative    = nullif($value_relative, '');
-            $value_absolute    = nullif($value_absolute, '');
+            $value_relative    = nullif(trim($value_relative), '');
+            $value_absolute    = nullif(trim($value_absolute), '');
 
             # Insert data
             if (defined($value_relative) || defined($value_absolute)) {
@@ -189,8 +189,8 @@ SQL_QUERY
                 my $value_absolute = $line->{"D${subindicator_id}_A"};
                 $value_relative    =~ s/,/./ if $value_relative =~ m{^[0-9+]+,[0-9]+$};
                 $value_absolute    =~ s/,/./ if $value_absolute =~ m{^[0-9+]+,[0-9]+$};
-                $value_relative    = nullif($value_relative, '');
-                $value_absolute    = nullif($value_absolute, '');
+                $value_relative    = nullif(trim($value_relative), '');
+                $value_absolute    = nullif(trim($value_absolute), '');
 
                 # Insert data if has data
                 if (defined($value_relative) || defined($value_absolute)) {

@@ -1,10 +1,11 @@
 package OMLPI::Utils;
 use Mojo::Base -strict;
 
+use Mojo::Util qw(trim);
 use vars qw(@ISA @EXPORT);
 
 @ISA    = (qw(Exporter));
-@EXPORT = qw(is_test env nullif mojo_home);
+@EXPORT = qw(is_test env nullif mojo_home trim);
 
 state $_home;
 
