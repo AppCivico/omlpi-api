@@ -134,8 +134,10 @@ SQL_QUERY
             $value_absolute    = nullif($value_absolute, '');
 
             # Insert data
-            $text_csv->combine($indicator_id, $locale_id, $year, $value_relative, $value_absolute);
-            $dbh->pg_putcopydata($text_csv->string());
+            if (defined($value_relative) || defined($value_absolute)) {
+                $text_csv->combine($indicator_id, $locale_id, $year, $value_relative, $value_absolute);
+                $dbh->pg_putcopydata($text_csv->string());
+            }
         }
         $dbh->pg_putcopyend() or $logger->logdie("Error on pg_putcopyend()");
         $logger->debug("COPY ended!");
