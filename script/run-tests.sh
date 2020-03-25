@@ -19,7 +19,6 @@ sqitch deploy -t $SQITCH_DEPLOY
 
 # Upsert data
 perl script/import_data.pl
-perl script/omlpi-api data_spreadsheet
 
 # Run tests
 rm -f /src/test-logs/*
