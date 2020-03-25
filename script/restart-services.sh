@@ -13,5 +13,7 @@ export SQITCH_DEPLOY=${SQITCH_DEPLOY:=docker}
 cpanm -nv . --installdeps
 sqitch deploy -t $SQITCH_DEPLOY
 
+perl script/omlpi-api data_spreadsheet
+
 LIBEV_FLAGS=4 hypnotoad script/omlpi-api
 pgrep -f 'minion worker$' | xargs kill -INT
