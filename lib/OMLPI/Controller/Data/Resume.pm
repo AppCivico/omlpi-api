@@ -19,7 +19,7 @@ sub get {
 
     return $c->render_file(
         filepath => $attachment,
-        filename => 'Resumo.pdf',
+        filename => "Resumo_${locale_id}.pdf",
         format   => 'pdf',
         cleanup  => 1,
     );
