@@ -11,7 +11,8 @@ sub get {
     my $year      = $c->param('year');
     my $locale_id = $c->param('locale_id');
 
-    $year = $c->model('Data')->get_max_year()->hash->{year}
+    # Get max year
+    $year = $c->model('Data')->get_max_year(locale_id => $locale_id)->hash->{year}
       if not defined $year;
 
     my $attachment = $c->model('Data')->get_resume(locale_id => $locale_id, year => $year);

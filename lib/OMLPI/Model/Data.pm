@@ -273,15 +273,20 @@ SQL_QUERY
 }
 
 sub get_max_year {
-    my $self = shift;
+    my ($self, %opts) = @_;
 
-    return $self->app->pg->db->query(<<"SQL_QUERY");
+    my $locale_id = $opts{locale_id};
+    my @binds = (($locale_id) x 4);
+
+    return $self->app->pg->db->query(<<"SQL_QUERY", @binds);
       SELECT MAX(years.max) AS year
       FROM (
         SELECT MAX(year)
         FROM indicator_locale
+        WHERE (?::int IS NULL OR locale_id = ?)
         UNION SELECT MAX(year)
         FROM subindicator_locale
+        WHERE (?::int IS NULL OR locale_id = ?)
       ) years
 SQL_QUERY
 }
