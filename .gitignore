@@ -87,3 +87,5 @@ docker/crontab
 # LibreOffice lockfiles
 .~lock.*.*#
 
+# Project files
+public/data_spreadsheet.xlsx
