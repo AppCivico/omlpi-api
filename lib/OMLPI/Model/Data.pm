@@ -540,7 +540,7 @@ SQL_QUERY
         $footer_format->set_size(9);
 
         $line += 5;
-        $worksheet->write($line++, 0, 'Dados extraídos pelo Observa', $footer_format);
+        $worksheet->write($line++, 0, 'Dados extraídos pela plataforma Observa', $footer_format);
         my $now = $self->app->model('DateTime')->now();
         $worksheet->write(
             $line++,
