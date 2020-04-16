@@ -24,12 +24,17 @@ sub do {
 
     my $log = $job->app->log;
     $log->info('Sending email...');
-    if ($mailer->send($email, $bcc)) {
-        $log->info('Email sent!');
-        return $job->finish(1);
+    eval {
+        if ($mailer->send($email, $bcc)) {
+            $log->info('Email sent!');
+            return $job->finish(1);
+        }
+    };
+    if ($@) {
+        $log->error(sprintf "Can't send email: %s", $@);
     }
 
-    $log->error('Cant send email!');
+    $log->error('Job failed!');
     return $job->fail();
 }
 
