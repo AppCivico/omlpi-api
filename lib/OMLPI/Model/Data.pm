@@ -535,21 +535,22 @@ SQL_QUERY
         }
 
         # Add timestamp
-        my $timestamp_format = $workbook->add_format();
-        $timestamp_format->set_italic();
-        $timestamp_format->set_size(9);
+        my $footer_format = $workbook->add_format();
+        $footer_format->set_italic();
+        $footer_format->set_size(9);
 
         $line += 5;
+        $worksheet->write($line++, 0, 'Dados extraídos pelo Observa', $footer_format);
         my $now = $self->app->model('DateTime')->now();
         $worksheet->write(
-            $line,
+            $line++,
             0,
             sprintf(
-                "Dados extraídos em %02d/%02d/%02d às %02d:%02d horário de Brasília.",
+                "%02d/%02d/%02d às %02d:%02d horário de Brasília.",
                 $now->day, $now->month, $now->year,
                 $now->hour, $now->minute,
             ),
-            $timestamp_format,
+            $footer_format,
         );
 
         close $fh;
