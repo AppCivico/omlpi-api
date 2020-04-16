@@ -22,9 +22,14 @@ sub do {
         smtp_password => $ENV{SMTP_PASSWORD},
     );
 
+    my $log = $job->app->log;
+    $log->info('Sending email...');
     if ($mailer->send($email, $bcc)) {
+        $log->info('Email sent!');
         return $job->finish(1);
     }
+
+    $log->error('Cant send email!');
     return $job->fail();
 }
 
