@@ -460,7 +460,8 @@ sub download_indicator {
         subs.description                 AS subindicator_description,
         subs.classification              AS subindicator_classification,
         subs.value_relative              AS subindicator_value_relative,
-        subs.value_absolute              AS subindicator_value_absolute
+        subs.value_absolute              AS subindicator_value_absolute,
+        indicator.base                   AS base
       FROM indicator_locale
       JOIN indicator
         ON indicator_locale.indicator_id = indicator.id
@@ -511,7 +512,7 @@ SQL_QUERY
         # Headers
         my @headers = (
             qw(LOCALIDADE TEMA INDICADOR), 'MÉDIA RELATIVA', 'MÉDIA ABSOLUTA', qw(DESAGREGADOR CLASSIFICAÇÃO),
-            'VALOR RELATIVO', 'VALOR ABSOLUTO',
+            'VALOR RELATIVO', 'VALOR ABSOLUTO', 'FONTE',
         );
 
         for (my $i = 0; $i < scalar @headers; $i++) {
@@ -525,13 +526,31 @@ SQL_QUERY
             my @keys = qw(
                 locale_name area_name indicator_description average_relative average_absolute
                 subindicator_description subindicator_classification subindicator_value_relative
-                subindicator_value_absolute
+                subindicator_value_absolute base
             );
             for (my $i = 0; $i < scalar @keys; $i++) {
                 $worksheet->write($line, $i, $r->{$keys[$i]});
             }
             $line++;
         }
+
+        # Add timestamp
+        my $timestamp_format = $workbook->add_format();
+        $timestamp_format->set_italic();
+        $timestamp_format->set_size(9);
+
+        $line += 5;
+        my $now = $self->app->model('DateTime')->now();
+        $worksheet->write(
+            $line,
+            0,
+            sprintf(
+                "Dados extraídos em %02d/%02d/%02d às %02d:%02d horário de Brasília.",
+                $now->day, $now->month, $now->year,
+                $now->hour, $now->minute,
+            ),
+            $timestamp_format,
+        );
 
         close $fh;
         return $fh, $locale->[0]->hash->{name};

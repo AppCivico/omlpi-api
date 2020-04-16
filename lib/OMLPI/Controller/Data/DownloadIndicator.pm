@@ -18,9 +18,10 @@ sub get {
       ->then(sub {
           my $file        = shift;
           my $locale_name = shift;
-             $locale_name = unac_string('utf8', $locale_name);
-             $locale_name = ~ s{\s+}{_}g;
-             $locale_name = ~ s{[^A-Za-z_]+}{}g;
+
+          $locale_name = unac_string('utf8', $locale_name);
+          $locale_name =~ s{\s+}{_}g;
+          $locale_name =~ s{[^A-Za-z_]+}{}g;
 
           my $filename = sprintf("Observa_%s_%d", $locale_name, $indicator_id);
 
