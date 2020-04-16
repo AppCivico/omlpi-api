@@ -1,6 +1,7 @@
 package OMLPI::Controller::Data::DownloadIndicator;
 use Mojo::Base 'OMLPI::Controller';
 
+use Text::Unaccent;
 use Data::Printer;
 
 sub get {
@@ -15,10 +16,13 @@ sub get {
     $c->render_later();
     return $c->model('Data')->download_indicator(locale_id => $locale_id, year => $year, indicator_id => $indicator_id)
       ->then(sub {
-          my $file = shift;
+          my $file        = shift;
           my $locale_name = shift;
+             $locale_name = unac_string('utf8', $locale_name);
+             $locale_name = ~ s{\s+}{_}g;
+             $locale_name = ~ s{[^A-Za-z_]+}{}g;
 
-          my $filename = sprintf("%s_Indicador_%d.xlsx", $locale_name, $indicator_id);
+          my $filename = sprintf("Observa_%s_%d", $locale_name, $indicator_id);
 
           return $c->render_file(
               filepath => $file->filename,
