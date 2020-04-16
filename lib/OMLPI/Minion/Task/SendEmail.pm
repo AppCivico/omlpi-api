@@ -27,15 +27,17 @@ sub do {
     eval {
         if ($mailer->send($email, $bcc)) {
             $log->info('Email sent!');
-            return $job->finish(1);
+        }
+        else {
+            die "Minion::Task::SendEmail::Mailer::send() returns FALSE";
         }
     };
     if ($@) {
         $log->error(sprintf "Can't send email: %s", $@);
+        return $job->fail();
     }
 
-    $log->error('Job failed!');
-    return $job->fail();
+    return $job->finish(1);
 }
 
 1;
