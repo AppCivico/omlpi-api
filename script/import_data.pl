@@ -6,6 +6,7 @@ use lib "$RealBin/../lib";
 use OMLPI::Logger qw(get_logger);
 use OMLPI::DatabaseConnection;
 
+use Text::CSV;
 use Tie::Handle::CSV;
 use Scope::OnExit;
 use Archive::Zip;
@@ -72,7 +73,7 @@ eval {
 
         my $sql_query = 'INSERT INTO subindicator (id, description, classification) VALUES ';
         my @binds = ();
-        my $csv = Tie::Handle::CSV->new($tmp, header => 1);
+        my $csv = Tie::Handle::CSV->new($tmp, header => 1, sep_char => ';');
         my %unique_subindicator;
         while (my $line = <$csv>) {
             my $id = int($line->{ID}) or next;
@@ -110,9 +111,14 @@ eval {
 SQL_QUERY
 
         my $dbh = $db->dbh;
-        my $csv = Tie::Handle::CSV->new($tmp, header => 1);
-        my $text_csv = *$csv->{opts}{csv_parser};
-        $text_csv->eol("\n");
+        my $csv = Tie::Handle::CSV->new($tmp, header => 1, sep_char => ';');
+        #my $text_csv = *$csv->{opts}{csv_parser};
+        #$text_csv->eol("\n");
+        my $text_csv = Text::CSV->new({
+            binary => 1,
+            eol    => "\n",
+        });
+
         while (my $line = <$csv>) {
             $line = { %$line };
             my $area_id      = delete $line->{Tema};
