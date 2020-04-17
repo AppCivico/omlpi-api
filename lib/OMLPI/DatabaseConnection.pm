@@ -26,7 +26,7 @@ sub get_mojo_pg {
 
     # Load envs
     $ENV{$_->{name}} = $_->{value}
-      for $pg->db->query('select * from config where valid_to >= now()')
+      for $pg->db->query('select * from config where valid_from <= now() and valid_to >= now()')
         ->hashes
         ->each;
 
