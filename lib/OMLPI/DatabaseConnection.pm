@@ -13,7 +13,7 @@ use OMLPI::Logger;
 sub get_mojo_pg {
     undef $OMLPI::Logger::instance;
 
-    return Mojo::Pg->new(
+    my $pg = Mojo::Pg->new(
         sprintf(
             'postgresql://%s:%s@%s:%s/%s',
             $ENV{POSTGRESQL_USER}     || 'postgres',
@@ -23,6 +23,14 @@ sub get_mojo_pg {
             $ENV{POSTGRESQL_DBNAME}   || 'omlpi_dev',
         )
     );
+
+    # Load envs
+    $ENV{$_->{name}} = $_->{value}
+      for $pg->db->query('select * from config where valid_to >= now()')
+        ->hashes
+        ->each;
+
+    return $pg;
 }
 
 1;
