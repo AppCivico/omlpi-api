@@ -48,10 +48,11 @@ eval {
 
         my $sql_query = 'INSERT INTO indicator (id, description, area_id, base) VALUES ';
         my @binds = ();
-        my $csv = Tie::Handle::CSV->new($tmp, header => 1);
+        my $csv = Tie::Handle::CSV->new($tmp, header => 1, sep_char => ';');
         while (my $line = <$csv>) {
             $sql_query .= "(?, ?, ?, ?), ";
-            push @binds, @{$line}{(qw(Id Nome Tema), 'Fonte de dados')};
+            #push @binds, @{$line}{(qw(Id Nome Tema), 'Fonte de dados')};
+            push @binds, @{$line}{(qw(Indicador Nome Tema Base))};
         }
         close $csv;
 
