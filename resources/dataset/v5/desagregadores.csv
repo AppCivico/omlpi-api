@@ -1,0 +1,244 @@
+Tema;Indicador;ID;Nome;Classificador
+1;101;0;Nacional;Brasil
+1;101;11;Maternidades;Maternidades com posto avançado de cartório de registro civil
+1;102;0;Nacional;Brasil
+1;102;1;Feminino;Sexo do cuidador
+1;102;2;Masculino;Sexo do cuidador
+1;102;3;Branca;Raça/Cor do cuidador
+1;102;4;Negra;Raça/Cor do cuidador
+1;102;5;Urbano;Localização do domicílio
+1;102;6;Rural;Localização do domicílio
+1;102;12;Auxilio nos cuidados pessoais;Tarefas de cuidado com crianças de 0 a 5 anos no domicílio
+1;102;13;Auxílio em atividades educacionais;Tarefas de cuidado com crianças de 0 a 5 anos no domicílio
+1;102;14;Auxílio em ler, jogar ou brincar;Tarefas de cuidado com crianças de 0 a 5 anos no domicílio
+1;102;15;Monitorar ou fazer companhia;Tarefas de cuidado com crianças de 0 a 5 anos no domicílio
+1;102;16;Transportar ou acompanhar para escola, médico, etc;Tarefas de cuidado com crianças de 0 a 5 anos no domicílio
+1;102;17;Realizou outras tarefas de cuidados;Tarefas de cuidado com crianças de 0 a 5 anos no domicílio
+1;103;0;Nacional;Brasil
+1;103;1;Feminino;Sexo
+1;103;2;Masculino;Sexo
+1;103;3;Branca;Raça/Cor
+1;103;4;Negra;Raça/Cor
+1;103;5;Urbano;Localização do domicílio
+1;103;6;Rural;Localização do domicílio
+1;103;7;0 a 2 anos;Faixa etária da criança
+1;103;8;3 a 5 anos;Faixa etária da criança
+1;103;9;Até 25% salário mínimo;Rendimento de até 1/4 de salário mínimo
+1;104;0;Nacional;Brasil
+1;104;1;Feminino;Sexo
+1;104;2;Masculino;Sexo
+1;104;3;Branca;Raça/Cor
+1;104;4;Negra;Raça/Cor
+1;104;43;Amarela;Raça/cor da criança
+1;104;44;Indígena;Raça/cor da criança
+1;104;5;Urbano;Localização do domicílio
+1;104;6;Rural;Localização do domicílio
+1;104;51;0 a 2 anos;Faixa etária da criança
+1;104;52;3 a 5 anos;Faixa etária da criança
+1;107;0;Nacional;Brasil
+1;108;0;Nacional;Brasil
+1;108;1;Feminino;Sexo
+1;108;2;Masculino;Sexo
+1;109;0;Nacional;Brasil
+1;109;5;Urbano;Localização do domicílio
+1;109;6;Rural;Localização do domicílio
+1;111;0;Nacional;Brasil
+1;111;3;Branca;Raça/Cor
+1;111;4;Negra;Raça/Cor
+1;111;5;Urbano;Localização do domicílio
+1;111;6;Rural;Localização do domicílio
+1;111;9;Até 25% salário mínimo;Rendimento de até 1/4 de salário mínimo
+1;111;10;Até meio salário mínimo;Rendimento de até 1/2 de salário mínimo
+2;201;0;Nacional;Brasil
+2;201;1;Feminino;Sexo
+2;201;2;Masculino;Sexo
+2;201;3;Branca;Raça/cor da criança
+2;201;4;Negra;Raça/cor da criança
+2;201;43;Amarela;Raça/cor da criança
+2;201;44;Indígena;Raça/cor da criança
+2;201;5;Urbano;Localização da escola
+2;201;6;Rural;Localização da escola
+2;201;45;Deficiência, transtorno do espectro autista ou altas habilidades/superdotação;Público da Educação Especial
+2;201;46;Rede federal;Dependência Administrativa da escola
+2;201;47;Rede estadual;Dependência Administrativa da escola
+2;201;48;Rede municipal;Dependência Administrativa da escola
+2;201;13;Rede particular;Dependência Administrativa da escola
+2;201;49;Conveniada com o Poder Público;Convênio com Poder Público
+2;201;50;Não conveniada com o Poder Público;Convênio com Poder Público
+2;202;0;Nacional;Brasil
+2;202;1;Feminino;Sexo
+2;202;2;Masculino;Sexo
+2;202;3;Branca;Raça/cor da criança
+2;202;4;Negra;Raça/cor da criança
+2;202;43;Amarela;Raça/cor da criança
+2;202;44;Indígena;Raça/cor da criança
+2;202;5;Urbano;Localização da escola
+2;202;6;Rural;Localização da escola
+2;202;45;Deficiência, transtorno do espectro autista ou altas habilidades/superdotação;Público da Educação Especial
+2;202;46;Rede federal;Dependência Administrativa da escola
+2;202;47;Rede estadual;Dependência Administrativa da escola
+2;202;48;Rede municipal;Dependência Administrativa da escola
+2;202;13;Rede particular;Dependência Administrativa da escola
+2;202;49;Conveniada com o Poder Público;Convênio com Poder Público
+2;202;50;Não conveniada com o Poder Público;Convênio com Poder Público
+2;207;0;Nacional;Brasil
+2;207;1;Feminino;Sexo
+2;207;2;Masculino;Sexo
+2;207;3;Branca;Raça/cor da criança
+2;207;4;Negra;Raça/cor da criança
+2;207;43;Amarela;Raça/cor da criança
+2;207;44;Indígena;Raça/cor da criança
+2;207;5;Urbano;Localização da escola
+2;207;6;Rural;Localização da escola
+2;207;45;Deficiência, transtorno do espectro autista ou altas habilidades/superdotação;Público da Educação Especial
+2;207;46;Rede federal;Dependência Administrativa da escola
+2;207;47;Rede estadual;Dependência Administrativa da escola
+2;207;48;Rede municipal;Dependência Administrativa da escola
+2;207;13;Rede particular;Dependência Administrativa da escola
+2;207;49;Conveniada com o Poder Público;Convênio com Poder Público
+2;207;50;Não conveniada com o Poder Público;Convênio com Poder Público
+2;208;0;Nacional;Brasil
+2;208;1;Feminino;Sexo
+2;208;2;Masculino;Sexo
+2;208;3;Branca;Raça/cor da criança
+2;208;4;Negra;Raça/cor da criança
+2;208;43;Amarela;Raça/cor da criança
+2;208;44;Indígena;Raça/cor da criança
+2;208;5;Urbano;Localização da escola
+2;208;6;Rural;Localização da escola
+2;208;45;Deficiência, transtorno do espectro autista ou altas habilidades/superdotação;Público da Educação Especial
+2;208;46;Rede federal;Dependência Administrativa da escola
+2;208;47;Rede estadual;Dependência Administrativa da escola
+2;208;48;Rede municipal;Dependência Administrativa da escola
+2;208;13;Rede particular;Dependência Administrativa da escola
+2;208;49;Conveniada com o Poder Público;Convênio com Poder Público
+2;208;50;Não conveniada com o Poder Público;Convênio com Poder Público
+2;209;0;Nacional;Brasil
+2;209;1;Feminino;Sexo
+2;209;2;Masculino;Sexo
+2;209;3;Branca;Raça/cor da criança
+2;209;4;Negra;Raça/cor da criança
+2;209;43;Amarela;Raça/cor da criança
+2;209;44;Indígena;Raça/cor da criança
+2;209;5;Urbano;Localização da escola
+2;209;6;Rural;Localização da escola
+2;209;46;Rede federal;Dependência Administrativa da escola
+2;209;47;Rede estadual;Dependência Administrativa da escola
+2;209;48;Rede municipal;Dependência Administrativa da escola
+2;209;13;Rede particular;Dependência Administrativa da escola
+2;209;49;Conveniada com o Poder Público;Convênio com Poder Público
+2;209;50;Não conveniada com o Poder Público;Convênio com Poder Público
+2;210;0;Nacional;Brasil
+2;210;1;Feminino;Sexo
+2;210;2;Masculino;Sexo
+2;210;3;Branca;Raça/cor da criança
+2;210;4;Negra;Raça/cor da criança
+2;210;43;Amarela;Raça/cor da criança
+2;210;44;Indígena;Raça/cor da criança
+2;210;5;Urbano;Localização da escola
+2;210;6;Rural;Localização da escola
+2;210;46;Rede federal;Dependência Administrativa da escola
+2;210;47;Rede estadual;Dependência Administrativa da escola
+2;210;48;Rede municipal;Dependência Administrativa da escola
+2;210;13;Rede particular;Dependência Administrativa da escola
+2;210;49;Conveniada com o Poder Público;Convênio com Poder Público
+2;210;50;Não conveniada com o Poder Público;Convênio com Poder Público
+3;301;0;Nacional;Brasil
+3;301;21;BCG;Vacina
+3;301;22;Hepatite B em crianças até 30 dias;Vacina
+3;301;23;Hepatite B;Vacina
+3;301;24;Penta;Vacina
+3;301;25;Tríplice Viral D1;Vacina
+3;301;26;Tríplice Viral D2;Vacina
+3;301;27;Tetra Viral(SRC+VZ);Vacina
+3;301;28;Tríplice Bacteriana(DTP) (1º ref);Vacina
+3;302;0;Nacional;Brasil
+3;303;0;Nacional;Brasil
+3;304;0;Nacional;Brasil
+3;305;0;Nacional;Brasil
+3;305;1;Feminino;Sexo
+3;305;2;Masculino;Sexo
+3;305;3;Branca;Raça/Cor
+3;305;4;Negra;Raça/Cor
+3;306;0;Nacional;Brasil
+3;306;1;Feminino;Sexo
+3;306;2;Masculino;Sexo
+3;306;3;Branca;Raça/Cor
+3;306;4;Negra;Raça/Cor
+3;307;0;Nacional;Brasil
+3;307;1;Feminino;Sexo
+3;307;2;Masculino;Sexo
+3;307;3;Branca;Raça/Cor
+3;307;4;Negra;Raça/Cor
+3;308;0;Nacional;Brasil
+3;308;1;Feminino;Sexo
+3;308;2;Masculino;Sexo
+3;308;3;Branca;Raça/Cor
+3;308;4;Negra;Raça/Cor
+3;309;0;Nacional;Brasil
+3;309;1;Feminino;Sexo
+3;309;2;Masculino;Sexo
+3;309;3;Branca;Raça/Cor
+3;309;4;Negra;Raça/Cor
+3;309;14;Taxa de mortalidade neonatal precoce;Componente da taxa de mortalidade infantil
+3;309;15;Taxa de mortalidade neonatal tardia;Componente da taxa de mortalidade infantil
+3;309;16;Taxa de mortalidade pós-neonatal;Componente da taxa de mortalidade infantil
+3;309;17;Taxa de mortalidade infantil;Taxa de mortalidade infantil
+3;309;18;Taxa de mortalidade na faixa de 1 a 4 anos de idade;Componente da taxa de mortalidade na infância
+3;309;29;Feto e recém-nascido afetados por afecções maternas, não obrigatoriamente relacionadas com a gravidez atual;Causa básica de mortalidade de crianças com menos de 1 ano de vida
+3;309;30;Feto recém-nascido afetados por complicações maternas na gravidez;Causa básica de mortalidade de crianças com menos de 1 ano de vida
+3;309;31;Feto e recém-nascido afetados por complicações da placenta, do cordão umbilical e das membranas;Causa básica de mortalidade de crianças com menos de 1 ano de vida
+3;309;32;Transtornos relacionados com a gestação de curta duração e peso baixo ao nascer não classificados em outra parte;Causa básica de mortalidade de crianças com menos de 1 ano de vida
+3;309;33;Desconforto (angústia) respiratório(a) do recém-nascido;Causa básica de mortalidade de crianças com menos de 1 ano de vida
+3;309;34;Malformações congênitas do coração;Causa básica de mortalidade de crianças com menos de 1 ano de vida
+3;309;35;Septicemia bacteriana do recém-nascido;Causa básica de mortalidade de crianças com menos de 1 ano de vida
+3;309;36;Diarreia e gastroenterite de origem infecciosa presumível;Causa básica de mortalidade de crianças de 1 a 4 anos de vida
+3;309;37;Outras septicemias;Causa básica de mortalidade de crianças de 1 a 4 anos de vida
+3;309;38;Pneumonia por microrganismo não especificada;Causa básica de mortalidade de crianças de 1 a 4 anos de vida
+3;309;39;Malformações congênitas do coração;Causa básica de mortalidade de crianças de 1 a 4 anos de vida
+3;309;40;Outras causas mal definidas e as não especificadas de mortalidade;Causa básica de mortalidade de crianças de 1 a 4 anos de vida
+3;309;41;Afogamento e submersão não especificados;Causa básica de mortalidade de crianças de 1 a 4 anos de vida
+3;309;42;Paralisia cerebral;Causa básica de mortalidade de crianças de 1 a 4 anos de vida
+3;310;0;Nacional;Brasil
+3;310;3;Branca;Raça/Cor
+3;310;4;Negra;Raça/Cor
+3;310;5;10 a 17 anos;Faixa etária da mãe
+3;310;6;18 a 49 anos;Faixa etária da mãe
+3;310;7;Nenhum;Anos de estudos concluídos da mãe
+3;310;8;1 a 3 anos;Anos de estudos concluídos da mãe
+3;310;9;4 a 7 anos;Anos de estudos concluídos da mãe
+3;310;10;8 a 11 anos;Anos de estudos concluídos da mãe
+3;310;11;12 anos ou mais;Anos de estudos concluídos da mãe
+3;311;0;Nacional;Brasil
+3;311;3;Branca;Raça/Cor
+3;311;4;Negra;Raça/Cor
+3;311;5;10 a 17 anos;Faixa etária da mãe
+3;311;6;18 a 49 anos;Faixa etária da mãe
+3;311;7;Nenhum;Anos de estudos concluídos da mãe
+3;311;8;1 a 3 anos;Anos de estudos concluídos da mãe
+3;311;9;4 a 7 anos;Anos de estudos concluídos da mãe
+3;311;10;8 a 11 anos;Anos de estudos concluídos da mãe
+3;311;11;12 anos ou mais;Anos de estudos concluídos da mãe
+3;311;12;Rede pública;Dependência administrativa do estabelecimento de saúde
+3;311;13;Rede particular;Dependência administrativa do estabelecimento de saúde
+3;312;0;Nacional;Brasil
+3;312;3;Branca;Raça/Cor
+3;312;4;Negra;Raça/Cor
+3;312;5;10 a 17 anos;Faixa etária da mãe
+3;312;6;18 a 49 anos;Faixa etária da mãe
+3;312;7;Nenhum;Anos de estudos concluídos da mãe
+3;312;8;1 a 3 anos;Anos de estudos concluídos da mãe
+3;312;9;4 a 7 anos;Anos de estudos concluídos da mãe
+3;312;10;8 a 11 anos;Anos de estudos concluídos da mãe
+3;312;11;12 anos ou mais;Anos de estudos concluídos da mãe
+3;313;0;Nacional;Brasil
+3;313;12;Rede pública;Dependência administrativa do estabelecimento de saúde
+3;313;13;Rede particular;Dependência administrativa do estabelecimento de saúde
+3;314;0;Nacional;Brasil
+3;314;1;Feminino;Sexo
+3;314;2;Masculino;Sexo
+3;314;19;0 a 3 anos;Faixa etária da criança
+3;314;20;4 a 5 anos;Faixa etária da criança
+3;315;0;Nacional;Brasil
+3;316;0;Nacional;Brasil
+;;;;
