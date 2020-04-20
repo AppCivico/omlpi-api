@@ -13,7 +13,7 @@ CREATE TABLE region (
     name TEXT NOT NULL
 );
 
-INSERT INTO region VALUES (301, 'Centro-Oeste'), (302, 'Nordeste'), (303, 'Norte'), (304, 'Sudeste'), (305, 'Sul');
+INSERT INTO region VALUES (5, 'Centro-Oeste'), (2, 'Nordeste'), (1, 'Norte'), (3, 'Sudeste'), (4, 'Sul');
 
 CREATE TABLE state (
     id        INTEGER NOT NULL PRIMARY KEY,
@@ -24,33 +24,33 @@ CREATE TABLE state (
 
 INSERT INTO state (id, name, uf, region_id)
 VALUES
-  (12, 'Acre', 'AC', 303),
-  (27, 'Alagoas', 'AL', 302),
-  (13, 'Amazonas', 'AM', 303),
-  (16, 'Amapá', 'AP', 303),
-  (29, 'Bahia', 'BA', 302),
-  (23, 'Ceará', 'CE', 302),
-  (53, 'Distrito Federal', 'DF', 301),
-  (32, 'Espírito Santo', 'ES', 304),
-  (52, 'Goiás', 'GO', 301),
-  (21, 'Maranhão', 'MA', 302),
-  (31, 'Minas Gerais', 'MG', 304),
-  (50, 'Mato Grosso do Sul', 'MS', 301),
-  (51, 'Mato Grosso', 'MT', 301),
-  (15, 'Pará', 'PA', 303),
-  (25, 'Paraíba', 'PB', 302),
-  (26, 'Pernambuco', 'PE', 302),
-  (22, 'Piauí', 'PI', 302),
-  (41, 'Paraná', 'PR', 305),
-  (33, 'Rio de Janeiro', 'RJ', 304),
-  (24, 'Rio Grande do Norte', 'RN', 302),
-  (11, 'Rondônia', 'RO', 303),
-  (14, 'Roraima', 'RR', 303),
-  (43, 'Rio Grande do Sul', 'RS', 305),
-  (42, 'Santa Catarina', 'SC', 305),
-  (28, 'Sergipe', 'SE', 302),
-  (35, 'São Paulo', 'SP', 304),
-  (17, 'Tocantins', 'TO', 303)
+  (12, 'Acre', 'AC', 1),
+  (27, 'Alagoas', 'AL', 2),
+  (13, 'Amazonas', 'AM', 1),
+  (16, 'Amapá', 'AP', 1),
+  (29, 'Bahia', 'BA', 2),
+  (23, 'Ceará', 'CE', 2),
+  (53, 'Distrito Federal', 'DF', 5),
+  (32, 'Espírito Santo', 'ES', 3),
+  (52, 'Goiás', 'GO', 5),
+  (21, 'Maranhão', 'MA', 2),
+  (31, 'Minas Gerais', 'MG', 3),
+  (50, 'Mato Grosso do Sul', 'MS', 5),
+  (51, 'Mato Grosso', 'MT', 5),
+  (15, 'Pará', 'PA', 1),
+  (25, 'Paraíba', 'PB', 2),
+  (26, 'Pernambuco', 'PE', 2),
+  (22, 'Piauí', 'PI', 2),
+  (41, 'Paraná', 'PR', 4),
+  (33, 'Rio de Janeiro', 'RJ', 3),
+  (24, 'Rio Grande do Norte', 'RN', 2),
+  (11, 'Rondônia', 'RO', 1),
+  (14, 'Roraima', 'RR', 1),
+  (43, 'Rio Grande do Sul', 'RS', 4),
+  (42, 'Santa Catarina', 'SC', 4),
+  (28, 'Sergipe', 'SE', 2),
+  (35, 'São Paulo', 'SP', 3),
+  (17, 'Tocantins', 'TO', 1)
 ;
 
 CREATE TABLE city (
