@@ -721,6 +721,14 @@ SQL_QUERY
     my ($locale_id, $indicator_ids) = @{ $random->array };
 
     return $db->query(<<"SQL_QUERY", @{ $indicator_ids }, $locale_id);
+      WITH max_year AS (
+        SELECT MAX(year.max) AS year
+        FROM (
+          SELECT MAX(year)
+          FROM indicator_locale
+          UNION SELECT MAX(year)
+          FROM subindicator_locale
+      ) year
       SELECT
         locale.id,
         CASE
@@ -749,7 +757,7 @@ SQL_QUERY
                   FROM indicator_locale
                     WHERE indicator_locale.indicator_id = indicator.id
                       AND indicator_locale.locale_id    = locale.id
-                      AND indicator_locale.year         = 2018
+                      AND indicator_locale.year         = ( SELECT year FROM max_year )
                   ORDER BY indicator_locale.year DESC
                   LIMIT 1
                 ) AS values
@@ -760,7 +768,7 @@ SQL_QUERY
                 ON indicator.id = indicator_locale.indicator_id
                   AND indicator_locale.locale_id = locale.id
               WHERE indicator.id IN (@{[join ',', map '?', @{ $indicator_ids }]})
-                AND indicator_locale.year = 2018
+                AND indicator_locale.year = ( SELECT year FROM max_year )
               ORDER BY indicator.id
             ) AS "row"
           ) AS "all"
