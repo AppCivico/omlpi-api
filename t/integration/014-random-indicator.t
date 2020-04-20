@@ -4,7 +4,7 @@ use lib "$RealBin/../lib";
 
 use OMLPI::Test;
 
-plan skip_all => 'skip for a while';
+#plan skip_all => 'skip for a while';
 
 my $t = test_instance();
 my $db = $t->app->pg->db;
@@ -57,12 +57,6 @@ SQL_QUERY
       ->json_has('/locales/0/indicators/1/values/year')
       ->json_has('/locales/0/indicators/1/values/value_absolute')
       ->json_has('/locales/0/indicators/1/values/value_relative')
-      ->json_has('/locales/0/indicators/2/area/name')
-      ->json_has('/locales/0/indicators/2/description')
-      ->json_has('/locales/0/indicators/2/values/year')
-      ->json_has('/locales/0/indicators/2/values/value_absolute')
-      ->json_has('/locales/0/indicators/2/values/value_relative')
-      ->json_is('/locales/0/indicators/3', undef)
       ->json_has('/locales/1/name')
       ->json_has('/locales/1/indicators/0/area/name')
       ->json_has('/locales/1/indicators/0/description')
@@ -73,13 +67,7 @@ SQL_QUERY
       ->json_has('/locales/1/indicators/1/description')
       ->json_has('/locales/1/indicators/1/values/year')
       ->json_has('/locales/1/indicators/1/values/value_absolute')
-      ->json_has('/locales/1/indicators/1/values/value_relative')
-      ->json_has('/locales/1/indicators/2/area/name')
-      ->json_has('/locales/1/indicators/2/description')
-      ->json_has('/locales/1/indicators/2/values/year')
-      ->json_has('/locales/1/indicators/2/values/value_absolute')
-      ->json_has('/locales/1/indicators/2/values/value_relative')
-      ->json_is('/locales/1/indicators/3', undef);
+      ->json_has('/locales/1/indicators/1/values/value_relative');
 };
 
 done_testing();

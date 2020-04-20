@@ -6,6 +6,7 @@ use lib "$RealBin/../lib";
 use OMLPI::Logger qw(get_logger);
 use OMLPI::DatabaseConnection;
 
+use Text::CSV;
 use Tie::Handle::CSV;
 use Scope::OnExit;
 use Archive::Zip;
@@ -48,10 +49,11 @@ eval {
 
         my $sql_query = 'INSERT INTO indicator (id, description, area_id, base) VALUES ';
         my @binds = ();
-        my $csv = Tie::Handle::CSV->new($tmp, header => 1);
+        my $csv = Tie::Handle::CSV->new($tmp, header => 1, sep_char => ';');
         while (my $line = <$csv>) {
             $sql_query .= "(?, ?, ?, ?), ";
-            push @binds, @{$line}{(qw(Id Nome Tema), 'Fonte de dados')};
+            #push @binds, @{$line}{(qw(Id Nome Tema), 'Fonte de dados')};
+            push @binds, @{$line}{(qw(Indicador Nome Tema Base))};
         }
         close $csv;
 
@@ -71,7 +73,7 @@ eval {
 
         my $sql_query = 'INSERT INTO subindicator (id, description, classification) VALUES ';
         my @binds = ();
-        my $csv = Tie::Handle::CSV->new($tmp, header => 1);
+        my $csv = Tie::Handle::CSV->new($tmp, header => 1, sep_char => ';');
         my %unique_subindicator;
         while (my $line = <$csv>) {
             my $id = int($line->{ID}) or next;
@@ -109,9 +111,15 @@ eval {
 SQL_QUERY
 
         my $dbh = $db->dbh;
-        my $csv = Tie::Handle::CSV->new($tmp, header => 1);
-        my $text_csv = *$csv->{opts}{csv_parser};
-        $text_csv->eol("\n");
+        my $csv = Tie::Handle::CSV->new($tmp, header => 1, sep_char => ';');
+        #my $text_csv = *$csv->{opts}{csv_parser};
+        #$text_csv->eol("\n");
+        my $text_csv = Text::CSV->new({
+            binary => 1,
+            eol    => "\n",
+        });
+
+        my %loaded_indicators_data = ();
         while (my $line = <$csv>) {
             $line = { %$line };
             my $area_id      = delete $line->{Tema};
@@ -122,6 +130,16 @@ SQL_QUERY
 
             if (!$locales{$locale_id}) {
                 $logger->warn(sprintf "A locale id '%d' não existe no banco!", $locale_id);
+                next;
+            }
+
+            if ($loaded_indicators_data{$locale_id}->{$indicator_id}->{$year}) {
+                $logger->warn(sprintf(
+                    "O indicador %d já foi carregado para a localidade %d no ano %d!",
+                    $indicator_id,
+                    $locale_id,
+                    $year
+                ));
                 next;
             }
 
@@ -144,6 +162,7 @@ SQL_QUERY
             if (defined($value_relative) || defined($value_absolute)) {
                 $text_csv->combine($indicator_id, $locale_id, $year, $value_relative, $value_absolute);
                 $dbh->pg_putcopydata($text_csv->string());
+                $loaded_indicators_data{$locale_id}->{$indicator_id}->{$year} = 1;
             }
         }
         $dbh->pg_putcopyend() or $logger->logdie("Error on pg_putcopyend()");
