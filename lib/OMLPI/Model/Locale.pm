@@ -80,4 +80,14 @@ sub get_locales_of_the_same_scope {
 SQL_QUERY
 }
 
+sub get_regions_of_a_country {
+    my ($self, $country_id) = @_;
+
+    return $self->app->pg->db->query(<<'SQL_QUERY', $country_id);
+      SELECT *
+      FROM region
+      WHERE country_id = ?
+SQL_QUERY
+}
+
 1;

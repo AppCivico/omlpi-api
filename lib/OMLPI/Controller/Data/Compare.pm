@@ -9,9 +9,14 @@ sub get {
     my $locale_id = $c->param('locale_id');
     my $year      = $c->param('year');
 
+    my $type = $c->model('Locale')->get_type($locale_id);
+
     #$c->_validate_comparison($locale_id);
 
-    my $res = $c->model('Data')->compare(locale_id => $locale_id, year => $year);
+    my $res = $type eq 'country'
+        ? $c->model('Data')->compare_country(locale_id => $locale_id, year => $year)
+        : $c->model('Data')->compare(locale_id => $locale_id, year => $year)
+    ;
 
     return $c->render(json => { comparison => $res->expand->hashes }, status => 200 );
 }
