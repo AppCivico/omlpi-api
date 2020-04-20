@@ -12,7 +12,7 @@ sub list {
         ROW_TO_JSON(area.*) AS area
       FROM indicator
       JOIN area
-        ON area.id = indicator.id
+        ON area.id = indicator.area_id
       ORDER BY indicator.id
 SQL_QUERY
 }
