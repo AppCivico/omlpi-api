@@ -23,7 +23,7 @@ sub get {
           $locale_name =~ s{\s+}{_}g;
           $locale_name =~ s{[^A-Za-z_]+}{}g;
 
-          my $filename = sprintf("Observa_%s_%d", $locale_name, $indicator_id);
+          my $filename = sprintf("Observa_%s_%d.xlsx", $locale_name, $indicator_id);
 
           return $c->render_file(
               filepath => $file->filename,
