@@ -47,7 +47,7 @@ eval {
         on_scope_exit { unlink $tmp };
         $member->extractToFileNamed($tmp);
 
-        my $sql_query = 'INSERT INTO indicator (id, description, area_id, base, ods) VALUES ';
+        my $sql_query = 'INSERT INTO indicator (id, description, area_id, base, ods, concept) VALUES ';
         my @binds = ();
         my $csv = Tie::Handle::CSV->new($tmp, header => 1, sep_char => ';');
         while (my $line = <$csv>) {
@@ -55,13 +55,21 @@ eval {
             my $ods;
             $ods = '{' . join(',', @ods) . '}' if scalar @ods > 0;
 
-            $sql_query .= "(?, ?, ?, ?, ?), ";
-            push @binds, @{$line}{(qw(Indicador Nome Tema Base))}, $ods;
+            $sql_query .= "(?, ?, ?, ?, ?, ?), ";
+            push @binds, @{$line}{(qw(Indicador Nome Tema Base))}, $ods, $line->{Conceito};
         }
         close $csv;
 
         $sql_query =~ s{, $}{};
-        $sql_query .= " ON CONFLICT (id) DO UPDATE SET description = EXCLUDED.description, base = EXCLUDED.base, area_id = EXCLUDED.area_id, ods = EXCLUDED.ods";
+        $sql_query .= <<'SQL_QUERY';
+          ON CONFLICT (id)
+          DO UPDATE
+            SET description = EXCLUDED.description,
+                base        = EXCLUDED.base,
+                area_id     = EXCLUDED.area_id,
+                ods         = EXCLUDED.ods,
+                concept     = EXCLUDED.concept
+SQL_QUERY
 
         $pg->db->query($sql_query, @binds);
         $logger->info("Indicators loaded!");
@@ -150,16 +158,16 @@ SQL_QUERY
             my $value_relative = $line->{'D0_R'};
             my $value_absolute = $line->{'D0_A'};
 
-            $value_relative    =~ s/\.//g;
-            $value_absolute    =~ s/\.//g;
-            $value_relative    =~ s/,/./ if $value_relative =~ m{^[0-9+]+,[0-9]+$};
-            $value_absolute    =~ s/,/./ if $value_absolute =~ m{^[0-9+]+,[0-9]+$};
-            $value_relative    = nullif(trim($value_relative), '');
-            $value_absolute    = nullif(trim($value_absolute), '');
-            $value_absolute    = sprintf('%.1f', $value_absolute) if defined $value_absolute;
-            $value_relative    = sprintf('%.1f', $value_relative) if defined $value_relative;
-            $value_absolute    =~ s/\.0$//                        if defined $value_absolute;
-            $value_relative    =~ s/\.0$//                        if defined $value_relative;
+            $value_relative =~ s/\.//g;
+            $value_absolute =~ s/\.//g;
+            $value_relative =~ s/,/./ if $value_relative =~ m{^[0-9+]+,[0-9]+$};
+            $value_absolute =~ s/,/./ if $value_absolute =~ m{^[0-9+]+,[0-9]+$};
+            $value_relative = nullif(trim($value_relative), '');
+            $value_absolute = nullif(trim($value_absolute), '');
+            $value_absolute = sprintf('%.1f', $value_absolute) if defined $value_absolute;
+            $value_relative = sprintf('%.1f', $value_relative) if defined $value_relative;
+            $value_absolute =~ s/\.0$//                        if defined $value_absolute;
+            $value_relative =~ s/\.0$//                        if defined $value_relative;
 
             # Insert data
             if (defined($value_relative) || defined($value_absolute)) {
