@@ -770,7 +770,7 @@ SQL_QUERY
         ON locale.type = 'city' AND locale.id = city.id
       LEFT JOIN state
         ON locale.type = 'city' AND city.state_id = state.id
-      WHERE locale.id IN(1, ?)
+      WHERE locale.id IN(0, ?)
       ORDER BY locale.id
 SQL_QUERY
 }
