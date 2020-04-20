@@ -47,18 +47,21 @@ eval {
         on_scope_exit { unlink $tmp };
         $member->extractToFileNamed($tmp);
 
-        my $sql_query = 'INSERT INTO indicator (id, description, area_id, base) VALUES ';
+        my $sql_query = 'INSERT INTO indicator (id, description, area_id, base, ods) VALUES ';
         my @binds = ();
         my $csv = Tie::Handle::CSV->new($tmp, header => 1, sep_char => ';');
         while (my $line = <$csv>) {
-            $sql_query .= "(?, ?, ?, ?), ";
-            #push @binds, @{$line}{(qw(Id Nome Tema), 'Fonte de dados')};
-            push @binds, @{$line}{(qw(Indicador Nome Tema Base))};
+            my @ods = map { s{(\s*ODS\s*)}{}gr } split ';', $line->{ODS};
+            my $ods;
+            $ods = '{' . join(',', @ods) . '}' if scalar @ods > 0;
+
+            $sql_query .= "(?, ?, ?, ?, ?), ";
+            push @binds, @{$line}{(qw(Indicador Nome Tema Base))}, $ods;
         }
         close $csv;
 
         $sql_query =~ s{, $}{};
-        $sql_query .= " ON CONFLICT (id) DO UPDATE SET description = EXCLUDED.description, base = EXCLUDED.base, area_id = EXCLUDED.area_id";
+        $sql_query .= " ON CONFLICT (id) DO UPDATE SET description = EXCLUDED.description, base = EXCLUDED.base, area_id = EXCLUDED.area_id, ods = EXCLUDED.ods";
 
         $pg->db->query($sql_query, @binds);
         $logger->info("Indicators loaded!");

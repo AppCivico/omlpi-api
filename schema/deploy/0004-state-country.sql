@@ -4,7 +4,7 @@
 BEGIN;
 
 ALTER TABLE region ADD COLUMN country_id INTEGER REFERENCES country(id);
-UPDATE region SET country_id = 1;
+UPDATE region SET country_id = 0;
 ALTER TABLE region ALTER COLUMN country_id SET NOT NULL;
 
 COMMIT;

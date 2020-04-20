@@ -58,6 +58,14 @@ sub get {
                       LIMIT 1
                     ) indicator_values
                   ) AS values,
+                  (
+                    SELECT JSON_AGG(ods.*)
+                    FROM (
+                      SELECT *
+                      FROM ods
+                      WHERE ods.id = ANY(indicator.ods)
+                    ) ods
+                  ) AS ods,
                   COALESCE(
                     (
                       SELECT ARRAY_AGG(subindicators)
