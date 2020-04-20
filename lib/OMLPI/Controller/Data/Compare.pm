@@ -9,7 +9,7 @@ sub get {
     my $locale_id = $c->param('locale_id');
     my $year      = $c->param('year');
 
-    $c->_validate_comparison($locale_id);
+    #$c->_validate_comparison($locale_id);
 
     my $res = $c->model('Data')->compare(locale_id => $locale_id, year => $year);
 
