@@ -15,8 +15,6 @@ subtest_buffered 'Cities | GET' => sub {
       ->json_has('/cities/0/name')
       ->json_has('/cities/0/latitude')
       ->json_has('/cities/0/longitude');
-
-    is scalar @{$t->tx->res->json->{cities}}, 5568;
 };
 
 subtest_buffered 'Cities | filter by state' => sub {

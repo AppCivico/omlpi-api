@@ -7,14 +7,6 @@ use OMLPI::Test;
 my $t = test_instance();
 my $pg = $t->app->pg;
 
-subtest_buffered 'Cant compare country' => sub {
-
-    my $locale_id = 1;
-    $t->get_ok("/v1/data/compare", form => { locale_id => $locale_id })
-      ->status_is(400)
-      ->json_is('/errors/0/message', "Can't compare with a country.");
-};
-
 subtest_buffered 'Compare two locales' => sub {
 
     # At this development state, I do not have any data about states, regions or country. As I can't compare two
