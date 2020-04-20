@@ -21,9 +21,9 @@ CREATE MATERIALIZED VIEW random_locale_indicator AS
   (
     SELECT
       x.r,
-      ARRAY_AGG(x.a1) FILTER (WHERE x.a1 IS NOT NULL) as area_a1,
-      ARRAY_AGG(x.a2) FILTER (WHERE x.a2 IS NOT NULL) as area_a2,
-      ARRAY_AGG(x.a3) FILTER (WHERE x.a3 IS NOT NULL) as area_a3
+      ARRAY_AGG(DISTINCT x.a1) FILTER (WHERE x.a1 IS NOT NULL) AS area_a1,
+      ARRAY_AGG(DISTINCT x.a2) FILTER (WHERE x.a2 IS NOT NULL) AS area_a2,
+      ARRAY_AGG(DISTINCT x.a3) FILTER (WHERE x.a3 IS NOT NULL) AS area_a3
       FROM (
         SELECT
           a1.indicator_id AS a1,
