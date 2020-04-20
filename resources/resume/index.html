@@ -18,8 +18,8 @@
         <p>Tema: <%= $indicator->{area}->{name} %>
           <br>Fonte: <%= $indicator->{base} %>
           <br>Ano: <%= $indicator->{values}->{year} %>
-          <br>Valor relativo: <%= $indicator->{values}->{value_relative} %>
-          <br>Valor absoluto: <%= $indicator->{values}->{value_absolute} %>
+          <br>Valor relativo: <%= $indicator->{values}->{value_relative} // 'N/A' %>
+          <br>Valor absoluto: <%= $indicator->{values}->{value_absolute} // 'N/A' %>
         </p>
         % my $subindicators = $indicator->{subindicators};
         % for my $subindicator (@$subindicators) {
@@ -28,8 +28,8 @@
           % for my $d (@$data) {
             <p>
               <b><%= $d->{description} %></b>
-              <br>Valor relativo: <%= $d->{values}->{value_relative} %>
-              <br>Valor absoluto: <%= $d->{values}->{value_absolute} %>
+              <br>Valor relativo: <%= $d->{values}->{value_relative} // 'N/A' %>
+              <br>Valor absoluto: <%= $d->{values}->{value_absolute} // 'N/A' %>
             </p>
           % }
         % }
