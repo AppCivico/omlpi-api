@@ -11,38 +11,6 @@ my $db = $t->app->pg->db;
 
 subtest_buffered 'Get random indicator' => sub {
 
-    # Mock data for testing purposes
-    my $locale_id = 3520301;
-    ok $db->query(<<'SQL_QUERY', $locale_id);
-      WITH max_year AS (
-        SELECT MAX(year.max) AS year
-        FROM (
-          SELECT MAX(year) FROM indicator_locale
-          UNION
-          SELECT MAX(year) FROM subindicator_locale
-        ) year
-      )
-      INSERT INTO indicator_locale (indicator_id, locale_id, year, value_relative, value_absolute)
-      SELECT
-        id                            AS indicator_id,
-        1                             AS locale_id,
-        ( SELECT year FROM max_year ) AS year,
-        RANDOM() * (100 + 1)          AS value_relative,
-        FLOOR(random() * (10000 + 1)) AS value_relative
-      FROM indicator
-      UNION
-      SELECT
-        id                            AS indicator_id,
-        ?::int                        AS locale_id,
-        ( SELECT year FROM max_year ) AS year,
-        RANDOM() * (100 + 1)          AS value_relative,
-        FLOOR(random() * (10000 + 1)) AS value_relative
-      FROM indicator
-      ON CONFLICT DO NOTHING
-SQL_QUERY
-
-    ok $db->query("REFRESH MATERIALIZED VIEW random_locale_indicator"), 'refresh materialized view';
-
     # Test endpoint
     $t->get_ok("/v1/data/random_indicator")
       ->status_is(200)
