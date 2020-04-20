@@ -6,7 +6,7 @@ CREATE TABLE country (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL
 );
-INSERT INTO country (id, name) VALUES (1, 'Brasil');
+INSERT INTO country (id, name) VALUES (0, 'Brasil');
 
 CREATE TABLE region (
     id INTEGER PRIMARY KEY,
