@@ -2,11 +2,11 @@
 %project=omlpi
 
 0000-locales 2019-11-05T14:51:28Z Junior Moraes <juniorfvox@gmail.com> # Init sqitch
-0001-data [0000-locales] 2019-11-06T18:47:40Z junior,,, <junior@fvox> # ta
-0002-locale-latlong [0001-data] 2019-12-12T13:31:24Z junior,,, <junior@fvox> # cale-latlong
-0003-plan-upload [0002-locale-latlong] 2020-01-10T18:39:01Z junior,,, <junior@fvox> # an-upload
-0004-state-country [0003-plan-upload] 2020-01-17T18:59:13Z junior,,, <junior@fvox> # ate-country
-0005-array-intersect [0004-state-country] 2020-01-30T17:26:04Z Junior Moraes <juniorfvox@gmail.com> # iarray-intersect
-0006-change-plan-upload-fields [0005-array-intersect] 2020-02-14T12:06:38Z Junior Moraes <juniorfvox@gmail.com> # ichange-plan-upload-fields
-0007-add-config [0006-change-plan-upload-fields] 2020-04-17T19:35:53Z junior,,, <junior@fvox> # d-config
-0008-add-ods [0007-add-config] 2020-04-20T16:02:26Z junior,,, <junior@fvox> # d-ods
+0001-data [0000-locales] 2019-11-06T18:47:40Z junior,,, <junior@fvox> # data
+0002-locale-latlong [0001-data] 2019-12-12T13:31:24Z junior,,, <junior@fvox> # locale-latlong
+0003-plan-upload [0002-locale-latlong] 2020-01-10T18:39:01Z junior,,, <junior@fvox> # plan-upload
+0004-state-country [0003-plan-upload] 2020-01-17T18:59:13Z junior,,, <junior@fvox> # state-country
+0005-array-intersect [0004-state-country] 2020-01-30T17:26:04Z Junior Moraes <juniorfvox@gmail.com> # array-intersect
+0006-change-plan-upload-fields [0005-array-intersect] 2020-02-14T12:06:38Z Junior Moraes <juniorfvox@gmail.com> # change-plan-upload-fields
+0007-add-config [0006-change-plan-upload-fields] 2020-04-17T19:35:53Z junior,,, <junior@fvox> # change-plan-upload-config
+0008-add-ods [0007-add-config] 2020-04-20T16:02:26Z junior,,, <junior@fvox> # add-ods
