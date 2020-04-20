@@ -38,6 +38,7 @@ sub get {
                   indicator.id,
                   indicator.description,
                   indicator.base,
+                  indicator.concept,
                   ROW_TO_JSON(area.*) AS area,
                   (
                     SELECT ROW_TO_JSON(indicator_values)
@@ -179,6 +180,7 @@ sub compare {
                   indicator.id,
                   indicator.description,
                   indicator.base,
+                  indicator.concept,
                   ROW_TO_JSON(area.*) AS area,
                   (
                     SELECT ARRAY_AGG(indicator_values)
@@ -312,6 +314,7 @@ sub compare_country {
                   indicator.id,
                   indicator.description,
                   indicator.base,
+                  indicator.concept,
                   ROW_TO_JSON(area.*) AS area,
                   (
                     SELECT ARRAY_AGG(indicator_values)
@@ -602,7 +605,8 @@ sub download_indicator {
         subs.classification              AS subindicator_classification,
         subs.value_relative              AS subindicator_value_relative,
         subs.value_absolute              AS subindicator_value_absolute,
-        indicator.base                   AS base
+        indicator.base                   AS base,
+        indicator.concept                AS concept
       FROM indicator_locale
       JOIN indicator
         ON indicator_locale.indicator_id = indicator.id
@@ -726,6 +730,7 @@ sub get_historical {
                   indicator.id,
                   indicator.description,
                   indicator.base,
+                  indicator.concept,
                   ROW_TO_JSON(area.*) AS area,
                   (
                     SELECT ARRAY_AGG(indicator_values)
@@ -881,6 +886,7 @@ SQL_QUERY
                 indicator.id,
                 indicator.description,
                 indicator.base,
+                indicator.concept,
                 ROW_TO_JSON(area.*) AS area,
                 (
                   SELECT JSON_BUILD_OBJECT(

@@ -9,6 +9,7 @@ sub list {
         indicator.id,
         indicator.description,
         indicator.base,
+        indicator.concept,
         ROW_TO_JSON(area.*) AS area,
         (
           SELECT JSON_AGG(ods.*)
