@@ -22,6 +22,8 @@ subtest_buffered 'Get data from locale' => sub {
       ->json_has('/locale/indicators/0/id')
       ->json_has('/locale/indicators/0/base')
       ->json_has('/locale/indicators/0/description')
+      ->json_has('/locale/indicators/0/ods/0/id')
+      ->json_has('/locale/indicators/0/ods/0/name')
       ->json_has('/locale/indicators/0/values/year')
       ->json_has('/locale/indicators/0/values/value_relative')
       ->json_has('/locale/indicators/0/values/value_absolute');

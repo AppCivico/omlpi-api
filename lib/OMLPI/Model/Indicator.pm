@@ -9,7 +9,15 @@ sub list {
         indicator.id,
         indicator.description,
         indicator.base,
-        ROW_TO_JSON(area.*) AS area
+        ROW_TO_JSON(area.*) AS area,
+        (
+          SELECT JSON_AGG(ods.*)
+          FROM (
+            SELECT *
+            FROM ods
+            WHERE ods.id = ANY(indicator.ods)
+          ) ods
+        ) AS ods
       FROM indicator
       JOIN area
         ON area.id = indicator.area_id

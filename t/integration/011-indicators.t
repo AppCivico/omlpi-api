@@ -13,6 +13,9 @@ subtest_buffered 'Indicators | list' => sub {
       ->status_is(200)
       ->json_has('/indicators/0/id')
       ->json_has('/indicators/0/description')
+      ->json_has('/indicators/0/ods/0/id')
+      ->json_has('/indicators/0/ods/0/name')
+      ->json_has('/indicators/0/ods/0/filename')
       ->json_has('/indicators/0/area/id')
       ->json_has('/indicators/0/area/name');
 };
