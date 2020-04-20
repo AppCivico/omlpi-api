@@ -728,7 +728,8 @@ SQL_QUERY
           FROM indicator_locale
           UNION SELECT MAX(year)
           FROM subindicator_locale
-      ) year
+        ) year
+      )
       SELECT
         locale.id,
         CASE
