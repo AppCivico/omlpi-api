@@ -119,6 +119,7 @@ SQL_QUERY
             eol    => "\n",
         });
 
+        my %loaded_indicators_data = ();
         while (my $line = <$csv>) {
             $line = { %$line };
             my $area_id      = delete $line->{Tema};
@@ -129,6 +130,16 @@ SQL_QUERY
 
             if (!$locales{$locale_id}) {
                 $logger->warn(sprintf "A locale id '%d' não existe no banco!", $locale_id);
+                next;
+            }
+
+            if ($loaded_indicators_data{$locale_id}->{$indicator_id}->{$year}) {
+                $logger->warn(sprintf(
+                    "O indicador %d já foi carregado para a localidade %d no ano %d!",
+                    $indicator_id,
+                    $locale_id,
+                    $year
+                ));
                 next;
             }
 
@@ -151,6 +162,7 @@ SQL_QUERY
             if (defined($value_relative) || defined($value_absolute)) {
                 $text_csv->combine($indicator_id, $locale_id, $year, $value_relative, $value_absolute);
                 $dbh->pg_putcopydata($text_csv->string());
+                $loaded_indicators_data{$locale_id}->{$indicator_id}->{$year} = 1;
             }
         }
         $dbh->pg_putcopyend() or $logger->logdie("Error on pg_putcopyend()");
