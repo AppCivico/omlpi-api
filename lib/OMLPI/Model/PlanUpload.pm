@@ -66,7 +66,7 @@ sub create {
     $filename =~ s/(.*)\.[^.]+$/$1.zip/g;
 
     my $email = OMLPI::Minion::Task::SendEmail::Mailer::Template->new(
-        to       => 'edgard.lobo@appcivico.com',
+        to       => $ENV{PLAN_UPLOAD_EMAIL_TO},
         from     => 'no-reply@appcivico.com',
         subject  => 'Upload de plano',
         template => $slurp,
