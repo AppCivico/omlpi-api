@@ -465,42 +465,43 @@ sub get_resume {
     my $indicator_values = $self->app->pg->db->query(<<"SQL_QUERY", $locale_id, $year);
       select indicator_id, value_absolute, value_relative
       from indicator_locale
-      where locale_id = ?
-        and year = ?
+      where locale_id = ? and year = ?
 SQL_QUERY
     my $subindicator_values = $self->app->pg->db->query(<<"SQL_QUERY", $locale_id, $year);
       select indicator_id, subindicator_id, value_absolute, value_relative
       from subindicator_locale
-      where locale_id = ?
-        and year = ?
+      where locale_id = ? and year = ?
 SQL_QUERY
 
     # Get locale
     my $locale = $self->app->pg->db->select('locale', ['name'], {id => $locale_id })->hash;
 
-    my @variables = (
+    my @data = (
         locale_name => $locale->{name},
+        year        => $year,
         (
             map {
-                my $indicator_id    = $_->{indicator_id};
-                my $subindicator_id = $_->{subindicator_id};
-                my $value_relative  = $_->{value_relative};
-                my $absolute        = $_->{value_absolute};
                 (
-                    sprintf('%d-D%d_A', $indicator_id, $subindicator_id) => $_->{value_absolute} // 'N/A',
-                    sprintf('%d-D%d_R', $indicator_id, $subindicator_id) => $_->{value_relative} // 'N/A',
-                );
+                    sprintf('%d_A', $_->{indicator_id}) => $_->{value_absolute} // 'N/A',
+                    sprintf('%d_R', $_->{indicator_id}) => $_->{value_relative} // 'N/A',
+                )
+            } $indicator_values->hashes()->each()
+        ),
+        (
+            map {
+                (
+                    sprintf('%d-D%d_A', $_->{indicator_id}, $_->{subindicator_id}) => $_->{value_absolute} // 'N/A',
+                    sprintf('%d-D%d_R', $_->{indicator_id}, $_->{subindicator_id}) => $_->{value_relative} // 'N/A',
+                )
             } $subindicator_values->hashes()->each()
         ),
     );
-
-    p \@variables;
 
     # Write to file
     print $fh $mt->render($slurp, {
         now         => $self->app->model('DateTime')->now(),
         locale_name => $data->{name},
-        #indicators  => $data->{indicators},
+        data        => \@data,
     });
     close $fh;
 
