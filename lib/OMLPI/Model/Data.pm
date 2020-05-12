@@ -459,11 +459,48 @@ sub get_resume {
     my $fh = File::Temp->new(UNLINK => 0, SUFFIX => '.html', DIR => $dir->dirname);
     binmode $fh, ':utf8';
 
+    # Get indicator values
+    my $locale_id = $opts{locale_id};
+    my $year = $self->get_max_year(locale_id => $locale_id)->hash->{year};
+    my $indicator_values = $self->app->pg->db->query(<<"SQL_QUERY", $locale_id, $year);
+      select indicator_id, value_absolute, value_relative
+      from indicator_locale
+      where locale_id = ?
+        and year = ?
+SQL_QUERY
+    my $subindicator_values = $self->app->pg->db->query(<<"SQL_QUERY", $locale_id, $year);
+      select indicator_id, subindicator_id, value_absolute, value_relative
+      from subindicator_locale
+      where locale_id = ?
+        and year = ?
+SQL_QUERY
+
+    # Get locale
+    my $locale = $self->app->pg->db->select('locale', ['name'], {id => $locale_id })->hash;
+
+    my @variables = (
+        locale_name => $locale->{name},
+        (
+            map {
+                my $indicator_id    = $_->{indicator_id};
+                my $subindicator_id = $_->{subindicator_id};
+                my $value_relative  = $_->{value_relative};
+                my $absolute        = $_->{value_absolute};
+                (
+                    sprintf('%d-D%d_A', $indicator_id, $subindicator_id) => $_->{value_absolute} // 'N/A',
+                    sprintf('%d-D%d_R', $indicator_id, $subindicator_id) => $_->{value_relative} // 'N/A',
+                );
+            } $subindicator_values->hashes()->each()
+        ),
+    );
+
+    p \@variables;
+
     # Write to file
     print $fh $mt->render($slurp, {
         now         => $self->app->model('DateTime')->now(),
         locale_name => $data->{name},
-        indicators  => $data->{indicators},
+        #indicators  => $data->{indicators},
     });
     close $fh;
 
