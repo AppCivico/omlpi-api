@@ -438,9 +438,6 @@ SQL_QUERY
 sub get_resume {
     my ($self, %opts) = @_;
 
-    # Get data
-    my $data = $self->get(%opts)->expand->hash;
-
     # Get template
     my $home = mojo_home();
     my $template = $home->rel_file('resources/resume/index.html')->to_abs;
@@ -474,7 +471,8 @@ SQL_QUERY
 SQL_QUERY
 
     # Get locale
-    my $locale = $self->app->pg->db->select('locale', ['name'], {id => $locale_id })->hash;
+    my $locale = $self->app->pg->db->query('select name from locale where id = ?', $locale_id)->hash;
+    p $locale;
 
     my %data = (
         locale_name => $locale->{name},
@@ -497,12 +495,11 @@ SQL_QUERY
         ),
     );
 
-    p \%data;
-
     # Write to file
     print $fh $mt->render($slurp, {
         now         => $self->app->model('DateTime')->now(),
-        locale_name => $data->{name},
+        locale_name => $locale->{name},
+        year        => $year,
         data        => \%data,
     });
     close $fh;

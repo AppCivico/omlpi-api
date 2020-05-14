@@ -15,13 +15,13 @@
       </header>
       <h1><%= $locale_name %></h1>
       <p>
-        De acordo com dados do Instituto Brasileiro de Geografia e Estatística - IBGE, referentes a 2019, [nome da localidadeo município] possui __ crianças entre zero e cinco anos de idade, o que corresponde a __ da população da localidade.
+        De acordo com dados do Instituto Brasileiro de Geografia e Estatística - IBGE, referentes a 2019, <%= $locale_name %> possui __ crianças entre zero e cinco anos de idade, o que corresponde a __ da população da localidade.
       </p>
       <p>
         A Constituição Federal assegura prioridade absoluta a essas crianças na efetivação dos seus direitos. O Marco Legal da Primeira Infância (Lei nº 13.257/2016) reforça essa prioridade e estabelece princípios e diretrizes para a formulação e a implementação de políticas públicas para a primeira infância em atenção à especificidade e à relevância dos primeiros anos de vida no desenvolvimento infantil.
       </p>
       <p>
-        O diagnóstico apresentado abaixo ajuda a observar o alcance das políticas públicas direcionadas a esse público em [nome da localidade], da mesma forma em que permite identificar prioridades e áreas sensíveis de atuação.
+        O diagnóstico apresentado abaixo ajuda a observar o alcance das políticas públicas direcionadas a esse público em <%= $locale_name %>, da mesma forma em que permite identificar prioridades e áreas sensíveis de atuação.
       </p>
 
       <ol>
@@ -31,22 +31,22 @@
             A Taxa de Sub-registro no município é de <%= $data->{'101-D0_R'} %>. Isso quer dizer que <%= $data->{'101-D0_A'} %> crianças não possuem registro de nascimento, documento fundamental para a sua garantia de identidade, para o vínculo familiar e para a relação com o Estado.
           </p>
           <p>
-            Dados relativos a [inseir localidade] indicam que no âmbito familiar, <%= $data->{'102-D0_R'} %> das pessoas acima de 14 anos participam das tarefas de cuidados direcionadas a crianças na primeira infância. Entre as mulheres essa taxa é de <%= $data->{'102-D1_R'} %> e entre os homens de <%= $data->{'102-D2_R'} %>.
+            Dados relativos a <%= $locale_name %> indicam que no âmbito familiar, <%= $data->{'102-D0_R'} %> das pessoas acima de 14 anos participam das tarefas de cuidados direcionadas a crianças na primeira infância. Entre as mulheres essa taxa é de <%= $data->{'102-D1_R'} %> e entre os homens de <%= $data->{'102-D2_R'} %>.
           </p>
           <p>
-            Um olhar mais atento às condições socioeconômicas do [inserir localidade] indica que a proporção de crianças em domicílios com renda domiciliar per capita de até ½ salário mínimo é de <%= $data->{'103-D0_R'} %>  e de até ¼ do salário mínimo, <%= $data->{'103-D9_R'} %>. Se consideradas as diferenças por cor ou raça, as crianças negras vivendo em domicílio com renda de até ½ salário mínimo por pessoa alcançam <%= $data->{'103-D4_R'} %> , enquanto as brancas <%= $data->{'103-D3_R'} %>.
+            Um olhar mais atento às condições socioeconômicas do <%= $locale_name %> indica que a proporção de crianças em domicílios com renda domiciliar per capita de até ½ salário mínimo é de <%= $data->{'103-D0_R'} %> e de até ¼ do salário mínimo, <%= $data->{'103-D9_R'} %>. Se consideradas as diferenças por cor ou raça, as crianças negras vivendo em domicílio com renda de até ½ salário mínimo por pessoa alcançam <%= $data->{'103-D4_R'} %> , enquanto as brancas <%= $data->{'103-D3_R'} %>.
           </p>
           <p>
-            Ainda no contexto das condições socioeconômicas, <%= $data->{'111-D0_R'} %> das crianças do [inserir localidade]vivem em domicílios com acesso adequado às condições de saneamento básico. Nas áreas rurais esse percentual é de <%= $data->{'111-D6_R'} %>e nas urbanas de <%= $data->{'111-D5_R'} %>. Entre as crianças negras as condições de acesso adequado é de <%= $data->{'111-D4_R'} %> e entre as brancas de <%= $data->{'111-D3_R'} %>.
+            Ainda no contexto das condições socioeconômicas, <%= $data->{'111-D0_R'} %> das crianças do <%= $locale_name %> vivem em domicílios com acesso adequado às condições de saneamento básico. Nas áreas rurais esse percentual é de <%= $data->{'111-D6_R'} %>e nas urbanas de <%= $data->{'111-D5_R'} %>. Entre as crianças negras as condições de acesso adequado é de <%= $data->{'111-D4_R'} %> e entre as brancas de <%= $data->{'111-D3_R'} %>.
           </p>
           <p>
-            A superação da pobreza é etapa fundamental para a universalização dos direitos das crianças na primeira infância. O Bolsa Família é um programa de transferência direta de renda que atende as crianças em situação de pobreza e extrema pobreza, com o limite de renda domiciliar per capita de até R$ 178,00. Em [nome da localidade], a taxa de cobertura do Programa é de <%= $data->{'104-D0_R'} %>, ou seja, <%= $data->{'104-D0_A'} %>das crianças elegíveis estão atendidas. No grupo de zero a três anos a cobertura é de <%= $data->{'104-D51_R'} %> e no de quatro a cinco anos de <%= $data->{'104-D52_R'} %>. Já a Taxa de cobertura do Programa Criança Feliz no município é de <%= $data->{'105-D0_R'} %>. O Programa tem foco específico na primeira infância e visa ampliar a rede de cuidado integral direcionada a esse público.
+            A superação da pobreza é etapa fundamental para a universalização dos direitos das crianças na primeira infância. O Bolsa Família é um programa de transferência direta de renda que atende as crianças em situação de pobreza e extrema pobreza, com o limite de renda domiciliar per capita de até R$ 178,00. Em <%= $locale_name %>, a taxa de cobertura do Programa é de <%= $data->{'104-D0_R'} %>, ou seja, <%= $data->{'104-D0_A'} %> das crianças elegíveis estão atendidas. No grupo de zero a três anos a cobertura é de <%= $data->{'104-D51_R'} %> e no de quatro a cinco anos de <%= $data->{'104-D52_R'} %>. Já a Taxa de cobertura do Programa Criança Feliz no município é de <%= $data->{'105-D0_R'} %>. O Programa tem foco específico na primeira infância e visa ampliar a rede de cuidado integral direcionada a esse público.
           </p>
           <p>
-            O Benefício de Prestação Continuada – BPC é uma garantia constitucional que alcança as crianças com deficiência em situação de vulnerabilidade econômica (renda familiar por pessoa de até ¼ do salário mínimo). [Nome da localidade] possui  <%= $data->{'106-D0_A'} %>  crianças de zero a cinco anos beneficiárias, das quais [106-D*] recebem o Bolsa Família e [106-D*] estão inscritas no Programa Criança Feliz.
+            O Benefício de Prestação Continuada – BPC é uma garantia constitucional que alcança as crianças com deficiência em situação de vulnerabilidade econômica (renda familiar por pessoa de até ¼ do salário mínimo). <%= $locale_name %> possui  <%= $data->{'106-D0_A'} %> crianças de zero a cinco anos beneficiárias, das quais [106-D*] recebem o Bolsa Família e [106-D*] estão inscritas no Programa Criança Feliz.
           </p>
           <p>
-            Em relação à estrutura e aos serviços da assistência social no município direcionados às crianças de zero a cinco anos. [Nome da localidade] possui <%= $data->{'109-D0_A'} %> Centro(s) de Referência de Assistência Social - CRAS. A proporção dos atendimentos realizados com crianças nos Serviços de Convivência e Fortalecimento de Vínculos - SCFV é de <%= $data->{'110-D0_R'} %>. Os SCFV promovem atividades em grupo com foco na integração familiar e comunitária.
+            Em relação à estrutura e aos serviços da assistência social no município direcionados às crianças de zero a cinco anos. <%= $locale_name %> possui <%= $data->{'109-D0_A'} %> Centro(s) de Referência de Assistência Social - CRAS. A proporção dos atendimentos realizados com crianças nos Serviços de Convivência e Fortalecimento de Vínculos - SCFV é de <%= $data->{'110-D0_R'} %>. Os SCFV promovem atividades em grupo com foco na integração familiar e comunitária.
           </p>
           <p>
             O Sistema Único de Assistência Social – SUAS conta também com serviços especializados de acolhimento e proteção a famílias e pessoas temporariamente afastadas do convívio familiar.  A Taxa de Acolhimento no município é de  <%= $data->{'107-D0_R'} %>. Considerando o total de crianças de zero a cinco anos em situação de acolhimento,  <%= $data->{'107-D*_A'} %> estão em famílias acolhedoras e <%= $data->{'107-D*_A'} %> em unidades de acolhimento.
@@ -65,7 +65,7 @@
         <li>
           <h2>Educação</h2>
           <p>
-            A Educação Infantil em [Nome da localidade] possui: <%= $data->{'201-D0_A'} %> matrículas em creches, sendo <%= $data->{'201-D*_A'} %> matrículas em creches públicas; e <%= $data->{'202-D0_A'} %> matrículas em pré-escola, sendo <%= $data->{'202-D*_A'} %> matrículas em pré-escolas públicas.
+            A Educação Infantil em <%= $locale_name %> possui: <%= $data->{'201-D0_A'} %> matrículas em creches, sendo <%= $data->{'201-D*_A'} %> matrículas em creches públicas; e <%= $data->{'202-D0_A'} %> matrículas em pré-escola, sendo <%= $data->{'202-D*_A'} %> matrículas em pré-escolas públicas.
           </p>
           <p>
             Do total de matrículas, as matrículas em tempo integral representam <%= $data->{'207-D0_R'} %>% das matrículas nas creches e <%= $data->{'208-D0_R'} %>% das matrículas nas pré-escolas. Sendo que:
@@ -78,7 +78,7 @@
             O Plano Nacional de Educação (PNE) 2014-2024 estabelece na sua quarta meta a universalização do atendimento escolar aos estudantes com deficiência, transtornos globais do desenvolvimento e altas habilidades ou superdotação, preferencialmente na rede regular de ensino. Em [nome da localidadade do município],  a proporção de crianças com Proporção de matrículas de crianças com deficiência, transtorno do espectro autista ou altas habilidades/superdotação em classes comunsdeficiência em turmas do ensino regular nas creches é de <%= $data->{'209-D0_R'} %> % e nas pré-escolas é de <%= $data->{'210-D0_R'} %>%.
           </p>
           <p>
-            Em relação a estruturas da educação infantil, <%= $data->{'211-D0_R'} %>% das matrículas em creches e <%= $data->{'212-D0_R'} %>% das matrículas em pré-escola são em centros de educação infantil sem recurso de acessibilidade. Já a proporção de matrículas na educação infantil em centros de educação infantil com área externa, parque infantil ou brinquedos para educação infantil é de <%= $data->{'213 -D0_R'} %>% nas creches e <%= $data->{'214 -D0_R'} %>% nas pré-escolas. O saneamento básico é outra infraestrutura importante apresenta os seguintes números em [Nome da localidadeo município]:
+            Em relação a estruturas da educação infantil, <%= $data->{'211-D0_R'} %>% das matrículas em creches e <%= $data->{'212-D0_R'} %>% das matrículas em pré-escola são em centros de educação infantil sem recurso de acessibilidade. Já a proporção de matrículas na educação infantil em centros de educação infantil com área externa, parque infantil ou brinquedos para educação infantil é de <%= $data->{'213 -D0_R'} %>% nas creches e <%= $data->{'214 -D0_R'} %>% nas pré-escolas. O saneamento básico é outra infraestrutura importante apresenta os seguintes números em <%= $locale_name %>:
           </p>
           <ul>
             <li>
@@ -95,7 +95,7 @@
             </li>
           </ul>
           <p>
-            A regulamentação no conselho ou órgão de educação está presente em <%= $data->{'215-D_R'} %>% das creches públicas, <%= $data->{'215-D_R'} %>% das creches privadas, <%= $data->{'216-D*_R'} %>% das pré-escolas públicas e <%= $data->{'216-D*_R'} %>% das pré-escolas privadas de [Nome da localiddeo município]. Já a adequação da formação docente, que apresenta uma classificação dos docentes em exercício considerando sua formação acadêmica, a partir das orientações dos dispositivos legais e normativos relacionados ao tema apresenta o seguinte cenário em [Nome da localidadeo município]:
+            A regulamentação no conselho ou órgão de educação está presente em <%= $data->{'215-D_R'} %>% das creches públicas, <%= $data->{'215-D_R'} %>% das creches privadas, <%= $data->{'216-D*_R'} %>% das pré-escolas públicas e <%= $data->{'216-D*_R'} %>% das pré-escolas privadas de [Nome da localiddeo município]. Já a adequação da formação docente, que apresenta uma classificação dos docentes em exercício considerando sua formação acadêmica, a partir das orientações dos dispositivos legais e normativos relacionados ao tema apresenta o seguinte cenário em <%= $locale_name %>:
           </p>
           <ul>
             <li>
@@ -115,10 +115,10 @@
             </li>
           </ul>
           <p>
-            Já a taxa de docentes das creches com formação continuada específica para atuação nessa etapa é de <%= $data->{'221-D0_R'} %>, sendo de <%= $data->{'221-D*_R'} %> para os docentes da rede pública e de 221 -D*_R__ para a rede privada. Nas pré-escolas, a taxa é de <%= $data->{'222-D0_R'} %>, sendo de 222-D*_R __ para os docentes da rede pública e de 222-D*_R __ para a rede privada.
+            Já a taxa de docentes das creches com formação continuada específica para atuação nessa etapa é de <%= $data->{'221-D0_R'} %>, sendo de <%= $data->{'221-D_R'} %> para os docentes da rede pública e de <%= $data->{'221-D_R'} %> para a rede privada. Nas pré-escolas, a taxa é de <%= $data->{'222-D0_R'} %>, sendo de <%= $data->{'222-D_R'} %> para os docentes da rede pública e de <%= $data->{'222-D_R'} %> para a rede privada.
           </p>
           <p>
-            Em relação ao [Nome da localidadeUF], <%= $data->{'203-D0_R'} %>% das crianças de até três anos frequentam a creche e <%= $data->{'204-D0_R'} %>% das crianças de quatro e cinco anos frequentam a pré-escola. Entre as crianças negras, <%= $data->{'203-D4_R'} %>% das crianças de até três anos frequentam a creche e <%= $data->{'204-D4_R'} %>% das crianças de quatro e cinco anos frequentam a pré-escola. Já entre as crianças brancas, <%= $data->{'203-D3_R'} %>% das crianças de até três anos frequentam a creche e <%= $data->{'204-D3_R'} %>% das crianças de quatro e cinco anos frequentam a pré-escola.
+            Em relação ao <%= $locale_name %>, <%= $data->{'203-D0_R'} %>% das crianças de até três anos frequentam a creche e <%= $data->{'204-D0_R'} %>% das crianças de quatro e cinco anos frequentam a pré-escola. Entre as crianças negras, <%= $data->{'203-D4_R'} %>% das crianças de até três anos frequentam a creche e <%= $data->{'204-D4_R'} %>% das crianças de quatro e cinco anos frequentam a pré-escola. Já entre as crianças brancas, <%= $data->{'203-D3_R'} %>% das crianças de até três anos frequentam a creche e <%= $data->{'204-D3_R'} %>% das crianças de quatro e cinco anos frequentam a pré-escola.
           </p>
           <p>
             Segundo a legislação brasileira, a matrícula na pré-escola é obrigatória, entretanto <%= $data->{'206-D0_R'} %>% das crianças de quatro e cinco anos não frequentam essa etapa de ensino. Entre os motivos relacionados a essa ausência estão:
@@ -152,7 +152,7 @@
         <li>
           <h2>Saúde</h2>
           <p>
-            A cobertura vacinal para primeira infância mede o percentual de crianças de zero a cinco anos vacinadas pela BCG, Penta, Tríplice e contra a Hepatite B. Esse indicador contribui para a avaliação operacional e de impacto dos programas de imunização, bem como para o delineamento de estratégias de vacinação. Em/NoNa sua localidade de [Nome da localidadeo município]:
+            A cobertura vacinal para primeira infância mede o percentual de crianças de zero a cinco anos vacinadas pela BCG, Penta, Tríplice e contra a Hepatite B. Esse indicador contribui para a avaliação operacional e de impacto dos programas de imunização, bem como para o delineamento de estratégias de vacinação. Em <%= $locale_name %>:
           </p>
           <ul>
             <li>
@@ -169,16 +169,16 @@
             </li>
           </ul>
           <p>
-            O teste do pezinho é uma possibilidade de diagnóstico precoce  para algumas doenças, para que elas possam ser tratadas da forma e no tempo adequado. Em/No [nome da localidade] No estado, <%= $data->{'302-D0_R'} %> das crianças nascidas em [ano mais recente] fizeram a triagem.
+            O teste do pezinho é uma possibilidade de diagnóstico precoce  para algumas doenças, para que elas possam ser tratadas da forma e no tempo adequado. Em <%= $locale_name %> No estado, <%= $data->{'302-D0_R'} %> das crianças nascidas em <%= $year %> fizeram a triagem.
           </p>
           <p>
-            A taxa de detecção de aids em menores de cinco anos e a taxa de incidência de sífilis congênita são importantes para o mapeamento da transmissão vertical e indicam a efetividade das políticas de prevenção. Em/No [nome dao localidademunicípio], a taxa de detecção de aids em menores de cinco anos foi de <%= $data->{'303-D0_R'} %>, o que corresponde a <%= $data->{'303-D0_A'} %> novos casos no município. Já a taxa de incidência de sífilis congênita foi de <%= $data->{'304-D0_R'} %>, o que corresponde a <%= $data->{'304-D0_A'} %> casos.
+            A taxa de detecção de aids em menores de cinco anos e a taxa de incidência de sífilis congênita são importantes para o mapeamento da transmissão vertical e indicam a efetividade das políticas de prevenção. Em <%= $locale_name %>, a taxa de detecção de aids em menores de cinco anos foi de <%= $data->{'303-D0_R'} %>, o que corresponde a <%= $data->{'303-D0_A'} %> novos casos no município. Já a taxa de incidência de sífilis congênita foi de <%= $data->{'304-D0_R'} %>, o que corresponde a <%= $data->{'304-D0_A'} %> casos.
           </p>
           <p>
-            Ainda no campo da atuação preventiva, as políticas de atenção à saúde da criança têm incentivado o  aleitamento materno como prática importante para o desenvolvimento infantil e para a prevenção de doenças na infância. O aleitamento materno exclusivo é indicado até os seis meses de idade e no/em estado de/da [nome dao localidadeestado] ele alcança <%= $data->{'305-D0_R'} %> das crianças nessa idade. A proporção de hospitais com UTI neonatal que possuem banco de leite humano no estado é de <%= $data->{'313-D0_R'} %>.
+            Ainda no campo da atuação preventiva, as políticas de atenção à saúde da criança têm incentivado o  aleitamento materno como prática importante para o desenvolvimento infantil e para a prevenção de doenças na infância. O aleitamento materno exclusivo é indicado até os seis meses de idade e no/em estado de/da <%= $locale_name %> ele alcança <%= $data->{'305-D0_R'} %> das crianças nessa idade. A proporção de hospitais com UTI neonatal que possuem banco de leite humano no estado é de <%= $data->{'313-D0_R'} %>.
           </p>
           <p>
-            As condições nutricionais das crianças também são objeto de atenção das políticas públicas, que devem considerar o acesso à saúde e à alimentação como prioridade absoluta. Entre as crianças acompanhadas pelo Programa Bolsa Família e cadastradas no Sistema de Vigilância Alimentar e Nutricional (Sisvan), observa-se que em/nono município de [nome dao localidademunicípio]:
+            As condições nutricionais das crianças também são objeto de atenção das políticas públicas, que devem considerar o acesso à saúde e à alimentação como prioridade absoluta. Entre as crianças acompanhadas pelo Programa Bolsa Família e cadastradas no Sistema de Vigilância Alimentar e Nutricional (Sisvan), observa-se que em/nono município de <%= $locale_name %>:
           </p>
           <ul>
             <li>
@@ -193,16 +193,16 @@
           </ul>
 
           <p>
-            A Taxa de mortalidade na infância mede a quantidade de óbitos de crianças de até cinco anos para cada mil crianças nascidas vivas. O dado é um importante indicador das características socioeconômicas, da infraestrutura socioambiental e de outros aspectos que determinam as condições de sobrevivências das crianças. O investimento adequado em políticas públicas de saúde, desde o pré-natal, é um elemento fundamental para a redução dos óbitos na infância, que nao suaeu localidade município somaram [309-D0_R*]__ caso(s) em [ano mais recente].
+            A Taxa de mortalidade na infância mede a quantidade de óbitos de crianças de até cinco anos para cada mil crianças nascidas vivas. O dado é um importante indicador das características socioeconômicas, da infraestrutura socioambiental e de outros aspectos que determinam as condições de sobrevivências das crianças. O investimento adequado em políticas públicas de saúde, desde o pré-natal, é um elemento fundamental para a redução dos óbitos na infância, que na sua localidade somaram <=% $data->{'309-D0_R'} %> caso(s) em <%= $year %>.
           </p>
           <p>
-            Em/No [Nome da localidade]No município, a proporção de nascidos vivos cujas mães realizaram pelo menos 7 consultas pré-natal, ou seja, atingiu o mínimo de seis consultas estabelecido pelo MinistérioMinisterio da Saúde, foi de <%= $data->{'310-D0_R'} %>. Entre as mulheres mais jovens (10 a 17 anos) o percentual foi de <%= $data->{'310-D5_R'} %> e entre as mais velhas (18 a 49 anos) de <%= $data->{'310-D6_R'} %>. Os partos vaginais corresponderam a <%= $data->{'311-D0_R'} %> __ do total de partos dao localidade município. Nos estabelecimentos públicos eles representaram <%= $data->{'311-D12_R'} %> do total e nos privado, <%= $data->{'311-D13_R'} %>.
+            Em <%= $locale_name %>, a proporção de nascidos vivos cujas mães realizaram pelo menos 7 consultas pré-natal, ou seja, atingiu o mínimo de seis consultas estabelecido pelo MinistérioMinisterio da Saúde, foi de <%= $data->{'310-D0_R'} %>. Entre as mulheres mais jovens (10 a 17 anos) o percentual foi de <%= $data->{'310-D5_R'} %> e entre as mais velhas (18 a 49 anos) de <%= $data->{'310-D6_R'} %>. Os partos vaginais corresponderam a <%= $data->{'311-D0_R'} %> do total de partos da localidade. Nos estabelecimentos públicos eles representaram <%= $data->{'311-D12_R'} %> do total e nos privado, <%= $data->{'311-D13_R'} %>.
           </p>
           <p>
-            A Taxa de mortalidade materna reflete a qualidade da assistência à saúde da mulher, especialmente durante a gravidez. Nessa localidade No seu município, [312-D0_R*]__ mulher(es) veio/vieram a óbito por causas ou condições consideradas de morte materna em [ano mais recente].
+            A Taxa de mortalidade materna reflete a qualidade da assistência à saúde da mulher, especialmente durante a gravidez. Nessa localidade, <%= $data->{'312-D0_R'} %> mulher(es) veio/vieram a óbito por causas ou condições consideradas de morte materna em <%= $year %>.
           </p>
           <p>
-            O sistema de saúde possui indicadores que ajudam a estimar a parcela da população cobertura pela atenção primária, onde as crianças geralmente recebem os primeiros atendimentos. Esses indicadores são utilizados no monitoramento do acesso aos serviços de saúde e nessa localidade no seu município apresentam os seguintes resultados:
+            O sistema de saúde possui indicadores que ajudam a estimar a parcela da população cobertura pela atenção primária, onde as crianças geralmente recebem os primeiros atendimentos. Esses indicadores são utilizados no monitoramento do acesso aos serviços de saúde e nessa localidade apresentam os seguintes resultados:
           </p>
           <ul>
             <li>
@@ -410,12 +410,12 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      201-D0_A
+                      <%= $data->{'201-D0_A'} %>
                     </p>
                   </td>
                   <td>
                     <p dir="ltr">
-                      202-D0_A
+                      <%= $data->{'202-D0_A'} %>
                     </p>
                   </td>
                 </tr>
@@ -428,12 +428,12 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      203-D0_R
+                      <%= $data->{'203-D0_R'} %>
                     </p>
                   </td>
                   <td>
                     <p dir="ltr">
-                      204-D0_R
+                      <%= $data->{'204-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -446,12 +446,12 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      205-D0_R
+                      <%= $data->{'205-D0_R'} %>
                     </p>
                   </td>
                   <td>
                     <p dir="ltr">
-                      206-D0_R
+                      <%= $data->{'206-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -464,12 +464,12 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      207-D0_R
+                      <%= $data->{'207-D0_R'} %>
                     </p>
                   </td>
                   <td>
                     <p dir="ltr">
-                      208-D0_R
+                      <%= $data->{'208-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -486,12 +486,12 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      209-D0_R
+                      <%= $data->{'209-D0_R'} %>
                     </p>
                   </td>
                   <td>
                     <p dir="ltr">
-                      210-D0_R
+                      <%= $data->{'210-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -504,12 +504,12 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      211 -D0_R
+                      <%= $data->{'211-D0_R'} %>
                     </p>
                   </td>
                   <td>
                     <p dir="ltr">
-                      212-D0_R
+                      <%= $data->{'212-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -523,12 +523,12 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      213 -D0_R
+                      <%= $data->{'213-D0_R'} %>
                     </p>
                   </td>
                   <td>
                     <p dir="ltr">
-                      214 -D0_R
+                      <%= $data->{'214-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -541,12 +541,12 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      215-D0_R
+                      <%= $data->{'215-D0_R'} %>
                     </p>
                   </td>
                   <td>
                     <p dir="ltr">
-                      216-D0_R
+                      <%= $data->{'216-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -559,12 +559,12 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      217 -D0_R
+                      <%= $data->{'217-D0_R'} %>
                     </p>
                   </td>
                   <td>
                     <p dir="ltr">
-                      218 -D0_R
+                      <%= $data->{'218-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -594,12 +594,12 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      221 -D0_R
+                      <%= $data->{'221-D0_R'} %>
                     </p>
                   </td>
                   <td>
                     <p dir="ltr">
-                      222-D0_R
+                      <%= $data->{'222-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -633,7 +633,7 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      301-D0_R
+                      <%= $data->{'301-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -646,7 +646,7 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      302-D0_R
+                      <%= $data->{'302-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -658,7 +658,7 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      303-D0_R
+                      <%= $data->{'303-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -670,7 +670,7 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      304-D0_R
+                      <%= $data->{'304-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -683,20 +683,19 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      305-D0_R
+                      <%= $data->{'305-D0_R'} %>
                     </p>
                   </td>
                 </tr>
                 <tr>
                   <td>
                     <p dir="ltr">
-                      Prevalência de déficit de altura em menores de cinco
-                      anos
+                      Prevalência de déficit de altura em menores de cinco anos
                     </p>
                   </td>
                   <td>
                     <p dir="ltr">
-                      306-D0_R
+                      <%= $data->{'306-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -708,7 +707,7 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      307-D0_R
+                      <%= $data->{'307-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -721,7 +720,7 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      308-D0_R
+                      <%= $data->{'308-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -733,7 +732,7 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      309-D0_R*
+                      <%= $data->{'309-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -746,8 +745,8 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      310-D0_R
-                      </>
+                      <%= $data->{'310-D0_R'} %>
+                    <p/>
                   </td>
                 </tr>
                 <tr>
@@ -758,7 +757,7 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      311-D0_R
+                      <%= $data->{'311-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -770,7 +769,7 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      312-D0_R*
+                      <%= $data->{'312-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -783,7 +782,7 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      313-D0_R
+                      <%= $data->{'313-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -795,7 +794,7 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      314-D0_R
+                      <%= $data->{'314-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -807,7 +806,7 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      315-D0_R
+                      <%= $data->{'315-D0_R'} %>
                     </p>
                   </td>
                 </tr>
@@ -819,7 +818,7 @@
                   </td>
                   <td>
                     <p dir="ltr">
-                      316-D0_R
+                      <%= $data->{'316-D0_R'} %>
                     </p>
                   </td>
                 </tr>
