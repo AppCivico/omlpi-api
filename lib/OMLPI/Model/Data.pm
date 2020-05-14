@@ -508,9 +508,6 @@ SQL_QUERY
     my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf');
     #run ['xvfb-run', 'wkhtmltopdf', '-q', $fh->filename, $pdf_file];
     run ['xvfb-run', 'wkhtmltopdf', qw(-T 10 -B 10 -L 0 -R 0), $fh->filename, $pdf_file];
-    use File::Copy;
-    copy($pdf_file, '/home/junior/projects/omlpi-api') or die $!;
-    p $pdf_file;
 
     return $pdf_file;
 }
