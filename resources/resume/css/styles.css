@@ -1,27 +1,53 @@
-@import url(
-  'https://fonts.googleapis.com/css?family=lato&display=swap'
-);
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;800&display=swap');
 
 html {
   margin: auto;
-  font-size: 1.4em;
+  font-size: 1.2em;
 }
 
 body {
+  margin: 0;
   background-color: #ffffff;
   font-family: lato;
 }
 
-#content {
-  padding: 24px;
+.container {
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
 }
 
-h2 {
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+  color: #fff;
+}
+
+.logo {
+  width: 156px;
+  height: 58px;
+}
+
+h1 {
+  display: inline-block;
   font-family: lato;
   font-size: 1.375em;
   font-weight: bold;
   color: #463581;
   margin-bottom: 24px;
+}
+
+h2 {
+  display: inline-block;
+  font-family: lato;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #463581;
+  margin-bottom: 24px;
+}
+
+strong {
+  font-weight: 800;
 }
 
 h3 {
@@ -53,7 +79,6 @@ span {
   font-size: 0.75em;
   color: #A3A3A3;
   display: inline;
-  float: right;
 }
 
 p {
@@ -61,14 +86,220 @@ p {
   font-size: 0.875em;
   font-weight: normal;
   color: #6E6E6E;
+  page-break-inside: avoid !important;
 }
 
-img {
-  height: 36px;
-  margin: 24px 0px 24px 0px;
+h2 + p {
+  margin-top: 0;
 }
 
-footer {
-  margin-top: 1.5em;
-  margin-bottom: 1.5em;
+ol {
+  padding-left: 0;
+  list-style: none;
+  counter-reset: my-awesome-counter;
+}
+
+ul {
+  page-break-inside: avoid !important;
+  margin-bottom: 1em;
+}
+
+ul li {
+  color: #6e6e6e;
+  list-style: disc;
+}
+
+ol > li {
+  counter-increment: my-awesome-counter;
+}
+
+ol > li::before {
+  display: inline-block;
+  font-family: lato;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #463581;
+  content: counter(my-awesome-counter);
+}
+
+table {
+  /* width: 100%; */
+}
+
+table p {
+  font-size: 1rem;
+}
+
+table td, table th {
+  padding: .75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+
+.site-footer {
+  margin-top: 2rem;
+  font-size: 16px;
+  color: #fff;
+  background-color: #693996;
+  page-break-inside: avoid !important;
+}
+
+.site-footer__colophon {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-bottom: 1.5em;
+}
+
+.site-footer__logo {
+  width: 12rem;
+  height: 1.95rem;
+  margin-top: 2em;
+  background-image: url('../img/logo-white.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+
+}
+
+.site-footer__social {
+  display: flex;
+  align-items: center;
+  width: auto;
+  margin-top: 2em;
+}
+
+.site-footer__social ul {
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+.site-footer__social li {
+  margin-left: 0.7em;
+  list-style: none;
+}
+
+.site-footer__social li:first-child {
+  margin-left: 0;
+}
+
+.site-footer__social li a {
+  display: block;
+  width: 1.4em;
+  height: 1.4em;
+  overflow: hidden;
+  text-indent: 999em;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.site-footer__social .facebook {
+  background-image: url('../img/facebook.svg');
+}
+
+.site-footer__social .twitter {
+  background-image: url('../img/twitter.svg');
+}
+
+.site-footer__social .instagram {
+  background-image: url('../img/instagram.svg');
+}
+
+.site-footer__social .whatsapp {
+  background-image: url('../img/whatsapp.svg');
+}
+
+.site-footer__social .github {
+  background: url('../img/github.svg');
+}
+
+.site-footer__logos {
+    display: -ms-flexbox;
+    display: flex;
+    align-items: flex-start;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.site-footer__logos h4 {
+  width: 100%;
+  margin-top: 1.2em;
+  margin-bottom: 0.3em;
+  font-size: 1em;
+  color: #fff;
+}
+
+.site-footer__logo-group img {
+  max-width: 3rem;
+  margin-right: 0.8rem;
+}
+
+.site-footer__logo-group:last-child {
+  margin-right: 0;
+}
+
+.site-footer__logo-group--big {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.site-footer__logo-group--big img {
+  max-width: 8.5em;
+}
+
+.site-footer__white-logo {
+  padding: 0.5rem;
+  background: #fff;
+}
+
+.site-footer address {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 1rem;
+  font-style: normal;
+}
+
+.site-footer address a {
+  margin-bottom: 0.7rem;
+  line-height: 1;
+  text-decoration: underline;
+  color: #fff;
+}
+
+.site-footer address span {
+  margin-top: 0.5em;
+  margin-right: auto;
+  margin-left: auto;
+  color: #fff;
+  font-size: .88889em;
+  text-align: center;
+}
+
+.footer__developed-by {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  background-color: #3b0c67;
+}
+
+.footer__developed-by span {
+  color: #fff;
+}
+
+.footer__developed-by a {
+  width: 6rem;
+  height: 1.3rem;
+  margin-left: 0.5rem;
+  font-size: 0;
+  text-decoration: none;
+  background-image: url('../img/appcivico.svg');
+  background-repeat: no-repeat;
 }
