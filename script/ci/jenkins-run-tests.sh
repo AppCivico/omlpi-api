@@ -24,5 +24,5 @@ docker run --rm -i -u app -v $REAL_WORKSPACE:/src appcivico/omlpi_api /src/scrip
 docker run --rm -i -u app -v $REAL_WORKSPACE:/src -v $REAL_WORKSPACE/tmp-data:/data appcivico/omlpi_api /src/script/run-tests.sh
 
 # Drop database
-rm -rf $WORKSPACE/tmp-data
-docker run --rm -i -u app -v $REAL_WORKSPACE:/src appcivico/omlpi_api /src/script/ci/dropdb.sh $DB_NAME
+#rm -rf $WORKSPACE/tmp-data
+#docker run --rm -i -u app -v $REAL_WORKSPACE:/src appcivico/omlpi_api /src/script/ci/dropdb.sh $DB_NAME
