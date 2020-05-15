@@ -517,8 +517,12 @@ SQL_QUERY
 
     # Generate another temporary file
     my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf');
-    #run ['xvfb-run', 'wkhtmltopdf', '-q', $fh->filename, $pdf_file];
-    run ['xvfb-run', 'wkhtmltopdf', qw(-T 10 -B 10 -L 0 -R 0), $fh->filename, $pdf_file];
+    run [
+        'xvfb-run', '--server-args="-screen 0 1024x768x24"', '--auto-servernum', '--server-num=1',
+        'wkhtmltopdf', qw(-T 10 -B 10 -L 0 -R 0),
+        $fh->filename,
+        $pdf_file,
+    ];
 
     return $pdf_file;
 }

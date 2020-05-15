@@ -7,7 +7,7 @@ use OMLPI::Test;
 my $t = test_instance();
 my $pg = $t->app->pg;
 
-my $locale_id = 3103108;
+my $locale_id = 3520301;
 
 $t->get_ok("/v1/data/resume", form => { locale_id => $locale_id })
   ->status_is(200);
