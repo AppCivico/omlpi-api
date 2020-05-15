@@ -35,7 +35,7 @@ $logger->info("Dataset checksum: $checksum");
 # Get the last database update checksum
 my $pg = get_mojo_pg();
 my $db = $pg->db;
-my $last_checksum = $db->query('select value from config where name = ?', 'DATABASE_CHECKSUM')->hash;
+my $last_checksum = $db->query('select value from config where name = ?', 'DATASET_CHECKSUM')->hash;
 if (defined($last_checksum)) {
     my $last_checksum_value = $last_checksum->{value};
     $logger->info(sprintf "Last checksum: $last_checksum_value");
@@ -283,12 +283,13 @@ SQL_QUERY
 
     $logger->info("Updating the dataset checksum...");
     $db->query(<<'SQL_QUERY', $checksum);
-      INSERT INTO config (name, value) VALUES ('DATABASE_CHECKSUM', ?)
+      INSERT INTO config (name, value) VALUES ('DATASET_CHECKSUM', ?)
       ON CONFLICT (name) WHERE valid_to = 'infinity' DO
         UPDATE SET
           value = EXCLUDED.value,
           valid_to = 'infinity';
 SQL_QUERY
+    $logger->info("Dataset checksum updated!");
 
     $tx->commit();
     $logger->info("Data loaded!");
