@@ -526,12 +526,19 @@ SQL_QUERY
     # Generate another temporary file
     $log->debug('Running wkhtmltopdf...');
     my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf');
+    my $out;
+    my $err;
     run [
         'xvfb-run', '--server-args="-screen 0 1024x768x24"', '--auto-servernum', '--server-num=1',
         'wkhtmltopdf', '--use-xserver', qw(-T 10 -B 10 -L 0 -R 0),
         $fh->filename,
         $pdf_file,
-    ];
+    ], \undef, \$out, \$err;
+
+    $log->debug('STDOUT:');
+    $log->debug($out);
+    $log->debug('STDERR:');
+    $log->debug($err);
 
     return $pdf_file;
 }
