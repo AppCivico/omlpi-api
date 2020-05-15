@@ -13,25 +13,44 @@ use Archive::Zip;
 use File::Temp qw(:POSIX);
 use Data::Printer;
 use OMLPI::Utils qw(nullif trim);
+use Digest::MD5;
 
 my $logger = get_logger();
 
 $logger->info("Starting data import...");
 my $dataset = 'latest';
-#my $dataset = $ARGV[0] or $logger->logdie("Missing arguments");
 
 my $filepath = "$RealBin/../resources/dataset/${dataset}";
 if (!-e $filepath) {
     $logger->logdie("File '$filepath' not found.");
 }
 
+$logger->info("Getting the file checksum");
+open my $fh, '<', $filepath or $logger->logdie($!);
+binmode ($fh);
+my $checksum = Digest::MD5->new->addfile($fh)->hexdigest;
+close $fh;
+$logger->info("Dataset checksum: $checksum");
+
+# Get the last database update checksum
+my $pg = get_mojo_pg();
+my $db = $pg->db;
+my $last_checksum = $db->query('select value from config where name = ?', 'DATABASE_CHECKSUM')->hash;
+if (defined($last_checksum)) {
+    my $last_checksum_value = $last_checksum->{value};
+    $logger->info(sprintf "Last checksum: $last_checksum_value");
+    if ($checksum eq $last_checksum_value) {
+        $logger->info("There is nothing to update on your database!");
+        exit 0;
+    }
+}
+$logger->info("New dataset! Let's import data!");
+
 $logger->info("Uncompressing file '$dataset'...");
 my $zip = Archive::Zip->new($filepath);
 $logger->info("File uncompressed!");
 
 $logger->info("Loading areas");
-my $pg = get_mojo_pg();
-my $db = $pg->db;
 my %areas = map { $_->{name} => $_->{id} }
             @{ $pg->db->select('area', [qw<id name>])->hashes };
 
