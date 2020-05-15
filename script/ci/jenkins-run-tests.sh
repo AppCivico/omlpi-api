@@ -18,7 +18,7 @@ cat sqitch.conf;
 export REAL_WORKSPACE="/home/jenkins-data/workspace/$JOB_NAME/"
 
 # Drop (if exists) and recreate database
-docker run --rm -i -u app -v $REAL_WORKSPACE:/src appcivico/omlpi_api /src/script/ci/resetdb.sh $DB_NAME
+#docker run --rm -i -u app -v $REAL_WORKSPACE:/src appcivico/omlpi_api /src/script/ci/resetdb.sh $DB_NAME
 
 # Run tests
 docker run --rm -i -u app -v $REAL_WORKSPACE:/src -v $REAL_WORKSPACE/tmp-data:/data appcivico/omlpi_api /src/script/run-tests.sh
