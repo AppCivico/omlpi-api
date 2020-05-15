@@ -528,7 +528,7 @@ SQL_QUERY
     my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf');
     run [
         'xvfb-run', '--server-args="-screen 0 1024x768x24"', '--auto-servernum', '--server-num=1',
-        'wkhtmltopdf', qw(-T 10 -B 10 -L 0 -R 0),
+        'wkhtmltopdf', '--use-xserver', qw(-T 10 -B 10 -L 0 -R 0),
         $fh->filename,
         $pdf_file,
     ];
