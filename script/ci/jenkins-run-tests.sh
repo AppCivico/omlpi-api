@@ -21,7 +21,7 @@ export REAL_WORKSPACE="/home/jenkins-data/workspace/$JOB_NAME/"
 #docker run --rm -i -u app -v $REAL_WORKSPACE:/src appcivico/omlpi_api /src/script/ci/resetdb.sh $DB_NAME
 
 # Run tests
-docker run --rm -i -u app -v $REAL_WORKSPACE:/src -v $REAL_WORKSPACE/tmp-data:/data appcivico/omlpi_api /src/script/run-tests.sh
+docker run --rm -i -u app -v $REAL_WORKSPACE:/src -v $REAL_WORKSPACE/tmp-data:/data -e DISPLAY=:99 appcivico/omlpi_api /src/script/run-tests.sh
 
 # Drop database
 #rm -rf $WORKSPACE/tmp-data
