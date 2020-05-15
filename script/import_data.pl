@@ -281,6 +281,16 @@ SQL_QUERY
     $db->query("REFRESH MATERIALIZED VIEW random_locale_indicator");
     $logger->info("Materialized view refreshed!");
 
+    $logger->info("Updating the dataset checksum...");
+    $db->query('select value from config where name = ?', 'DATABASE_CHECKSUM')->hash;
+    $db->query(<<'SQL_QUERY', 'DATABASE_CHECKSUM', $checksum);
+      INSERT INTO config (name, value) VALUES ('DATABASE_CHECKSUM', ?)
+      ON CONFLICT (name) WHERE valid_to = 'infinity' DO
+        UPDATE SET
+          value = EXCLUDED.value,
+          valid_to = 'infinity';
+SQL_QUERY
+
     $tx->commit();
     $logger->info("Data loaded!");
 };
