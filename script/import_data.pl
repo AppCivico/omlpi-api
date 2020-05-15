@@ -282,8 +282,7 @@ SQL_QUERY
     $logger->info("Materialized view refreshed!");
 
     $logger->info("Updating the dataset checksum...");
-    $db->query('select value from config where name = ?', 'DATABASE_CHECKSUM')->hash;
-    $db->query(<<'SQL_QUERY', 'DATABASE_CHECKSUM', $checksum);
+    $db->query(<<'SQL_QUERY', $checksum);
       INSERT INTO config (name, value) VALUES ('DATABASE_CHECKSUM', ?)
       ON CONFLICT (name) WHERE valid_to = 'infinity' DO
         UPDATE SET
