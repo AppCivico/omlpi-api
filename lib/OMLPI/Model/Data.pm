@@ -529,7 +529,7 @@ SQL_QUERY
     my $out;
     my $err;
     run [
-        'xvfb-run', '--server-args="-screen 0 1024x768x24"',
+        'xvfb-run', '--auto-servernum', '--server-num=1', '--server-args="-screen 0 1024x768x24"',
         'wkhtmltopdf', qw(-T 10 -B 10 -L 0 -R 0),
         $fh->filename,
         $pdf_file,
