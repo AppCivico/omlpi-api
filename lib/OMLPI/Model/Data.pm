@@ -446,15 +446,22 @@ sub get_resume {
     # Fix encoding issues
     my $slurp = decode('UTF-8', $template->slurp);
 
+    my $log = $self->app->log;
+
     # Create temporary directory
     my $dir = File::Temp->newdir(CLEANUP => 1);
+    $log->debug("Temporary dir: " . $dir->dirname);
+
+    $log->debug('Creating symlinks...');
     symlink $home->rel_file("resources/resume/$_"), $dir->dirname . "/$_"
       or die $!
         for qw<css img>;
 
     # Create temporary file
+    $log->debug('Creating temporary file...');
     my $fh = File::Temp->new(UNLINK => 0, SUFFIX => '.html', DIR => $dir->dirname);
     binmode $fh, ':utf8';
+    $log->debug('Temporary file: ' . $fh->filename);
 
     # Get indicator values
     my $locale_id = $opts{locale_id};
@@ -507,6 +514,7 @@ SQL_QUERY
     );
 
     # Write to file
+    $log->debug('Rendering the file...');
     print $fh $mt->render($slurp, {
         now         => $self->app->model('DateTime')->now(),
         locale_name => $locale->{name},
@@ -516,6 +524,7 @@ SQL_QUERY
     close $fh;
 
     # Generate another temporary file
+    $log->debug('Running wkhtmltopdf...');
     my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf');
     run [
         'xvfb-run', '--server-args="-screen 0 1024x768x24"', '--auto-servernum', '--server-num=1',
