@@ -47,4 +47,4 @@ COPY omlpi.sh /etc/service/omlpi/run
 RUN mkdir /etc/service/omlpi-minion-worker
 COPY omlpi-minion-worker.sh /etc/service/omlpi-minion-worker/run
 
-RUN Xvfb :99 -ac -screen 0, 1680x1050x24
+RUN Xvfb :99 -ac -screen 0, 1680x1050x24 &
