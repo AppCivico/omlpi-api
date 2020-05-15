@@ -34,7 +34,7 @@ export REAL_WORKSPACE="/home/jenkins-data/dev-persistent/$JOB_NAME/"
 if ! docker top $CONTAINER_NAME &>/dev/null
 then
     # sobe a api
-    docker run -d --name $CONTAINER_NAME -p $DOCKER_LAN_IP:$LISTEN_PORT:8080 -v $REAL_WORKSPACE/src:/src -v $REAL_WORKSPACE/data:/data -e DISPLAY=:99 --restart unless-stopped appcivico/omlpi_api
+    docker run -d --name $CONTAINER_NAME -p $DOCKER_LAN_IP:$LISTEN_PORT:8080 -v $REAL_WORKSPACE/src:/src -v $REAL_WORKSPACE/data:/data --restart unless-stopped appcivico/omlpi_api
 else
     docker exec -u app $CONTAINER_NAME /src/script/restart-services.sh
 fi
