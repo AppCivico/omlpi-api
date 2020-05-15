@@ -16,6 +16,8 @@ sub get {
       if not defined $year;
 
     my $attachment = $c->model('Data')->get_resume(locale_id => $locale_id, year => $year);
+    my $size = -s $attachment;
+    $size > 0 or return $c->reply_internal_server_error();
 
     return $c->render_file(
         filepath => $attachment,
