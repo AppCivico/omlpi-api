@@ -471,8 +471,19 @@ SQL_QUERY
 SQL_QUERY
 
     # Get locale
-    my $locale = $self->app->pg->db->query('select name from locale where id = ?', $locale_id)->hash;
-    p $locale;
+    my $locale = $self->app->pg->db->query(<<'SQL_QUERY', $locale_id)->hash;
+       select
+        case
+          when type = 'city' then locale.name || '/' || state.uf
+          else locale.name
+        end as name
+      from locale
+      left join city
+        on city.id = locale.id
+      left join state
+        on city.state_id = state.id
+      where locale.id = ?
+SQL_QUERY
 
     my %data = (
         locale_name => $locale->{name},
