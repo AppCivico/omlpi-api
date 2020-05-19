@@ -82,6 +82,7 @@ span {
 p {
   font-family: lato;
   font-size: 0.875em;
+  line-height: 1.4;
   font-weight: normal;
   color: #6E6E6E;
   page-break-inside: avoid !important;
@@ -98,12 +99,17 @@ ol {
 }
 
 ul {
+  overflow: hidden;
   page-break-inside: avoid !important;
   margin-bottom: 1em;
 }
 
 ul li {
   float: left;
+  width: 100%;
+  margin-bottom: 10px;
+  font-size: 0.875em;
+  line-height: 1.6;
   color: #6e6e6e;
   list-style: disc;
 }
@@ -172,6 +178,7 @@ table td, table th {
 }
 
 .site-footer__social li {
+  width: auto;
   margin-left: 0.7em;
   list-style: none;
 }
