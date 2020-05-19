@@ -17,8 +17,6 @@ body {
 }
 
 header {
-  display: flex;
-  justify-content: space-between;
   padding: 1.5rem 0;
   color: #fff;
 }
@@ -105,6 +103,7 @@ ul {
 }
 
 ul li {
+  float: left;
   color: #6e6e6e;
   list-style: disc;
 }
@@ -139,6 +138,7 @@ table td, table th {
 
 .site-footer {
   margin-top: 2rem;
+  overflow: hidden;
   font-size: 16px;
   color: #fff;
   background-color: #693996;
@@ -146,16 +146,13 @@ table td, table th {
 }
 
 .site-footer__colophon {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
   padding-bottom: 1.5em;
 }
 
 .site-footer__logo {
   width: 12rem;
   height: 1.95rem;
+  float: left;
   margin-top: 2em;
   background-image: url('../img/logo-white.svg');
   background-repeat: no-repeat;
@@ -164,14 +161,12 @@ table td, table th {
 }
 
 .site-footer__social {
-  display: flex;
-  align-items: center;
   width: auto;
+  float: right;
   margin-top: 2em;
 }
 
 .site-footer__social ul {
-  display: flex;
   padding: 0;
   margin: 0;
 }
@@ -191,7 +186,7 @@ table td, table th {
   height: 1.4em;
   overflow: hidden;
   text-indent: 999em;
-  background-size: contain;
+  background-size: 100%;
   background-repeat: no-repeat;
 }
 
@@ -216,11 +211,6 @@ table td, table th {
 }
 
 .site-footer__logos {
-    display: -ms-flexbox;
-    display: flex;
-    align-items: flex-start;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
     width: 100%;
 }
 
@@ -242,10 +232,6 @@ table td, table th {
 }
 
 .site-footer__logo-group--big {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: space-between;
 }
 
 .site-footer__logo-group--big img {
@@ -258,9 +244,10 @@ table td, table th {
 }
 
 .site-footer address {
-  display: flex;
-  flex-direction: column;
   width: 100%;
+  float: left;
+  text-align: center;
+  margin-bottom: 1rem;
   margin-top: 1rem;
   font-style: normal;
 }
@@ -282,9 +269,9 @@ table td, table th {
 }
 
 .footer__developed-by {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  float: left;
+  width: 100%;
+  text-align: center;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
   background-color: #3b0c67;
@@ -292,9 +279,13 @@ table td, table th {
 
 .footer__developed-by span {
   color: #fff;
+  vertical-align: middle;
 }
 
 .footer__developed-by a {
+  display: inline-block;
+  justify-content: center;
+  vertical-align: middle;
   width: 6rem;
   height: 1.3rem;
   margin-left: 0.5rem;
@@ -302,4 +293,5 @@ table td, table th {
   text-decoration: none;
   background-image: url('../img/appcivico.svg');
   background-repeat: no-repeat;
+  text-align: center;
 }
