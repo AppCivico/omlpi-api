@@ -12,6 +12,7 @@ use Scope::OnExit;
 use Archive::Zip;
 use File::Temp qw(:POSIX);
 use Data::Printer;
+use Data::Dumper;
 use OMLPI::Utils qw(nullif trim);
 use Digest::MD5;
 
@@ -60,7 +61,7 @@ my %locales = map { $_->{id} => 1 }
 eval {
     my $tx = $db->begin();
     {
-        my $file = 'v6/indicadores.csv';
+        my $file = 'indicadores.csv';
         $logger->info("Loading indicators...");
         my $member = $zip->memberNamed($file) or $logger->logdie("File '${file}' not found");
         my $tmp = tmpnam();
@@ -97,7 +98,7 @@ SQL_QUERY
 
     {
         $logger->info("Loading subindicators...");
-        my $file = 'v6/desagregadores.csv';
+        my $file = 'desagregadores.csv';
         my $member = $zip->memberNamed($file) or $logger->logdie("File '${file}' not found");
         my $tmp = tmpnam();
         on_scope_exit { unlink $tmp };
@@ -122,11 +123,10 @@ SQL_QUERY
         $logger->info("Subindicators loaded!");
     }
 
-    exit 0;
-
     {
         $logger->info("Loading data...");
-        my $member = $zip->memberNamed('dados.csv') or $logger->logdie("File 'dados.csv' not found");
+        my $file = 'dados.csv';
+        my $member = $zip->memberNamed($file) or $logger->logdie("File '${file}' not found");
         my $tmp = tmpnam();
         on_scope_exit { unlink $tmp };
         $member->extractToFileNamed($tmp);
@@ -154,6 +154,7 @@ SQL_QUERY
         });
 
         my %loaded_indicators_data = ();
+        my $i = 0;
         while (my $line = <$csv>) {
             $line = { %$line };
             my $area_id      = delete $line->{Tema};
@@ -161,6 +162,12 @@ SQL_QUERY
             my $indicator_id = delete $line->{Indicador};
             my $locale_id    = delete($line->{Localidade});
             next if $indicator_id == 0;
+
+            if ($indicator_id !~ m{^\d+$} || $locale_id !~ m{^\d+$} || $year !~ m{^\d+$} || $area_id !~ m{^\d+$} ) {
+                $logger->error("Há algo de errado com essa linha:\n" . Dumper $line);
+                $logger->error("Skipping...");
+                next;
+            }
 
             if (!$locales{$locale_id}) {
                 $logger->warn(sprintf "A locale id '%d' não existe no banco!", $locale_id);
