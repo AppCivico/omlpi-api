@@ -60,8 +60,9 @@ my %locales = map { $_->{id} => 1 }
 eval {
     my $tx = $db->begin();
     {
+        my $file = 'v6/indicadores.csv';
         $logger->info("Loading indicators...");
-        my $member = $zip->memberNamed('indicadores.csv') or $logger->logdie("File 'indicadores.csv' not found");
+        my $member = $zip->memberNamed($file) or $logger->logdie("File '${file}' not found");
         my $tmp = tmpnam();
         on_scope_exit { unlink $tmp };
         $member->extractToFileNamed($tmp);
@@ -70,12 +71,12 @@ eval {
         my @binds = ();
         my $csv = Tie::Handle::CSV->new($tmp, header => 1, sep_char => ';');
         while (my $line = <$csv>) {
-            my @ods = map { s{(\s*ODS\s*)}{}gr } split ';', $line->{ODS};
+            my @ods = split m{\D+}, trim($line->{ODS});
             my $ods;
             $ods = '{' . join(',', @ods) . '}' if scalar @ods > 0;
 
             $sql_query .= "(?, ?, ?, ?, ?, ?), ";
-            push @binds, @{$line}{(qw(Indicador Nome Tema Base))}, $ods, $line->{Conceito};
+            push @binds, @{$line}{(qw(ID NOME TEMA BASE))}, $ods, $line->{CONCEITO};
         }
         close $csv;
 
@@ -93,6 +94,8 @@ SQL_QUERY
         $pg->db->query($sql_query, @binds);
         $logger->info("Indicators loaded!");
     }
+
+    exit;
 
     {
         $logger->info("Loading subindicators...");
