@@ -154,7 +154,6 @@ SQL_QUERY
         });
 
         my %loaded_indicators_data = ();
-        my $i = 0;
         while (my $line = <$csv>) {
             $line = { %$line };
             my $area_id      = delete $line->{Tema};
@@ -235,6 +234,7 @@ SQL_QUERY
         # Seek and skip first line
         seek($csv, 0, 0) or $logger->logdie($!);
         <$csv>;
+        my %loaded_subindicators_data = ();
         while (my $line = <$csv>) {
             $line = { %$line };
             my $area_id      = delete $line->{Tema};
@@ -250,6 +250,17 @@ SQL_QUERY
             for my $k (keys %subindicators) {
                 my ($subindicator_id) = $k =~ m{^D([0-9]+)};
                 next if $subindicator_id == 0;
+
+                if ($loaded_subindicators_data{$locale_id}->{$indicator_id}->{$subindicator_id}->{$year}) {
+                    $logger->warn(sprintf(
+                        "O desagregador id %d do indicador %d já foi carregado para a localidade %d no ano %d!",
+                        $subindicator_id,
+                        $indicator_id,
+                        $locale_id,
+                        $year
+                    ));
+                    next;
+                }
 
                 # Get indicator values
                 my $value_relative = $line->{"D${subindicator_id}_R"};
@@ -269,6 +280,7 @@ SQL_QUERY
                 if (defined($value_relative) || defined($value_absolute)) {
                     $text_csv->combine($indicator_id, $subindicator_id, $locale_id, $year, $value_relative, $value_absolute);
                     $dbh->pg_putcopydata($text_csv->string());
+                    $loaded_subindicators_data{$locale_id}->{$indicator_id}->{$subindicator_id}->{$year} = 1;
                 }
             }
         }
