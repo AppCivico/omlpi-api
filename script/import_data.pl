@@ -95,11 +95,10 @@ SQL_QUERY
         $logger->info("Indicators loaded!");
     }
 
-    exit;
-
     {
         $logger->info("Loading subindicators...");
-        my $member = $zip->memberNamed('desagregadores.csv') or $logger->logdie("File 'desagregadores.csv' not found");
+        my $file = 'v6/desagregadores.csv';
+        my $member = $zip->memberNamed($file) or $logger->logdie("File '${file}' not found");
         my $tmp = tmpnam();
         on_scope_exit { unlink $tmp };
         $member->extractToFileNamed($tmp);
@@ -122,6 +121,8 @@ SQL_QUERY
         $pg->db->query($sql_query, @binds);
         $logger->info("Subindicators loaded!");
     }
+
+    exit 0;
 
     {
         $logger->info("Loading data...");
