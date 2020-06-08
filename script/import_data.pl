@@ -187,8 +187,8 @@ SQL_QUERY
             my $value_relative = $line->{'D0_R'};
             my $value_absolute = $line->{'D0_A'};
 
-            $value_absolute =~ s{[.](?=.*[.])}{}g;
-            $value_relative =~ s{[.](?=.*[.])}{}g;
+            $value_relative =~ s/\.//g;
+            $value_absolute =~ s/\.//g;
             $value_relative =~ s/,/./ if $value_relative =~ m{^[0-9+]+,[0-9]+$};
             $value_absolute =~ s/,/./ if $value_absolute =~ m{^[0-9+]+,[0-9]+$};
             $value_relative = nullif(trim($value_relative), '');
@@ -265,10 +265,10 @@ SQL_QUERY
                 # Get indicator values
                 my $value_relative = $line->{"D${subindicator_id}_R"};
                 my $value_absolute = $line->{"D${subindicator_id}_A"};
-                $value_absolute    =~ s{[.](?=.*[.])}{}g;
-                $value_relative    =~ s{[.](?=.*[.])}{}g;
-                $value_relative =~ s/,/./ if $value_relative =~ m{^[0-9+]+,[0-9]+$};
-                $value_absolute =~ s/,/./ if $value_absolute =~ m{^[0-9+]+,[0-9]+$};
+                $value_relative    =~ s/\.//g;
+                $value_absolute    =~ s/\.//g;
+                $value_relative    =~ s/,/./ if $value_relative =~ m{^[0-9+]+,[0-9]+$};
+                $value_absolute    =~ s/,/./ if $value_absolute =~ m{^[0-9+]+,[0-9]+$};
                 $value_relative    = nullif(trim($value_relative), '');
                 $value_absolute    = nullif(trim($value_absolute), '');
                 $value_absolute    = sprintf('%.1f', $value_absolute) if defined $value_absolute;
