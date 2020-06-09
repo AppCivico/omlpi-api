@@ -108,6 +108,7 @@ sub get {
                                       AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
                                       AND (?::int IS NULL OR subindicator_locale.year = ?::int)
                                   )
+                                ORDER BY s2.id ASC
                               ) sx
                             ),
                             ARRAY[]::record[]
