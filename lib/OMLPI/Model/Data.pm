@@ -55,7 +55,7 @@ sub get {
                             indicator_locale.value_absolute IS NOT NULL
                             OR indicator_locale.value_relative IS NOT NULL
                           )
-                      ORDER BY indicator_locale.year DESC
+                      ORDER BY indicator_locale.year DESC, indicator_locale.indicator_id ASC
                       LIMIT 1
                     ) indicator_values
                   ) AS values,
@@ -94,7 +94,7 @@ sub get {
                                         AND subindicator_locale.locale_id = locale.id
                                         AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
                                         AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-                                      ORDER BY subindicator_locale.year DESC, subindicator_locale.id ASC
+                                      ORDER BY subindicator_locale.year DESC, subindicator_locale.subindicator_id ASC
                                       LIMIT 1
                                     ) sl
                                   ) AS values
@@ -197,7 +197,7 @@ sub compare {
                             indicator_locale.value_absolute IS NOT NULL
                             OR indicator_locale.value_relative IS NOT NULL
                           )
-                      ORDER BY indicator_locale.year DESC, indicator_locale.id ASC
+                      ORDER BY indicator_locale.year DESC, indicator_locale.indicator_id ASC
                     ) indicator_values
                   ) AS values,
                   COALESCE(
@@ -226,7 +226,7 @@ sub compare {
                                         AND subindicator_locale.locale_id = locale.id
                                         AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
                                         AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-                                      ORDER BY subindicator_locale.year DESC, subindicator_locale.id ASC
+                                      ORDER BY subindicator_locale.year DESC, subindicator_locale.subindicador_id ASC
                                     ) sl
                                   ) AS values
                                 FROM subindicator s2
@@ -331,7 +331,7 @@ sub compare_country {
                             indicator_locale.value_absolute IS NOT NULL
                             OR indicator_locale.value_relative IS NOT NULL
                           )
-                      ORDER BY indicator_locale.year DESC, indicator_locale.id ASC
+                      ORDER BY indicator_locale.year DESC, indicator_locale.indicator_id ASC
                     ) indicator_values
                   ) AS values,
                   COALESCE(
@@ -360,7 +360,7 @@ sub compare_country {
                                         AND subindicator_locale.locale_id = locale.id
                                         AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
                                         AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-                                      ORDER BY subindicator_locale.year DESC, subindicator_locale.id ASC
+                                      ORDER BY subindicator_locale.year DESC, subindicator_locale.subindicator_id ASC
                                     ) sl
                                   ) AS values
                                 FROM subindicator s2
@@ -816,7 +816,7 @@ sub get_historical {
                             indicator_locale.value_absolute IS NOT NULL
                             OR indicator_locale.value_relative IS NOT NULL
                           )
-                      ORDER BY indicator_locale.year DESC, indicator_locale.id ASC
+                      ORDER BY indicator_locale.year DESC, indicator_locale.indicator_id ASC
                     ) indicator_values
                   ) AS values,
                   COALESCE(
@@ -845,7 +845,7 @@ sub get_historical {
                                         AND subindicator_locale.subindicator_id = s2.id
                                         AND subindicator_locale.locale_id = locale.id
                                         AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
-                                      ORDER BY subindicator_locale.year DESC, subindicator_locale.id ASC
+                                      ORDER BY subindicator_locale.year DESC, subindicator_locale.subindicator_id ASC
                                     ) sl
                                   ) AS values
                                 FROM subindicator s2
