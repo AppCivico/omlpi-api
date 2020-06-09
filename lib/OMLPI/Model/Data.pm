@@ -226,7 +226,7 @@ sub compare {
                                         AND subindicator_locale.locale_id = locale.id
                                         AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
                                         AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-                                      ORDER BY subindicator_locale.year DESC, subindicator_locale.subindicador_id ASC
+                                      ORDER BY subindicator_locale.year DESC, subindicator_locale.subindicator_id ASC
                                     ) sl
                                   ) AS values
                                 FROM subindicator s2
