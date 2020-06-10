@@ -126,7 +126,6 @@ sub get {
                             )
                             AND (?::int IS NULL OR subindicator_locale.year = ?::int)
                         )
-                        ORDER BY subindicator.id ASC
                       ) AS subindicators
                     ),
                     ARRAY[]::record[]
