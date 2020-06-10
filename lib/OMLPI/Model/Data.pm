@@ -94,7 +94,7 @@ sub get {
                                         AND subindicator_locale.locale_id = locale.id
                                         AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
                                         AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-                                      ORDER BY subindicator_locale.year DESC, subindicator_locale.subindicator_id ASC
+                                      ORDER BY subindicator_locale.year DESC, subindicator_locale.indicator_id ASC
                                       LIMIT 1
                                     ) sl
                                   ) AS values
@@ -126,6 +126,7 @@ sub get {
                             )
                             AND (?::int IS NULL OR subindicator_locale.year = ?::int)
                         )
+                        ORDER BY subindicator.id ASC
                       ) AS subindicators
                     ),
                     ARRAY[]::record[]
@@ -198,7 +199,7 @@ sub compare {
                             indicator_locale.value_absolute IS NOT NULL
                             OR indicator_locale.value_relative IS NOT NULL
                           )
-                      ORDER BY indicator_locale.year DESC, indicator_locale.indicator_id ASC
+                      ORDER BY indicator_locale.year DESC
                     ) indicator_values
                   ) AS values,
                   COALESCE(
@@ -227,7 +228,7 @@ sub compare {
                                         AND subindicator_locale.locale_id = locale.id
                                         AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
                                         AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-                                      ORDER BY subindicator_locale.year DESC, subindicator_locale.subindicator_id ASC
+                                      ORDER BY subindicator_locale.year DESC
                                     ) sl
                                   ) AS values
                                 FROM subindicator s2
@@ -239,6 +240,7 @@ sub compare {
                                       AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
                                       AND (?::int IS NULL OR subindicator_locale.year = ?::int)
                                   )
+                                ORDER BY s2.id
                               ) sx
                             ),
                             ARRAY[]::record[]
