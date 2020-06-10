@@ -314,6 +314,16 @@ SQL_QUERY
 SQL_QUERY
     $logger->info("Dataset checksum updated!");
 
+    $logger->info("Need to generate the file...");
+    $db->query(<<'SQL_QUERY');
+      INSERT INTO config (name, value) VALUES ('GENERATE_DATA_FILE', 1)
+      ON CONFLICT (name) WHERE valid_to = 'infinity' DO
+        UPDATE SET
+          value = EXCLUDED.value,
+          valid_to = 'infinity';
+SQL_QUERY
+    $logger->info("File will be generated!");
+
     $tx->commit();
     $logger->info("Data loaded!");
 };
