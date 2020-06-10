@@ -72,7 +72,7 @@ sub get {
                       SELECT ARRAY_AGG(subindicators)
                       FROM (
                         SELECT
-                          DISTINCT ON (classification) subindicator.classification AS classification,
+                          DISTINCT ON (classification, id) subindicator.classification AS classification,
                           COALESCE(
                             (
                               SELECT ARRAY_AGG(sx)
@@ -126,6 +126,7 @@ sub get {
                             )
                             AND (?::int IS NULL OR subindicator_locale.year = ?::int)
                         )
+                        ORDER BY subindicator.id, subindicator.classification
                       ) AS subindicators
                     ),
                     ARRAY[]::record[]
