@@ -16,7 +16,7 @@ sub get {
     my $year      = $opts{year};
     my $area_id   = $opts{area_id};
     my $locale_id = $opts{locale_id};
-    my @binds     = ((($year) x 6), (($area_id) x 2), (($year) x 2), $locale_id);
+    my @binds     = ((($year) x 8), (($area_id) x 2), (($year) x 2), $locale_id);
 
     return $self->app->pg->db->query(<<"SQL_QUERY", @binds);
       SELECT
@@ -72,7 +72,6 @@ sub get {
                       SELECT ARRAY_AGG(subindicators)
                       FROM (
                         SELECT
-                          --DISTINCT ON (classification) subindicator.classification AS classification,
                           subindicator.id,
                           subindicator.classification,
                           subindicator.description,
@@ -89,6 +88,14 @@ sub get {
                                 AND subindicator_locale.locale_id = locale.id
                                 AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
                                 AND (?::int IS NULL OR subindicator_locale.year = ?::int)
+                                AND EXISTS (
+                                  SELECT 1
+                                  FROM subindicator_locale
+                                  WHERE subindicator_locale.indicator_id = indicator.id
+                                    AND subindicator_locale.subindicator_id = subindicator.id
+                                    AND subindicator_locale.locale_id = locale.id
+                                    AND (?::int IS NULL OR indicator_locale.year = ?::int)
+                                )
                               ORDER BY subindicator_locale.year DESC, subindicator_locale.indicator_id ASC
                             ) subindicator_values
                           ) AS values
@@ -125,8 +132,8 @@ sub get {
       LEFT JOIN state
         ON locale.type = 'city' AND city.state_id = state.id
       WHERE locale.id = ?
-      GROUP BY 1,2,3
 SQL_QUERY
+      GROUP BY 1,2,3
 }
 
 sub compare {
