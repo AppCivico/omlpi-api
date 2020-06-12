@@ -94,7 +94,7 @@ sub get {
                                   WHERE subindicator_locale.indicator_id = indicator.id
                                     AND subindicator_locale.subindicator_id = subindicator.id
                                     AND subindicator_locale.locale_id = locale.id
-                                    AND (?::int IS NULL OR indicator_locale.year = ?::int)
+                                    AND (?::int IS NULL OR subindicator_locale.year = ?::int)
                                 )
                               ORDER BY subindicator_locale.year DESC, subindicator_locale.indicator_id ASC
                             ) subindicator_values
