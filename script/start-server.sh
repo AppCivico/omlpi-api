@@ -17,7 +17,7 @@ export SQITCH_DEPLOY=${SQITCH_DEPLOY:=docker}
 cpanm -nv . --installdeps
 sqitch deploy -t $SQITCH_DEPLOY
 
-perl script/omlpi-api data_spreadsheet
+#perl script/omlpi-api data_spreadsheet
 
 LIBEV_FLAGS=4 MOJO_IOLOOP_DEBUG=1 hypnotoad script/omlpi-api
 
