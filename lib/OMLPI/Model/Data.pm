@@ -88,14 +88,6 @@ sub get {
                                 AND subindicator_locale.locale_id = locale.id
                                 AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
                                 AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-                                AND EXISTS (
-                                  SELECT 1
-                                  FROM subindicator_locale
-                                  WHERE subindicator_locale.indicator_id = indicator.id
-                                    AND subindicator_locale.subindicator_id = subindicator.id
-                                    AND subindicator_locale.locale_id = locale.id
-                                    AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-                                )
                               ORDER BY subindicator_locale.year DESC, subindicator_locale.indicator_id ASC
                             ) subindicator_values
                           ) AS values
@@ -104,6 +96,14 @@ sub get {
                           ON subindicator.id = subindicator_locale.subindicator_id
                         WHERE subindicator_locale.locale_id = locale.id
                           AND (?::int IS NULL OR subindicator_locale.year = ?::int)
+                          AND EXISTS (
+                            SELECT 1
+                            FROM subindicator_locale
+                            WHERE subindicator_locale.indicator_id = indicator.id
+                              AND subindicator_locale.subindicator_id = subindicator.id
+                              AND subindicator_locale.locale_id = locale.id
+                              AND (?::int IS NULL OR subindicator_locale.year = ?::int)
+                          )
                         GROUP BY subindicator.id, subindicator.classification, subindicator.description
                       ) AS subindicators
                     ),
