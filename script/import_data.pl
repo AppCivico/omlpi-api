@@ -119,7 +119,7 @@ SQL_QUERY
         close $csv;
 
         $sql_query =~ s{, $}{};
-        $sql_query .= " ON CONFLICT (id) DO UPDATE SET description = EXCLUDED.description";
+        $sql_query .= " ON CONFLICT (id) DO UPDATE SET description = EXCLUDED.description, classification = EXCLUDED.classification";
 
         $pg->db->query($sql_query, @binds);
         $logger->info("Subindicators loaded!");
