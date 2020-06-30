@@ -14,15 +14,15 @@ sub get {
 
     my $res = $c->model('Data')
       ->get(locale_id => $locale_id, area_id => $area_id, year => $year)
-      ->expand()
-      ->hash();
+      ->expand
+      ->hash;
 
-    for my $indicator (@{$res->{indicators}}) {
+    # Aggregate the subindicators by the classification
+    for my $indicator (@{$res->{indicators} || []}) {
         my @subindicators = sort { $a->{id} <=> $b->{id} } @{ delete $indicator->{subindicators} };
 
         my %agg;
-        #tie(%agg, 'Tie::IxHash');
-        tie(%agg, 'DB_File');
+        tie(%agg, 'Tie::IxHash');
         for my $subindicator (@subindicators) {
             my $classification = delete $subindicator->{classification};
             $agg{$classification} //= {
