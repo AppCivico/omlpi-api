@@ -13,12 +13,23 @@ sub get {
 
     #$c->_validate_comparison($locale_id);
 
-    my $res = $type eq 'country'
-        ? $c->model('Data')->compare_country(locale_id => $locale_id, year => $year)
-        : $c->model('Data')->compare(locale_id => $locale_id, year => $year)
+    my $compare = $type eq 'country'
+        ? $c->model('Compare')->compare_country(locale_id => $locale_id, year => $year)
+        : $c->model('Compare')->compare(locale_id => $locale_id, year => $year)
     ;
 
-    return $c->render(json => { comparison => $res->expand->hashes }, status => 200 );
+    use DDP;
+
+    my $res = $compare->expand->hashes
+      ->map(sub {
+          $_
+      });
+
+    p $res->[0]->{indicators}->[1];
+
+    exit 0;
+
+    return $c->render(json => { comparison => $res }, status => 200 );
 }
 
 sub _validate_comparison {
