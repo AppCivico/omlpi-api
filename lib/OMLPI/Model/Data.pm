@@ -132,8 +132,8 @@ sub get {
       LEFT JOIN state
         ON locale.type = 'city' AND city.state_id = state.id
       WHERE locale.id = ?
-SQL_QUERY
       GROUP BY 1,2,3
+SQL_QUERY
 }
 
 sub compare {
