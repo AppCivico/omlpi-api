@@ -112,7 +112,9 @@ SQL_QUERY
             my $id = int($line->{ID}) or next;
             next if $id == 0 || $unique_subindicator{$id}++;
             $sql_query .= '(?, ?, ?), ';
-            push @binds, ($id, @{$line}{(qw(Nome Classificador))});
+            my $classification = trim($line->{Classificador});
+            my $name           = trim($line->{Nome});
+            push @binds, ($id, $name, $classification);
         }
         close $csv;
 
