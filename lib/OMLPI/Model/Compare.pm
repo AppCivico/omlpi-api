@@ -10,7 +10,7 @@ sub compare {
     my $area_id    = $opts{area_id};
     my $locale_id  = $opts{locale_id};
     my @locale_ids = @{ $self->app->model('Locale')->get_locales_of_the_same_scope($locale_id) };
-    my @binds      = ((($year) x 8), (($area_id) x 2), (($year) x 2), @locale_ids);
+    my @binds      = ((($year) x 6), (($area_id) x 2), (($year) x 2), @locale_ids);
 
     return $self->app->pg->db->query(<<"SQL_QUERY", @binds);
       SELECT
