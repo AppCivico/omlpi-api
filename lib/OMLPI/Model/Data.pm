@@ -16,7 +16,7 @@ sub get {
     my $year      = $opts{year};
     my $area_id   = $opts{area_id};
     my $locale_id = $opts{locale_id};
-    my @binds     = ((($year) x 8), (($area_id) x 2), (($year) x 2), $locale_id);
+    my @binds     = ((($year) x 6), (($area_id) x 2), (($year) x 2), $locale_id);
 
     return $self->app->pg->db->query(<<"SQL_QUERY", @binds);
       SELECT
@@ -95,15 +95,8 @@ sub get {
                         JOIN subindicator
                           ON subindicator.id = subindicator_locale.subindicator_id
                         WHERE subindicator_locale.locale_id = locale.id
+                          AND subindicator_locale.indicator_id = indicator.id
                           AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-                          AND EXISTS (
-                            SELECT 1
-                            FROM subindicator_locale
-                            WHERE subindicator_locale.indicator_id = indicator.id
-                              AND subindicator_locale.subindicator_id = subindicator.id
-                              AND subindicator_locale.locale_id = locale.id
-                              AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-                          )
                         GROUP BY subindicator.id, subindicator.classification, subindicator.description
                       ) AS subindicators
                     ),

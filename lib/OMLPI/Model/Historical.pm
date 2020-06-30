@@ -70,7 +70,7 @@ sub get_historical {
                                 AND subindicator_locale.indicator_id = indicator.id
                                 AND subindicator_locale.subindicator_id = subindicator.id
                                 AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
-                              --ORDER BY subindicator_locale.year DESC, subindicator_locale.indicator_id ASC
+                              ORDER BY subindicator_locale.year DESC, subindicator_locale.indicator_id ASC
                             ) subindicator_values
                           ) AS values
                         FROM subindicator_locale
