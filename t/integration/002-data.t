@@ -29,8 +29,6 @@ subtest_buffered 'Get data from locale' => sub {
       ->json_has('/locale/indicators/0/values/year')
       ->json_has('/locale/indicators/0/values/value_relative')
       ->json_has('/locale/indicators/0/values/value_absolute');
-    #p $t->tx->res->json;
-    p to_json($t->tx->res->json);
 };
 
 subtest_buffered 'Filter by area_id' => sub {
