@@ -56,7 +56,7 @@ sub compare {
                           subindicator.classification,
                           subindicator.description,
                           (
-                            SELECT ARRAY_AGG(subindicator_values)
+                            SELECT ROW_TO_JSON(subindicator_values)
                             FROM (
                               SELECT
                                 subindicator_locale.year,
