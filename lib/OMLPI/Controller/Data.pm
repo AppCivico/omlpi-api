@@ -18,6 +18,7 @@ sub get {
       ->hash;
 
     # Aggregate the subindicators by the classification
+    my $fake_classification_id = 0;
     for my $indicator (@{$res->{indicators} || []}) {
         my @subindicators = sort { $a->{id} <=> $b->{id} } @{ delete $indicator->{subindicators} };
 
@@ -26,6 +27,7 @@ sub get {
         for my $subindicator (@subindicators) {
             my $classification = delete $subindicator->{classification};
             $agg{$classification} //= {
+                id             => $fake_classification_id++,
                 data           => [],
                 classification => $classification,
             };

@@ -52,57 +52,39 @@ sub compare {
                       SELECT ARRAY_AGG(subindicators)
                       FROM (
                         SELECT
-                          DISTINCT(subindicator.classification) AS classification,
-                          COALESCE(
-                            (
-                              SELECT ARRAY_AGG(sx)
-                              FROM (
-                                SELECT
-                                  s2.id,
-                                  s2.description,
-                                  (
-                                    SELECT ARRAY_AGG(sl)
-                                    FROM (
-                                      SELECT
-                                        subindicator_locale.year,
-                                        subindicator_locale.value_relative,
-                                        subindicator_locale.value_absolute
-                                      FROM subindicator_locale
-                                      WHERE subindicator_locale.indicator_id = indicator.id
-                                        AND subindicator_locale.subindicator_id = s2.id
-                                        AND subindicator_locale.locale_id = locale.id
-                                        AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
-                                        AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-                                      ORDER BY subindicator_locale.year DESC
-                                    ) sl
-                                  ) AS values
-                                FROM subindicator s2
-                                WHERE subindicator.classification = s2.classification
-                                  AND EXISTS (
-                                    SELECT 1 FROM subindicator_locale
-                                    WHERE subindicator_locale.subindicator_id = s2.id
-                                      AND subindicator_locale.indicator_id = indicator.id
-                                      AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
-                                      AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-                                  )
-                                ORDER BY s2.id
-                              ) sx
-                            ),
-                            ARRAY[]::record[]
-                          ) AS data
-                        FROM subindicator
-                        WHERE EXISTS (
-                          SELECT 1
-                          FROM subindicator_locale
-                          WHERE subindicator_locale.subindicator_id = subindicator.id
-                            AND subindicator_locale.indicator_id = indicator.id
-                            AND subindicator_locale.locale_id = locale.id
-                            AND (
-                              subindicator_locale.value_relative IS NOT NULL
-                              OR subindicator_locale.value_absolute IS NOT NULL
-                            )
-                            AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-                        )
+                          subindicator.id,
+                          subindicator.classification,
+                          subindicator.description,
+                          (
+                            SELECT ARRAY_AGG(subindicator_values)
+                            FROM (
+                              SELECT
+                                subindicator_locale.year,
+                                subindicator_locale.value_relative,
+                                subindicator_locale.value_absolute
+                              FROM subindicator_locale
+                              WHERE subindicator_locale.indicator_id = indicator.id
+                                AND subindicator_locale.subindicator_id = subindicator.id
+                                AND subindicator_locale.locale_id = locale.id
+                                AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
+                                AND (?::int IS NULL OR subindicator_locale.year = ?::int)
+                              ORDER BY subindicator_locale.year DESC, subindicator_locale.indicator_id ASC
+                            ) subindicator_values
+                          ) AS values
+                        FROM subindicator_locale
+                        JOIN subindicator
+                          ON subindicator.id = subindicator_locale.subindicator_id
+                        WHERE subindicator_locale.locale_id = locale.id
+                          AND (?::int IS NULL OR subindicator_locale.year = ?::int)
+                          AND EXISTS (
+                            SELECT 1
+                            FROM subindicator_locale
+                            WHERE subindicator_locale.indicator_id = indicator.id
+                              AND subindicator_locale.subindicator_id = subindicator.id
+                              AND subindicator_locale.locale_id = locale.id
+                              AND (?::int IS NULL OR subindicator_locale.year = ?::int)
+                          )
+                        GROUP BY subindicator.id, subindicator.classification, subindicator.description
                       ) AS subindicators
                     ),
                     ARRAY[]::record[]
@@ -187,56 +169,39 @@ sub compare_country {
                       SELECT ARRAY_AGG(subindicators)
                       FROM (
                         SELECT
-                          DISTINCT(subindicator.classification) AS classification,
-                          COALESCE(
-                            (
-                              SELECT ARRAY_AGG(sx)
-                              FROM (
-                                SELECT
-                                  s2.id,
-                                  s2.description,
-                                  (
-                                    SELECT ARRAY_AGG(sl)
-                                    FROM (
-                                      SELECT
-                                        subindicator_locale.year,
-                                        subindicator_locale.value_relative,
-                                        subindicator_locale.value_absolute
-                                      FROM subindicator_locale
-                                      WHERE subindicator_locale.indicator_id = indicator.id
-                                        AND subindicator_locale.subindicator_id = s2.id
-                                        AND subindicator_locale.locale_id = locale.id
-                                        AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
-                                        AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-                                      ORDER BY subindicator_locale.year DESC, subindicator_locale.subindicator_id ASC
-                                    ) sl
-                                  ) AS values
-                                FROM subindicator s2
-                                WHERE subindicator.classification = s2.classification
-                                  AND EXISTS (
-                                    SELECT 1 FROM subindicator_locale
-                                    WHERE subindicator_locale.subindicator_id = s2.id
-                                      AND subindicator_locale.indicator_id = indicator.id
-                                      AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
-                                      AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-                                  )
-                              ) sx
-                            ),
-                            ARRAY[]::record[]
-                          ) AS data
-                        FROM subindicator
-                        WHERE EXISTS (
-                          SELECT 1
-                          FROM subindicator_locale
-                          WHERE subindicator_locale.subindicator_id = subindicator.id
-                            AND subindicator_locale.indicator_id = indicator.id
-                            AND subindicator_locale.locale_id = locale.id
-                            AND (
-                              subindicator_locale.value_relative IS NOT NULL
-                              OR subindicator_locale.value_absolute IS NOT NULL
-                            )
-                            AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-                        )
+                          subindicator.id,
+                          subindicator.classification,
+                          subindicator.description,
+                          (
+                            SELECT ARRAY_AGG(subindicator_values)
+                            FROM (
+                              SELECT
+                                subindicator_locale.year,
+                                subindicator_locale.value_relative,
+                                subindicator_locale.value_absolute
+                              FROM subindicator_locale
+                              WHERE subindicator_locale.indicator_id = indicator.id
+                                AND subindicator_locale.subindicator_id = subindicator.id
+                                AND subindicator_locale.locale_id = locale.id
+                                AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
+                                AND (?::int IS NULL OR subindicator_locale.year = ?::int)
+                              ORDER BY subindicator_locale.year DESC, subindicator_locale.indicator_id ASC
+                            ) subindicator_values
+                          ) AS values
+                        FROM subindicator_locale
+                        JOIN subindicator
+                          ON subindicator.id = subindicator_locale.subindicator_id
+                        WHERE subindicator_locale.locale_id = locale.id
+                          AND (?::int IS NULL OR subindicator_locale.year = ?::int)
+                          AND EXISTS (
+                            SELECT 1
+                            FROM subindicator_locale
+                            WHERE subindicator_locale.indicator_id = indicator.id
+                              AND subindicator_locale.subindicator_id = subindicator.id
+                              AND subindicator_locale.locale_id = locale.id
+                              AND (?::int IS NULL OR subindicator_locale.year = ?::int)
+                          )
+                        GROUP BY subindicator.id, subindicator.classification, subindicator.description
                       ) AS subindicators
                     ),
                     ARRAY[]::record[]

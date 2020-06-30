@@ -1,6 +1,8 @@
 package OMLPI::Controller::Data::Compare;
 use Mojo::Base 'OMLPI::Controller';
 
+use Tie::IxHash;
+
 sub get {
     my $c = shift;
 
@@ -18,16 +20,29 @@ sub get {
         : $c->model('Compare')->compare(locale_id => $locale_id, year => $year)
     ;
 
-    use DDP;
+    my $res = $compare->expand->hashes;
 
-    my $res = $compare->expand->hashes
-      ->map(sub {
-          $_
-      });
+    # Aggregate the subindicators by the classification
+    my $fake_classification_id = 0;
+    for my $locale (@{$res}) {
+        for my $indicator (@{$locale->{indicators} || []}) {
+            my @subindicators = sort { $a->{id} <=> $b->{id} } @{ delete $indicator->{subindicators} };
 
-    p $res->[0]->{indicators}->[1];
+            my %agg;
+            tie(%agg, 'Tie::IxHash');
+            for my $subindicator (@subindicators) {
+                my $classification = delete $subindicator->{classification};
+                $agg{$classification} //= {
+                    id             => $fake_classification_id++,
+                    data           => [],
+                    classification => $classification,
+                };
+                push @{ $agg{$classification}->{data} }, $subindicator;
+            }
 
-    exit 0;
+            $indicator->{subindicators} = [values %agg];
+        }
+    }
 
     return $c->render(json => { comparison => $res }, status => 200 );
 }
