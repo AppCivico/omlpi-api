@@ -3,12 +3,15 @@
 
 BEGIN;
 
-CREATE FUNCTION random_pick(p_items anyarray)
+CREATE OR REPLACE FUNCTION random_pick(p_items anyarray)
 RETURNS anyelement AS
 $$
-   SELECT unnest(p_items)
-   ORDER BY RANDOM()
-   LIMIT 1;
+  SELECT unnest(randomize.v)
+  FROM (
+    SELECT ARRAY_AGG(item ORDER BY RANDOM()) v
+    FROM unnest(p_items) item
+  ) randomize
+  LIMIT 1;
 $$ LANGUAGE SQL;
 
 CREATE MATERIALIZED VIEW random_locale_indicator AS
