@@ -10,7 +10,8 @@ sub get {
 
     my $area_id   = $c->param('area_id');
     my $locale_id = $c->param('locale_id');
-    my $year      = $c->param('year') || $c->model('Data')->get_max_year(locale_id => $locale_id)->hash->{year};
+    #my $year      = $c->param('year') || $c->model('Data')->get_max_year(locale_id => $locale_id)->hash->{year};
+    my $year      = $c->param('year');
 
     my $res = $c->model('Data')
       ->get(locale_id => $locale_id, area_id => $area_id, year => $year)

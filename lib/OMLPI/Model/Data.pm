@@ -89,6 +89,7 @@ sub get {
                                 AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
                                 AND (?::int IS NULL OR subindicator_locale.year = ?::int)
                               ORDER BY subindicator_locale.year DESC, subindicator_locale.indicator_id ASC
+                              LIMIT 1
                             ) subindicator_values
                           ) AS values
                         FROM subindicator_locale
