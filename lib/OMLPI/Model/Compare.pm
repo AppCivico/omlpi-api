@@ -28,6 +28,7 @@ sub compare {
                   indicator.description,
                   indicator.base,
                   indicator.concept,
+                  indicator.is_percentage,
                   ROW_TO_JSON(area.*) AS area,
                   (
                     SELECT ARRAY_AGG(indicator_values)
@@ -55,6 +56,8 @@ sub compare {
                           subindicator.id,
                           subindicator.classification,
                           subindicator.description,
+                          subindicator.is_percentage,
+                          subindicator.is_big_number,
                           (
                             SELECT ARRAY_AGG(subindicator_values)
                             FROM (
@@ -138,6 +141,7 @@ sub compare_country {
                   indicator.description,
                   indicator.base,
                   indicator.concept,
+                  indicator.is_percentage,
                   ROW_TO_JSON(area.*) AS area,
                   (
                     SELECT ARRAY_AGG(indicator_values)
@@ -165,6 +169,8 @@ sub compare_country {
                           subindicator.id,
                           subindicator.classification,
                           subindicator.description,
+                          subindicator.is_percentage,
+                          subindicator.is_big_number,
                           (
                             SELECT ARRAY_AGG(subindicator_values)
                             FROM (

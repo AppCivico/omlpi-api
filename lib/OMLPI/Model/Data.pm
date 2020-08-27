@@ -39,6 +39,7 @@ sub get {
                   indicator.description,
                   indicator.base,
                   indicator.concept,
+                  indicator.is_percentage,
                   ROW_TO_JSON(area.*) AS area,
                   (
                     SELECT ROW_TO_JSON(indicator_values)
@@ -75,6 +76,8 @@ sub get {
                           subindicator.id,
                           subindicator.classification,
                           subindicator.description,
+                          subindicator.is_percentage,
+                          subindicator.is_big_number,
                           (
                             SELECT ROW_TO_JSON(subindicator_values)
                             FROM (
@@ -541,6 +544,7 @@ SQL_QUERY
                 indicator.description,
                 indicator.base,
                 indicator.concept,
+                indicator.is_percentage,
                 ROW_TO_JSON(area.*) AS area,
                 (
                   SELECT JSON_BUILD_OBJECT(
