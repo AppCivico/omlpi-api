@@ -111,7 +111,6 @@ SQL_QUERY
         my $csv = Tie::Handle::CSV->new($tmp, header => 1, sep_char => ';');
         my %unique_subindicator;
         while (my $line = <$csv>) {
-            p $line;
             my $id = int($line->{ID}) or next;
             next if $id == 0 || $unique_subindicator{$id}++;
             $sql_query .= '(?, ?, ?), ';
