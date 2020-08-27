@@ -107,22 +107,29 @@ SQL_QUERY
         on_scope_exit { unlink $tmp };
         $member->extractToFileNamed($tmp);
 
-        my $sql_query = 'INSERT INTO subindicator (id, description, classification) VALUES ';
+        my $sql_query = 'INSERT INTO subindicator (id, description, classification, is_percentage, is_big_number) VALUES ';
         my @binds = ();
         my $csv = Tie::Handle::CSV->new($tmp, header => 1, sep_char => ';');
         my %unique_subindicator;
         while (my $line = <$csv>) {
             my $id = int($line->{ID}) or next;
             next if $id == 0 || $unique_subindicator{$id}++;
-            $sql_query .= '(?, ?, ?), ';
+            $sql_query .= '(?, ?, ?, ?, ?), ';
             my $classification = trim($line->{Classificador});
             my $name           = trim($line->{Nome});
-            push @binds, ($id, $name, $classification);
+            push @binds, ($id, $name, $classification, $line->{'É porcentagem'}, $line->{'É Big Number'});
         }
         close $csv;
 
         $sql_query =~ s{, $}{};
-        $sql_query .= " ON CONFLICT (id) DO UPDATE SET description = EXCLUDED.description, classification = EXCLUDED.classification";
+        $sql_query .= <<"SQL_QUERY";
+          ON CONFLICT (id)
+          DO UPDATE
+            SET description    = EXCLUDED.description,
+                classification = EXCLUDED.classification,
+                is_percentage  = EXCLUDED.is_percentage,
+                is_big_number  = EXCLUDED.is_big_number
+SQL_QUERY
 
         $pg->db->query($sql_query, @binds);
         $logger->info("Subindicators loaded!");
