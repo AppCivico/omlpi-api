@@ -70,14 +70,16 @@ eval {
 
         my $sql_query = 'INSERT INTO indicator (id, description, area_id, base, ods, concept) VALUES ';
         my @binds = ();
-        my $csv = Tie::Handle::CSV->new($tmp, header => 1, sep_char => ';');
+        my $csv = Tie::Handle::CSV->new($tmp, header => 0, sep_char => ';');
+        <$csv>; # Skip header
         while (my $line = <$csv>) {
-            my @ods = split m{\D+}, trim($line->{ODS});
+            my @ods = split m{\D+}, trim($line->[5]);
             my $ods;
             $ods = '{' . join(',', @ods) . '}' if scalar @ods > 0;
 
             $sql_query .= "(?, ?, ?, ?, ?, ?), ";
-            push @binds, @{$line}{(qw(ID NOME TEMA BASE))}, $ods, $line->{CONCEITO};
+
+            push @binds, $line->[0], $line->[1], $line->[2], $line->[3], $ods, $line->[4];
         }
         close $csv;
 
@@ -109,6 +111,7 @@ SQL_QUERY
         my $csv = Tie::Handle::CSV->new($tmp, header => 1, sep_char => ';');
         my %unique_subindicator;
         while (my $line = <$csv>) {
+            p $line;
             my $id = int($line->{ID}) or next;
             next if $id == 0 || $unique_subindicator{$id}++;
             $sql_query .= '(?, ?, ?), ';
