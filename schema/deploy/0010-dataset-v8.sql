@@ -3,7 +3,7 @@
 
 BEGIN;
 
-alter table indicator alter column description drop not null;
+alter table indicator drop constraint indicator_description_key;
 alter table indicator add column is_percentage boolean;
 
 alter table subindicator
