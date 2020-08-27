@@ -68,7 +68,7 @@ eval {
         on_scope_exit { unlink $tmp };
         $member->extractToFileNamed($tmp);
 
-        my $sql_query = 'INSERT INTO indicator (id, description, area_id, base, ods, concept) VALUES ';
+        my $sql_query = 'INSERT INTO indicator (id, description, area_id, base, ods, concept, is_percentage) VALUES ';
         my @binds = ();
         my $csv = Tie::Handle::CSV->new($tmp, header => 0, sep_char => ';');
         <$csv>; # Skip header
@@ -77,9 +77,9 @@ eval {
             my $ods;
             $ods = '{' . join(',', @ods) . '}' if scalar @ods > 0;
 
-            $sql_query .= "(?, ?, ?, ?, ?, ?), ";
+            $sql_query .= "(?, ?, ?, ?, ?, ?, ?), ";
 
-            push @binds, $line->[0], $line->[1], $line->[2], $line->[3], $ods, $line->[4];
+            push @binds, $line->[0], $line->[1], $line->[2], $line->[3], $ods, $line->[4], $line->[6];
         }
         close $csv;
 
@@ -87,11 +87,12 @@ eval {
         $sql_query .= <<'SQL_QUERY';
           ON CONFLICT (id)
           DO UPDATE
-            SET description = EXCLUDED.description,
-                base        = EXCLUDED.base,
-                area_id     = EXCLUDED.area_id,
-                ods         = EXCLUDED.ods,
-                concept     = EXCLUDED.concept
+            SET description   = EXCLUDED.description,
+                base          = EXCLUDED.base,
+                area_id       = EXCLUDED.area_id,
+                ods           = EXCLUDED.ods,
+                concept       = EXCLUDED.concept,
+                is_percentage = EXCLUDED.is_percentage
 SQL_QUERY
 
         $pg->db->query($sql_query, @binds);
