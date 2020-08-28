@@ -312,10 +312,21 @@ SQL_QUERY
         $logger->info("Subindicators data loaded!");
     }
 
+    # Wildcard
+    $logger->info('Updating the wildcard values to NULL...');
+    my $wildcard = 0x80000000 * -1;
+    $db->query('UPDATE indicator_locale    SET value_absolute = NULL WHERE value_absolute = ?', $wildcard);
+    $db->query('UPDATE indicator_locale    SET value_relative = NULL WHERE value_relative = ?', $wildcard);
+    $db->query('UPDATE subindicator_locale SET value_absolute = NULL WHERE value_absolute = ?', $wildcard);
+    $db->query('UPDATE subindicator_locale SET value_relative = NULL WHERE value_relative = ?', $wildcard);
+    $logger->info('Wildcard values updated!');
+
+    # Refresh random locale indicator materialized view
     $logger->info("Updating random_locale_indicator materialized view...");
     $db->query("REFRESH MATERIALIZED VIEW random_locale_indicator");
     $logger->info("Materialized view refreshed!");
 
+    # Update database checksum
     $logger->info("Updating the dataset checksum...");
     $db->query(<<'SQL_QUERY', $checksum);
       INSERT INTO config (name, value) VALUES ('DATASET_CHECKSUM', ?)
@@ -326,6 +337,7 @@ SQL_QUERY
 SQL_QUERY
     $logger->info("Dataset checksum updated!");
 
+    # Update flag to update the all data file
     $logger->info("Need to generate the file...");
     $db->query(<<'SQL_QUERY');
       INSERT INTO config (name, value) VALUES ('GENERATE_DATA_FILE', 1)
