@@ -42,10 +42,6 @@ sub get_historical {
                       FROM indicator_locale
                         WHERE indicator_locale.indicator_id = indicator.id
                           AND indicator_locale.locale_id = locale.id
-                          AND (
-                            indicator_locale.value_absolute IS NOT NULL
-                            OR indicator_locale.value_relative IS NOT NULL
-                          )
                       ORDER BY indicator_locale.year DESC, indicator_locale.indicator_id ASC
                     ) indicator_values
                   ) AS values,
@@ -69,7 +65,6 @@ sub get_historical {
                               WHERE subindicator_locale.locale_id = locale.id
                                 AND subindicator_locale.indicator_id = indicator.id
                                 AND subindicator_locale.subindicator_id = subindicator.id
-                                AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
                               ORDER BY subindicator_locale.year DESC, subindicator_locale.indicator_id ASC
                             ) subindicator_values
                           ) AS values

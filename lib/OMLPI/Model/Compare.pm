@@ -41,10 +41,6 @@ sub compare {
                         WHERE indicator_locale.indicator_id = indicator.id
                           AND indicator_locale.locale_id = locale.id
                           AND (?::int IS NULL OR indicator_locale.year = ?::int)
-                          AND (
-                            indicator_locale.value_absolute IS NOT NULL
-                            OR indicator_locale.value_relative IS NOT NULL
-                          )
                       ORDER BY indicator_locale.year DESC
                     ) indicator_values
                   ) AS values,
@@ -69,7 +65,6 @@ sub compare {
                               WHERE subindicator_locale.indicator_id = indicator.id
                                 AND subindicator_locale.subindicator_id = subindicator.id
                                 AND subindicator_locale.locale_id = locale.id
-                                AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
                                 AND (?::int IS NULL OR subindicator_locale.year = ?::int)
                               ORDER BY subindicator_locale.year DESC, subindicator_locale.indicator_id ASC
                             ) subindicator_values
@@ -154,10 +149,6 @@ sub compare_country {
                         WHERE indicator_locale.indicator_id = indicator.id
                           AND indicator_locale.locale_id = locale.id
                           AND (?::int IS NULL OR indicator_locale.year = ?::int)
-                          AND (
-                            indicator_locale.value_absolute IS NOT NULL
-                            OR indicator_locale.value_relative IS NOT NULL
-                          )
                       ORDER BY indicator_locale.year DESC, indicator_locale.indicator_id ASC
                     ) indicator_values
                   ) AS values,
@@ -182,7 +173,6 @@ sub compare_country {
                               WHERE subindicator_locale.indicator_id = indicator.id
                                 AND subindicator_locale.subindicator_id = subindicator.id
                                 AND subindicator_locale.locale_id = locale.id
-                                AND (subindicator_locale.value_relative IS NOT NULL OR subindicator_locale.value_absolute IS NOT NULL)
                                 AND (?::int IS NULL OR subindicator_locale.year = ?::int)
                               ORDER BY subindicator_locale.year DESC, subindicator_locale.indicator_id ASC
                             ) subindicator_values
