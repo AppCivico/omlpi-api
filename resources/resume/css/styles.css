@@ -1,0 +1,480 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;800&display=swap');
+
+html {
+  position: relative;
+  margin: auto;
+  font-size: 1.2em;
+  /* padding-bottom: 180px; */
+}
+
+body {
+  margin: 0;
+  background-color: #ffffff;
+  font-family: lato;
+}
+
+.container {
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+header {
+  padding: 1.5rem 1.5rem;
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
+  color: #fff;
+  background-image: url('../img/header-ornament.png');
+  background-size: 400px;
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+
+.logo {
+  width: 415px;
+  height: 74px;
+}
+
+.locale {
+  padding: 5.5rem 1.5rem;
+  margin-top: 1rem;
+  margin-right: -1.5rem;
+  margin-left: -1.5rem;
+  margin-bottom: 3rem;
+  text-align: center;
+  background-color: #33265c;
+  background-image: url('../img/magnifying.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 0px -100px;
+}
+
+.locale h1 {
+  width: 100%;
+  color: #fff;
+  font-size: 2em;
+  font-weight: 100;
+}
+
+.locale span {
+  color: #fff;
+}
+
+h1 {
+  display: inline-block;
+  font-family: lato;
+  font-size: 1.2em;
+  color: #33265c;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+h2 {
+  display: inline-block;
+  font-family: lato;
+  font-size: 1em;
+  font-weight: bold;
+  color: #463581;
+  margin-bottom: 24px;
+}
+
+strong {
+  font-weight: 800;
+}
+
+h3 {
+  font-family: lato;
+  font-size: 1.125em;
+  font-weight: 600;
+  color: #59449B;
+  margin-bottom: 24px;
+}
+
+h4 {
+  font-family: lato;
+  font-size: 1.125em;
+  font-weight:600;
+  color: #59449B;
+  margin-bottom: 24px;
+}
+
+.titulo_header {
+  font-family: lato;
+  font-size: 0.75em;
+  color: #A3A3A3;
+  padding-top:14px;
+  display: inline;
+}
+
+span {
+  font-family: lato;
+  font-size: 0.75em;
+  color: #A3A3A3;
+  display: inline;
+}
+
+p {
+  font-family: lato;
+  font-size: 0.8em;
+  line-height: 1.4;
+  font-weight: normal;
+  color: #6E6E6E;
+  page-break-inside: avoid !important;
+}
+
+h2 + p {
+  margin-top: 0;
+}
+
+ol {
+  padding-left: 0;
+  counter-reset: item
+}
+
+ol > li {
+  display: block
+}
+
+ol > li:before {
+  display: inline-block;
+  font-family: lato;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #33265c;
+  content: counters(item, ".") " "; counter-increment: item
+}
+
+ol ol li::before {
+  font-size: 1em;
+}
+
+ul {
+  overflow: hidden;
+  page-break-inside: avoid !important;
+  margin-bottom: 1em;
+  font-size: 0.8em;
+}
+
+li {
+  font-family: lato;
+  line-height: 1.4;
+  font-weight: normal;
+  color: #6E6E6E;
+  page-break-inside: avoid !important;
+}
+
+ul li {
+  list-style-type: disc;
+  margin-bottom: 0.5rem;
+}
+
+table {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+table thead {
+  text-align: center;
+  text-transform: uppercase;
+  background-color: #f0eff3;
+}
+
+table thead p {
+  font-weight: bold;
+}
+
+table thead td, table thead th {
+  padding: 0.5rem;
+}
+
+table p {
+  font-size: 0.8em;
+}
+
+table td, table th {
+  padding: 0.5rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+.site-footer {
+  font-size: 0.88889em;
+  color: #fff;
+  background-color: #32215c
+}
+
+.site-footer__colophon {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-bottom: 3rem
+}
+
+.site-footer__first-row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  margin-bottom: auto;
+  border-bottom: 2px solid #160f3e;
+}
+
+
+.site-footer__logo {
+  width:19rem;
+  height: 3.15rem;
+  margin-top:0;
+  background-image: url(../img/logo-footer.svg);
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+
+
+.site-footer__email {
+  font-size: 1.125em;
+  color: #fff;
+  height:3.15rem;
+  padding-left: 2rem;
+  margin-left: 2rem;
+  line-height: 2.5;
+  border-left: 2px solid #160f3e
+}
+
+
+.site-footer__social {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  width: auto;
+  margin-top: 2rem
+}
+
+.site-footer__social ul {
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0;
+  margin: 0
+}
+
+.site-footer__social li {
+  margin-left: .7rem;
+  list-style: none
+}
+
+.site-footer__social li:first-child {
+  margin-left: 0
+}
+
+.site-footer__social li a {
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+  overflow: hidden;
+  text-indent: 999em;
+  background-size: contain;
+  background-repeat: no-repeat
+}
+
+.site-footer__social .facebook {
+  background-image: url(/assets/images/facebook.svg)
+}
+
+.site-footer__social .twitter {
+  background-image: url(/assets/images/twitter.svg)
+}
+
+.site-footer__social .instagram {
+  background-image: url(/assets/images/instagram.svg)
+}
+
+.site-footer__social .whatsapp {
+  background-image: url(/assets/images/whatsapp.svg)
+}
+
+.site-footer__social .github {
+  background: url(/assets/images/github.svg)
+}
+
+.site-footer address {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 1rem;
+  font-style: normal
+}
+
+.site-footer address a {
+  margin-bottom: .7rem;
+  line-height: 1;
+  text-decoration: underline;
+  color: #fff
+}
+
+.site-footer address span {
+  margin-top: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+  font-size: .88889em;
+  text-align: center
+}
+
+.footer__developed-by {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  background-color: #32215c
+}
+
+.footer__developed-by a {
+  width: 7rem;
+  height: 1.3rem;
+  margin-left: .5rem;
+  font-size: 0;
+  text-decoration: none;
+  color: #fff;
+  background-image: url(/assets/images/appcivico.svg)
+}
+
+.footer-logos {
+  display: flex;
+  flex-direction: row;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-width: 53.438rem;
+  margin: 2.188rem auto 0
+}
+
+.footer-logos__first-row {
+  max-width: 36.188rem;
+  margin-right: auto;
+  margin-bottom: 3rem;
+  margin-left: auto
+}
+
+.footer-logos__first-row,.footer-logos__second-row {
+  display: flex;
+  flex-wrap: wrap
+}
+
+.footer-logos__second-row {
+  width: 46.2rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.footer-logos h4 {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 0.8em;
+  color: #fff
+}
+
+.footer-logos__primeira-infancia {
+  position: relative;
+  display: flex;
+  margin-right:0
+}
+
+.footer-logos__primeira-infancia:after {
+  position: absolute;
+  right: -72px;
+  bottom: 0;
+  display: block;
+  width: .125em;
+  height: 5rem;
+  background-color: #160f3e;
+  content: ""
+}
+
+.footer-logos__rnpi-andi {
+  display: flex;
+  width: 18.75rem;
+  flex-wrap: wrap;
+  align-self: flex-end;
+  margin-top: auto;
+  margin-bottom: 0;
+  margin-left: 8.225rem
+}
+
+.footer-logos__rnpi-andi h4 {
+  width: 100%;
+  margin-right: 1.31rem;
+  margin-bottom:1rem;
+}
+
+.footer-logos__primeira-infancia img {
+  width: 7.188rem
+}
+
+.footer-logos__rnpi {
+  width: 4.062rem;
+  margin-right: 1.6rem;
+  margin-bottom: 0;
+}
+
+.footer-logos__andi {
+  align-self: flex-end;
+  width: 11.062rem;
+  margin-right:0
+}
+
+.footer-logos__bvl {
+  display: flex;
+  flex-wrap: wrap;
+  width: 7rem;
+  margin-right:6.75rem;
+}
+
+.footer-logos__bvl h4 {
+  width: 100%;
+  margin-bottom: 1.562rem
+}
+
+.footer-logos__bvl img {
+  align-self: flex-end;
+  width: 6.938rem;
+  margin-bottom: -.25rem
+}
+
+.footer-logos__petrobras-gov-fed {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-top: 0;
+  margin-right: 0;
+  margin-left: 0
+}
+
+
+.footer-logos__petrobras-gov-fed h4 {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.footer-logos__petrobras-gov-fed img {
+  margin-bottom: 1rem;
+  margin-bottom: 0;
+}
+
+
+.footer-logos__petrobras {
+  width: 12.812rem;
+  margin-right: 2.562rem
+}
+
+.footer-logos__governo-federal {
+  width: 14.688em
+}
