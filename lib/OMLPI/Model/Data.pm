@@ -161,13 +161,13 @@ sub get_resume {
     my $log = $self->app->log;
 
     # Create temporary directory
-    my $dir = File::Temp->newdir(CLEANUP => 1);
+    my $dir = File::Temp->newdir(CLEANUP => 0);
     $log->debug("Temporary dir: " . $dir->dirname);
 
     $log->debug('Creating symlinks...');
     symlink $home->rel_file("resources/resume/$_"), $dir->dirname . "/$_"
       or die $!
-        for qw<css img>;
+        for qw<css img footer.html>;
 
     # Create temporary file
     $log->debug('Creating temporary file...');
@@ -237,13 +237,17 @@ SQL_QUERY
 
     # Generate another temporary file
     $log->debug('Running wkhtmltopdf...');
-    my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf');
+    #my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf');
+    my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf', DIR => '/home/junior/projects/omlpi-api');
+    my $footer_html = $dir->dirname . '/footer.html';
+    $log->debug("Footer file: ${footer_html}");
+
     my $out;
     my $err;
     run [
-        #'xvfb-run', '--auto-servernum', '--server-num=1', '--server-args="-screen 0 1024x768x24"',
         'xvfb-run',
-        'wkhtmltopdf', qw(-T 10 -B 10 -L 0 -R 0),
+        'wkhtmltopdf', qw(--enable-local-file-access --margin-top 10 --margin-bottom 30),
+        '--footer-html', $footer_html,
         $fh->filename,
         $pdf_file,
     ], \undef, \$out, \$err;
