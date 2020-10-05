@@ -32,6 +32,7 @@ RUN apt-get update && apt-get install -y \
     shared-mime-info \
     xvfb \
     wkhtmltopdf \
+    poppler-utils \
 && rm -rf /var/lib/apt/lists/* && apt-get clean
 
 USER app
