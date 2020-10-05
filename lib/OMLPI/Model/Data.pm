@@ -237,8 +237,7 @@ SQL_QUERY
 
     # Generate another temporary file
     $log->debug('Running wkhtmltopdf...');
-    #my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf');
-    my (undef, $base_file) = tempfile(SUFFIX => '.pdf', DIR => '/home/junior/projects/omlpi-api');
+    my (undef, $base_file) = tempfile(SUFFIX => '.pdf');
     my $footer_html = $dir->dirname . '/footer.html';
     $log->debug("Footer file: ${footer_html}");
 
@@ -260,7 +259,7 @@ SQL_QUERY
     $log->debug('STDERR:');
     $log->debug($err);
 
-    my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf', DIR => '/home/junior/projects/omlpi-api');
+    my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf');
     run [
         'pdfunite',
         $base_file,
