@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev libxml2 libxml2-dev libexpat1-dev zlib1g-dev libssl-dev \
     libjpeg-dev libpng-dev libgif-dev \
     git \
- && rm -rf /var/lib/apt/lists/* && apt-get clean
+    && rm -rf /var/lib/apt/lists/* && apt-get clean
 
 RUN useradd -ms /bin/bash app;
 
