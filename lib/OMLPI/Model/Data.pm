@@ -162,12 +162,13 @@ sub get_resume {
 
     # Create temporary directory
     my $dir = File::Temp->newdir(CLEANUP => 0);
+    #my $dir = File::Temp->newdir(CLEANUP => 0, DIR => '/data');
     $log->debug("Temporary dir: " . $dir->dirname);
 
     $log->debug('Creating symlinks...');
     symlink $home->rel_file("resources/resume/$_"), $dir->dirname . "/$_"
       or die $!
-        for qw<css img>;
+        for qw<css img header.html>;
 
     # Create temporary file
     $log->debug('Creating temporary file...');
@@ -238,8 +239,9 @@ SQL_QUERY
     # Generate another temporary file
     $log->debug('Running wkhtmltopdf...');
     my (undef, $base_file) = tempfile(SUFFIX => '.pdf');
-    my $footer_html = $dir->dirname . '/footer.html';
-    $log->debug("Footer file: ${footer_html}");
+    #my (undef, $base_file) = tempfile(SUFFIX => '.pdf', DIR => '/data');
+    my $header_html = $dir->dirname . '/header.html';
+    $log->debug("Header file: ${header_html}");
 
     my $out;
     my $err;
@@ -248,6 +250,8 @@ SQL_QUERY
         'wkhtmltopdf',
         '--enable-local-file-access',
         qw(-T 0 -L 0 -R 0),
+        '--margin-top', 23,
+        '--header-html', $header_html,
         #'wkhtmltopdf', qw(--enable-local-file-access --margin-top 10 --margin-bottom 160),
         #'--footer-html', $footer_html,
         $fh->filename,
@@ -259,6 +263,7 @@ SQL_QUERY
     $log->debug('STDERR:');
     $log->debug($err);
 
+    #my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf', DIR => '/data');
     my (undef, $pdf_file) = tempfile(SUFFIX => '.pdf');
     run [
         'pdfunite',
@@ -271,6 +276,8 @@ SQL_QUERY
     $log->debug($out);
     $log->debug('STDERR:');
     $log->debug($err);
+
+    $log->debug('Final file: ' . $pdf_file);
 
     return $pdf_file;
 }
