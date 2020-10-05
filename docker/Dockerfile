@@ -31,9 +31,12 @@ RUN apt-get update && apt-get install -y \
     imagemagick \
     shared-mime-info \
     xvfb \
-    wkhtmltopdf \
     poppler-utils \
+    xfonts-75dpi \
 && rm -rf /var/lib/apt/lists/* && apt-get clean
+
+ADD install-wkhtmltopdf.sh /tmp/install-wkhtmltopdf.sh
+RUN /tmp/install-wkhtmltopdf.sh
 
 USER app
 
