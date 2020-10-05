@@ -150,9 +150,12 @@ SQL_QUERY
 sub get_resume {
     my ($self, %opts) = @_;
 
+    my $locale_id = $opts{locale_id};
+    my $template_type = $self->app->model('Locale')->get_resume_template_type($locale_id);
+
     # Get template
     my $home = mojo_home();
-    my $template = $home->rel_file('resources/resume/index.html')->to_abs;
+    my $template = $home->rel_file("resources/resume/${template_type}.html")->to_abs;
     my $mt = Mojo::Template->new(vars => 1);
 
     # Fix encoding issues
@@ -177,7 +180,6 @@ sub get_resume {
     $log->debug('Temporary file: ' . $fh->filename);
 
     # Get indicator values
-    my $locale_id = $opts{locale_id};
     my $year = $self->get_max_year(locale_id => $locale_id)->hash->{year};
     my $indicator_values = $self->app->pg->db->query(<<"SQL_QUERY", $locale_id, $year);
       select indicator_id, value_absolute, value_relative

@@ -90,4 +90,22 @@ sub get_regions_of_a_country {
 SQL_QUERY
 }
 
+sub get_resume_template_type {
+    my ($self, $locale_id) = @_;
+
+    my $template_type = $self->app->pg->db->query(<<'SQL_QUERY', $locale_id)->hash->{template_type};
+select
+  case
+    when locale.type in('region', 'state', 'country') or city.capital then 'full'
+    else 'simple'
+  end as template_type
+from locale
+left join city
+  on locale.id = city.id and locale.type = 'city'
+where locale.id = ?
+SQL_QUERY
+
+    return $template_type;
+}
+
 1;
