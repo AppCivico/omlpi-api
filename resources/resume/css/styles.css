@@ -14,14 +14,13 @@ body {
 }
 
 .container {
-  padding-right: 1.5rem;
-  padding-left: 1.5rem;
+  padding-right: 3rem;
+  padding-left: 3rem;
 }
 
 header {
-  padding: 1.5rem 1.5rem;
-  margin-left: -1.5rem;
-  margin-right: -1.5rem;
+  padding: 1.5rem 3rem;
+  border-bottom: 1px solid lightgray;
   color: #fff;
   background-image: url('../img/header-ornament.png');
   background-size: 400px;
@@ -37,8 +36,8 @@ header {
 .locale {
   padding: 5.5rem 1.5rem;
   margin-top: 1rem;
-  margin-right: -1.5rem;
-  margin-left: -1.5rem;
+  margin-right: -3rem;
+  margin-left: -3rem;
   margin-bottom: 3rem;
   text-align: center;
   background-color: #33265c;
@@ -190,6 +189,11 @@ table thead th {
 
 table p {
   font-size: 0.8em;
+}
+
+table tbody p {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 table td,
@@ -475,5 +479,5 @@ table th {
 }
 
 .footer-logos__governo-federal {
-  width: 14.688em;
+  width: 12.912rem;
 }
