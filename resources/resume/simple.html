@@ -559,10 +559,10 @@
                 </p>
                 <ul>
                   <li>
-                    Em/No [Nome da localidade], a estimativa de sub-registro é
-                    de <%= $data->{'101-D0_R'} // 'N/A' %>. Isso quer dizer que
-                    <%= $data->{'101-D0_A'} // 'N/A' %> crianças, de até um ano
-                    de idade, não possuem registro de nascimento.
+                    Em/No <%= $locale_name %>, a estimativa de sub-registro é de
+                    <%= $data->{'101-D0_R'} // 'N/A' %>. Isso quer dizer que <%=
+                    $data->{'101-D0_A'} // 'N/A' %> crianças, de até um ano de
+                    idade, não possuem registro de nascimento.
                   </li>
                 </ul>
               </li>
@@ -581,7 +581,7 @@
                 </p>
                 <ul>
                   <li>
-                    Em/No [Nome da localidade], o Bolsa Família alcança <%=
+                    Em/No <%= $locale_name %>, o Bolsa Família alcança <%=
                     $data->{'104-D0_R'} // 'N/A' %> das crianças de cinco anos
                     ou menos em situação de pobreza, oferecendo a suas famílias
                     a garantia de uma renda mínima.
@@ -589,7 +589,7 @@
                   <li>
                     O Criança Feliz amplia e fortalece a rede de cuidado
                     integral direcionada à primeira infância por meio de visitas
-                    domiciliares. Em/No [Nome da localidade], a proporção de
+                    domiciliares. Em/No <%= $locale_name %>, a proporção de
                     indivíduos (crianças e gestantes) visitados pelo programa no
                     último ano, em relação à meta prevista, foi de <%=
                     $data->{'105-D0_R'} // 'N/A' %>.
@@ -599,7 +599,7 @@
                     garantia constitucional que alcança crianças com deficiência
                     com renda familiar por pessoa de até ¼ do salário mínimo.
                     Esse público é considerado prioritário para outros programas
-                    de atenção à infância. Em/no [Nome localidade], <%=
+                    de atenção à infância. Em/no <%= $locale_name %>, <%=
                     $data->{'106-D0_R'} // 'N/A' %> das crianças inscritas no
                     BPC também são atendidas pelo Programa Criança Feliz.
                   </li>
@@ -623,8 +623,8 @@
                 <ul>
                   <li>
                     A Cobertura dos Centros de Referência de Assistência Social
-                    (CRAS) para famílias inscritas no Cadastro Único em/no [Nome
-                    da localidade] possui é de <%= $data->{'109-D0_R'} // 'N/A'
+                    (CRAS) para famílias inscritas no Cadastro Único em/no <%=
+                    $locale_name %> possui é de <%= $data->{'109-D0_R'} // 'N/A'
                     %>
                   </li>
                   <li>
@@ -646,7 +646,7 @@
                 </p>
                 <ul>
                   <li>
-                    [Nome da localidade] possui <%= $data->{'108-D0_A'} // 'N/A'
+                    <%= $locale_name %> possui <%= $data->{'108-D0_A'} // 'N/A'
                     %> crianças de zero a cinco anos em acolhimento, sendo <%=
                     $data->{'108-D181_R'} // 'N/A' %> delas em famílias
                     acolhedoras, o equivalente a <%= $data->{'108-D181_A'} //
@@ -667,7 +667,7 @@
                 A educação infantil é a primeira etapa da educação básica,
                 compreendendo a creche (crianças de zero a três anos) e a
                 pré-escola, etapa obrigatória (crianças de quatro e cinco anos).
-                [Nome da localidade] possui <%= $data->{'201-D0_A'} // 'N/A' %>
+                <%= $locale_name %> possui <%= $data->{'201-D0_A'} // 'N/A' %>
                 matrículas em creches, sendo <%= $data->{'201-D34_A'} // 'N/A'
                 %> delas em unidades públicas. As matrículas em pré-escola
                 totalizam <%= $data->{'202-D0_A'} // 'N/A' %>, sendo <%=
@@ -678,8 +678,8 @@
                 A ampliação da jornada em centros de educação infantil se
                 constitui como uma política educativa, sendo consideradas
                 jornadas em tempo integral aquelas com pelo menos sete horas
-                diárias de atividades. Do total de matrículas em/no [Nome da
-                localidade], aquelas em tempo integral representam <%=
+                diárias de atividades. Do total de matrículas em/no <%=
+                $locale_name %>, aquelas em tempo integral representam <%=
                 $data->{'207-D0_R'} // 'N/A' %> das realizadas em creches e <%=
                 $data->{'208-D0_R'} // 'N/A' %> das realizadas em pré-escolas.
                 Cabe notar também que:
@@ -699,8 +699,8 @@
                 quarta meta a universalização do atendimento escolar aos
                 estudantes com deficiência, transtornos globais do
                 desenvolvimento e altas habilidades ou superdotação,
-                preferencialmente na rede regular de ensino. Em/No [Nome da
-                localidade], a proporção de matrículas dessas crianças em
+                preferencialmente na rede regular de ensino. Em/No <%=
+                $locale_name %>, a proporção de matrículas dessas crianças em
                 classes comuns é de <%= $data->{'209-D0_R'} // 'N/A' %> no que
                 se refere às creches e de <%= $data->{'210-D0_R'} // 'N/A' %> na
                 etapa da pré-escola.
@@ -710,7 +710,7 @@
                 <p>
                   Os centros de educação infantil, além de contar com condições
                   de infraestrutura básica, devem ser espaços dinâmicos,
-                  brincáveis e acessíveis. Em/No [Nome da localidade], a
+                  brincáveis e acessíveis. Em/No <%= $locale_name %>, a
                   proporção de matrículas em centros de educação infantil com
                   área externa, parque infantil ou brinquedos para educação
                   infantil é de <%= $data->{'213-D0_R'} // 'N/A' %> nas creches
@@ -722,7 +722,7 @@
                 </p>
                 <p>
                   O saneamento básico, outra infraestrutura importante,
-                  apresenta os seguintes números em/no [Nome da localidade]:
+                  apresenta os seguintes números em/no <%= $locale_name %>:
                 </p>
                 <ul>
                   <li>
@@ -756,8 +756,8 @@
                 <p>
                   Com base em diretrizes presentes em dispositivos legais e
                   normativos é possível hoje classificar os docentes em
-                  exercício considerando sua formação acadêmica. No caso de
-                  [Nome da localidade], temos o seguinte cenário:
+                  exercício considerando sua formação acadêmica. No caso de <%=
+                  $locale_name %>, temos o seguinte cenário:
                 </p>
                 <ul>
                   <li>
@@ -800,9 +800,9 @@
                   realizações da saúde pública. O acompanhamento e verificação
                   da situação vacinal da população é essencial para a definição
                   de estratégias de vacinação e para avaliação operacional e de
-                  impacto dos programas de imunização. Em/No [Nome da
-                  localidade], a cobertura vacinal para primeira infância
-                  apresenta as seguintes características:
+                  impacto dos programas de imunização. Em/No <%= $locale_name
+                  %>, a cobertura vacinal para primeira infância apresenta as
+                  seguintes características:
                 </p>
                 <ul>
                   <li><%= $data->{'301-D137_R'} // 'N/A' %> para BCG;</li>
@@ -831,7 +831,7 @@
                 </p>
                 <ul>
                   <li>
-                    Em/No [nome da localidade], a taxa de detecção de Aids em
+                    Em/No <%= $locale_name %>, a taxa de detecção de Aids em
                     menores de cinco anos foi de <%= $data->{'303-D0_R'} //
                     'N/A' %>, o que corresponde a <%= $data->{'303-D0_A'} //
                     'N/A' %> novos casos em relação ao ano anterior.
@@ -859,7 +859,7 @@
                   Sisvan têm apoiado a realização de diagnósticos relativos à
                   situação nutricional da população acolhida pela atenção
                   primária em saúde. De acordo com dados do sistema, observa-se
-                  que no/em [Nome da localidade]:
+                  que no/em <%= $locale_name %>:
                 </p>
                 <ul>
                   <li>
@@ -892,7 +892,7 @@
                   localidade ou região. O investimento adequado em políticas
                   públicas de saúde, desde o pré-natal, é um elemento
                   fundamental para a redução dos óbitos na infância, que em/no
-                  [Nome da localidade] somaram <%= $data->{'309-D0_A'} // 'N/A'
+                  <%= $locale_name %> somaram <%= $data->{'309-D0_A'} // 'N/A'
                   %> casos em [ano mais recente].
                 </p>
                 <p>
@@ -901,7 +901,7 @@
                   associado à gravidez (ou por ela agravado) ou por medidas
                   tomadas com relação a ela. Este indicador reflete a qualidade
                   da assistência à saúde da mulher, especialmente durante a
-                  gravidez ou parto. Em/no [Nome da localidade], <%=
+                  gravidez ou parto. Em/no <%= $locale_name %>, <%=
                   $data->{'312-D0_A'} // 'N/A' %> mulheres gestantes ou
                   puerperais vieram a óbito por causas e condições consideradas
                   de morte materna em [ano mais recente].
@@ -921,7 +921,7 @@
                 </p>
                 <ul>
                   <li>
-                    Em/no [Nome da localidade], a proporção de nascidos vivos
+                    Em/no <%= $locale_name %>, a proporção de nascidos vivos
                     cujas mães realizaram pelo menos sete consultas pré-natal,
                     ultrapassando o mínimo de seis consultas estabelecido pelo
                     Ministério da Saúde, é de <%= $data->{'311-D0_R'} // 'N/A'
@@ -930,7 +930,7 @@
                   <li>
                     O parto vaginal oferece menos riscos de infecção, hemorragia
                     e prematuridade do bebê, e por isso deve ser a primeira
-                    opção para o nascimento. Em/no [Nome da localidade], os
+                    opção para o nascimento. Em/no <%= $locale_name %>, os
                     partos vaginais corresponderam a <%= $data->{'312-D0_R'} //
                     'N/A' %> do total de partos realizados.
                   </li>
@@ -944,8 +944,8 @@
                   primeiro nível de atenção em saúde inclui a oferta de serviços
                   de prevenção, diagnóstico, tratamento e reabilitação. Os
                   indicadores são utilizados no monitoramento do acesso a esses
-                  serviços e apresentam os seguintes resultados em/no [nome da
-                  UF/localidade]:
+                  serviços e apresentam os seguintes resultados em/no <%=
+                  $locale_name %>:
                 </p>
                 <ul>
                   <li>
