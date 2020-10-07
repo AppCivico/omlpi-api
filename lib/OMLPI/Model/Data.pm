@@ -180,16 +180,18 @@ sub get_resume {
     $log->debug('Temporary file: ' . $fh->filename);
 
     # Get indicator values
-    my $year = $self->get_max_year(locale_id => $locale_id)->hash->{year};
-    my $indicator_values = $self->app->pg->db->query(<<"SQL_QUERY", $locale_id, $year);
+    #my $year = $self->get_max_year(locale_id => $locale_id)->hash->{year};
+    my $indicator_values = $self->app->pg->db->query(<<"SQL_QUERY", $locale_id);
       select indicator_id, value_absolute, value_relative
       from indicator_locale
-      where locale_id = ? and year = ?
+      where locale_id = ?
+      order by year asc
 SQL_QUERY
-    my $subindicator_values = $self->app->pg->db->query(<<"SQL_QUERY", $locale_id, $year);
+    my $subindicator_values = $self->app->pg->db->query(<<"SQL_QUERY", $locale_id);
       select indicator_id, subindicator_id, value_absolute, value_relative
       from subindicator_locale
-      where locale_id = ? and year = ?
+      where locale_id = ?
+      order by year asc
 SQL_QUERY
 
     # Get locale
@@ -209,7 +211,7 @@ SQL_QUERY
 
     my %data = (
         locale_name => $locale->{name},
-        year        => $year,
+        #year        => $year,
         (
             map {
                 (
@@ -233,7 +235,7 @@ SQL_QUERY
     print $fh $mt->render($slurp, {
         now         => $self->app->model('DateTime')->now(),
         locale_name => $locale->{name},
-        year        => $year,
+        #year        => $year,
         data        => \%data,
     });
     close $fh;
