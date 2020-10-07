@@ -117,25 +117,13 @@
                 <p dir="ltr">Número de crianças em situação de acolhimento</p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'107-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'108-D0_A'} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
               <td>
                 <p dir="ltr">
-                  Número de Centros de Referência de Assistência Social (CRAS)
-                  para cada 2.500 famílias inscritas no Cadastro Único
-                </p>
-              </td>
-              <td>
-                <p dir="ltr"><%= $data->{'108-D0_R'} // 'N/A' %></p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p dir="ltr">
-                  Proporção de crianças de 0 a 5 anos beneficiárias do Programa
-                  Bolsa Família atendidas pela proteção social básica
+                  Cobertura dos Centros de Referência de Assistência Social (CRAS)
                 </p>
               </td>
               <td>
@@ -145,23 +133,11 @@
             <tr>
               <td>
                 <p dir="ltr">
-                  Proporção de atendimento realizados com crianças em Serviços
-                  de Convivência e Fortalecimento de Vínculos - SCFV
+                  Proporção de crianças de 0 a 5 anos beneficiárias do Programa Bolsa Família atendidas pela proteção social básica
                 </p>
               </td>
               <td>
                 <p dir="ltr"><%= $data->{'110-D0_R'} // 'N/A' %></p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p dir="ltr">
-                  Proporção de crianças em domicílios com acesso a saneamento
-                  básico
-                </p>
-              </td>
-              <td>
-                <p dir="ltr"><%= $data->{'111-D0_R'} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -326,10 +302,10 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr">219-*</p>
+                <p dir="ltr"><%= $data->{'219-D0_R'} // 'N/A' %></p>
               </td>
               <td>
-                <p dir="ltr">220-*</p>
+                <p dir="ltr"><%= $data->{'220-D0_R'} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -378,7 +354,7 @@
             <tr>
               <td>
                 <p dir="ltr">
-                  Proporção cobertura vacinal de crianças de 0 a 5 anos
+                  Proporção cobertura vacinal
                 </p>
               </td>
               <td>
@@ -388,7 +364,7 @@
             <tr>
               <td>
                 <p dir="ltr">
-                  Taxa de detecção de aids em menores de cinco anos
+                  Taxa de detecção de aids em menores de cinco anos, para cada 100 mil crianças
                 </p>
               </td>
               <td>
@@ -397,7 +373,7 @@
             </tr>
             <tr>
               <td>
-                <p dir="ltr">Taxa de incidência de sífilis congênita</p>
+                <p dir="ltr">Taxa de incidência de sífilis congênita, para cada mil crianças</p>
               </td>
               <td>
                 <p dir="ltr"><%= $data->{'304-D0_R'} // 'N/A' %></p>
@@ -441,12 +417,12 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'309-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'309-D0_A'} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
               <td>
-                <p dir="ltr">Taxa de mortalidade na infância</p>
+                <p dir="ltr">Taxa de mortalidade na infância, para cada mil nascidos vivos</p>
               </td>
               <td>
                 <p dir="ltr"><%= $data->{'310-D0_R'} // 'N/A' %></p>
@@ -468,7 +444,7 @@
                 <p dir="ltr">Proporção de parto vaginal</p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'312-D0_A'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'312-D0_R'} // 'N/A' %></p>
 
                 <p />
               </td>
@@ -481,12 +457,12 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'312-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'312-D0_A'} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
               <td>
-                <p dir="ltr">Taxa de mortalidade materna</p>
+                <p dir="ltr">Taxa de mortalidade materna, para cada 100 mil nascidos vivos</p>
               </td>
               <td>
                 <p dir="ltr"><%= $data->{'314-D0_R'} // 'N/A' %></p>
@@ -524,8 +500,7 @@
             <tr>
               <td>
                 <p dir="ltr">
-                  Proporção de crianças em domicílios com acesso a saneamento
-                  básico
+                  Proporção de crianças em domicílios com acesso a saneamento básico
                 </p>
               </td>
               <td>
@@ -624,7 +599,7 @@
                   <li>
                     A Cobertura dos Centros de Referência de Assistência Social
                     (CRAS) para famílias inscritas no Cadastro Único em/no <%=
-                    $locale_name %> possui é de <%= $data->{'109-D0_R'} // 'N/A'
+                    $locale_name %> é de <%= $data->{'109-D0_R'} // 'N/A'
                     %>
                   </li>
                   <li>
@@ -1069,9 +1044,7 @@
                   <li>
                     <%= $data->{'318-D0_R'} // 'N/A' %> das crianças de/do <%=
                     $locale_name %> vivem em domicílios com acesso adequado ao
-                    saneamento básico. Nas áreas rurais, esse percentual é de
-                    <%= $data->{'318-D17_R'} // 'N/A' %> e, nas urbanas, de <%=
-                    $data->{'318-D16_R'} // 'N/A' %>.
+                    saneamento básico.
                   </li>
                   <li>
                     Entre as crianças negras, as condições de acesso adequado
