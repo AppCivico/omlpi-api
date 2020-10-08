@@ -7,7 +7,7 @@ use OMLPI::Test;
 my $t = test_instance();
 my $pg = $t->app->pg;
 
-$t->get_ok("/v1/states")
+$t->get_ok("/v2/states")
   ->status_is(200)
   ->json_has('/states/0/id')
   ->json_has('/states/0/latitude')

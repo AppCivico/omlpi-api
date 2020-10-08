@@ -6,7 +6,7 @@ use OMLPI::Test;
 
 my $t = test_instance();
 
-$t->get_ok("/v1/locales")
+$t->get_ok("/v2/locales")
   ->status_is(200)
   ->json_has('/locales')
   ->json_has('/locales/0/id')

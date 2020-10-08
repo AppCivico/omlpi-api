@@ -9,7 +9,7 @@ my $pg = $t->app->pg;
 
 subtest_buffered 'Indicators | list' => sub {
 
-    $t->get_ok("/v1/indicators")
+    $t->get_ok("/v2/indicators")
       ->status_is(200)
       ->json_has('/indicators/0/id')
       ->json_has('/indicators/0/description')

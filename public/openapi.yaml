@@ -1,21 +1,20 @@
 swagger: "2.0"
 info:
-  description: 'The backend of the OMLPL project'
+  description: "The backend of the OMLPL project"
   version: 1.4.3
   title: OMLPL API
   contact:
     email: carlos@appcivico.com
   license:
     name: GPLv3
-    url: 'https://www.gnu.org/licenses/gpl-3.0.en.html'
+    url: "https://www.gnu.org/licenses/gpl-3.0.en.html"
 
 host: dev-omlpi-api.appcivico.com
-basePath: /v1
+basePath: /v2
 schemes:
   - https
 produces:
   - application/json
-
 
 tags:
   - name: locales
@@ -24,7 +23,6 @@ tags:
     description: Indicators and breakdown data from locales
   - name: uploads
     description: Contribute with us by sending data
-
 
 parameters:
   yearParam:
@@ -51,11 +49,10 @@ parameters:
     required: false
     type: integer
 
-
 paths:
   /locales:
     get:
-      x-mojo-to: 'locales#list'
+      x-mojo-to: "locales#list"
       operationId: listLocales
       tags:
         - locales
@@ -94,7 +91,7 @@ paths:
 
   /states:
     get:
-      x-mojo-to: 'states#list'
+      x-mojo-to: "states#list"
       operationId: listStates
       tags:
         - locales
@@ -108,10 +105,10 @@ paths:
               states:
                 type: array
                 items:
-                  $ref: '#/definitions/State'
+                  $ref: "#/definitions/State"
   /cities:
     get:
-      x-mojo-to: 'cities#list'
+      x-mojo-to: "cities#list"
       operationId: listCities
       summary: List of cities in alphabetical order
       tags:
@@ -131,11 +128,11 @@ paths:
               cities:
                 type: array
                 items:
-                  $ref: '#/definitions/City'
+                  $ref: "#/definitions/City"
 
   /areas:
     get:
-      x-mojo-to: 'areas#list'
+      x-mojo-to: "areas#list"
       operationId: listAreas
       tags:
         - data
@@ -149,12 +146,12 @@ paths:
               areas:
                 type: array
                 items:
-                  $ref: '#/definitions/Area'
+                  $ref: "#/definitions/Area"
 
   /classifications:
     get:
       summary: Get a list of all data breakdown classifications
-      x-mojo-to: 'classifications#get'
+      x-mojo-to: "classifications#get"
       operationId: showClassifications
       tags:
         - data
@@ -162,12 +159,12 @@ paths:
         200:
           description: List of classifications
           schema:
-            $ref: '#/definitions/Classifications'
+            $ref: "#/definitions/Classifications"
 
   /indicators:
     get:
       operationId: listIndicators
-      x-mojo-to: 'indicators#list'
+      x-mojo-to: "indicators#list"
       summary: List all indicators
       tags:
         - data
@@ -192,35 +189,35 @@ paths:
                       type: string
                       example: "INEP: Censo Escolar - Matrículas"
                     area:
-                      $ref: '#/definitions/Area'
+                      $ref: "#/definitions/Area"
 
   /data:
     get:
       operationId: showData
-      x-mojo-to: 'data#get'
+      x-mojo-to: "data#get"
       summary: Retrieve data from a specific locale
       tags:
         - data
       parameters:
-        - $ref: '#/parameters/localeParam'
-        - $ref: '#/parameters/areaParam'
-        - $ref: '#/parameters/yearParam'
+        - $ref: "#/parameters/localeParam"
+        - $ref: "#/parameters/areaParam"
+        - $ref: "#/parameters/yearParam"
       responses:
         200:
           description: Info for a specific locale
           schema:
-            $ref: '#/definitions/Locale'
+            $ref: "#/definitions/Locale"
 
   /data/compare:
     get:
       summary: Compare locales
-      x-mojo-to: 'data-compare#get'
+      x-mojo-to: "data-compare#get"
       operationId: showDataCompare
       tags:
         - data
       parameters:
-        - $ref: '#/parameters/localeParam'
-        - $ref: '#/parameters/yearParam'
+        - $ref: "#/parameters/localeParam"
+        - $ref: "#/parameters/yearParam"
       responses:
         200:
           description: The comparison between all locales of the same scope
@@ -261,12 +258,12 @@ paths:
                                   example: 5
                                 name:
                                   type: string
-                                  example: 'Número de matrículas de educação infantil - Creche'
+                                  example: "Número de matrículas de educação infantil - Creche"
                                 area:
-                                  $ref: '#/definitions/Area'
+                                  $ref: "#/definitions/Area"
                                 base:
                                   type: string
-                                  example: 'INEP: Censo Escolar - Matrículas'
+                                  example: "INEP: Censo Escolar - Matrículas"
                                 values:
                                   type: array
                                   items:
@@ -320,13 +317,13 @@ paths:
   /data/historical:
     get:
       summary: Get historical data from a locale
-      x-mojo-to: 'data-historical#get'
+      x-mojo-to: "data-historical#get"
       operationId: showDataHistorical
       tags:
         - data
       parameters:
-        - $ref: '#/parameters/localeParam'
-        - $ref: '#/parameters/areaParam'
+        - $ref: "#/parameters/localeParam"
+        - $ref: "#/parameters/areaParam"
       responses:
         200:
           description: The historical series of the specified locale
@@ -367,12 +364,12 @@ paths:
                                   example: 5
                                 name:
                                   type: string
-                                  example: 'Número de matrículas de educação infantil - Creche'
+                                  example: "Número de matrículas de educação infantil - Creche"
                                 area:
-                                  $ref: '#/definitions/Area'
+                                  $ref: "#/definitions/Area"
                                 base:
                                   type: string
-                                  example: 'INEP: Censo Escolar - Matrículas'
+                                  example: "INEP: Censo Escolar - Matrículas"
                                 values:
                                   type: array
                                   items:
@@ -426,7 +423,7 @@ paths:
   /data/random_indicator:
     get:
       summary: Get random indicator
-      x-mojo-to: 'Data::RandomIndicator#get'
+      x-mojo-to: "Data::RandomIndicator#get"
       operationId: showDataRandomIndicator
       tags:
         - data
@@ -463,18 +460,18 @@ paths:
                       type: string
                       example: country
                     indicators:
-                      $ref: '#/definitions/Indicators'
+                      $ref: "#/definitions/Indicators"
 
   /data/resume:
     get:
       summary: Download a PDF file containing data about a locale
-      x-mojo-to: 'Data::Resume#get'
+      x-mojo-to: "Data::Resume#get"
       operationId: downloadResume
       tags:
         - data
       parameters:
-        - $ref: '#/parameters/localeParam'
-        - $ref: '#/parameters/yearParam'
+        - $ref: "#/parameters/localeParam"
+        - $ref: "#/parameters/yearParam"
       produces:
         - application/pdf
       responses:
@@ -485,7 +482,7 @@ paths:
   /data/download:
     get:
       summary: Download all data
-      x-mojo-to: 'data-download#get'
+      x-mojo-to: "data-download#get"
       operationId: downloadData
       tags:
         - data
@@ -499,18 +496,18 @@ paths:
   /data/download_indicator:
     get:
       summary: Download indicator data for a specific location
-      x-mojo-to: 'Data::DownloadIndicator#get'
+      x-mojo-to: "Data::DownloadIndicator#get"
       operationId: downloadIndicator
       tags:
         - data
       parameters:
-        - $ref: '#/parameters/localeParam'
+        - $ref: "#/parameters/localeParam"
         - name: indicator_id
           description: The id of the indicator
           in: query
           type: integer
           required: true
-        - $ref: '#/parameters/yearParam'
+        - $ref: "#/parameters/yearParam"
       responses:
         200:
           description: A XLSX file
@@ -520,7 +517,7 @@ paths:
   /upload_plan:
     post:
       summary: Submit a locale plan
-      x-mojo-to: 'UploadPlan#post'
+      x-mojo-to: "UploadPlan#post"
       tags:
         - uploads
       consumes:
@@ -556,7 +553,6 @@ paths:
               id:
                 type: integer
                 example: 335
-
 
 definitions:
   Area:
@@ -594,7 +590,7 @@ definitions:
       indicators:
         type: array
         items:
-          $ref: '#/definitions/IndicatorWithSubindicator'
+          $ref: "#/definitions/IndicatorWithSubindicator"
 
   Indicators:
     type: array
@@ -606,12 +602,12 @@ definitions:
           example: 5
         name:
           type: string
-          example: 'Número de matrículas de educação infantil - Creche'
+          example: "Número de matrículas de educação infantil - Creche"
         area:
-          $ref: '#/definitions/Area'
+          $ref: "#/definitions/Area"
         base:
           type: string
-          example: 'INEP: Censo Escolar - Matrículas'
+          example: "INEP: Censo Escolar - Matrículas"
         values:
           type: object
           properties:
@@ -637,12 +633,12 @@ definitions:
         example: 5
       name:
         type: string
-        example: 'Número de matrículas de educação infantil - Creche'
+        example: "Número de matrículas de educação infantil - Creche"
       area:
-        $ref: '#/definitions/Area'
+        $ref: "#/definitions/Area"
       base:
         type: string
-        example: 'INEP: Censo Escolar - Matrículas'
+        example: "INEP: Censo Escolar - Matrículas"
       values:
         type: object
         properties:

@@ -12,7 +12,7 @@ my $db = $t->app->pg->db;
 subtest_buffered 'Get random indicator' => sub {
 
     # Test endpoint
-    $t->get_ok("/v1/data/random_indicator")
+    $t->get_ok("/v2/data/random_indicator")
       ->status_is(200)
       ->json_is('/locales/0/name', 'Brasil')
       ->json_has('/locales/0/indicators/0/area/name')

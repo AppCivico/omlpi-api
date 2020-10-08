@@ -11,7 +11,7 @@ my $locale_id = 2803609;
 
 subtest_buffered 'Classifications | GET' => sub {
 
-    $t->get_ok("/v1/classifications")
+    $t->get_ok("/v2/classifications")
       ->status_is(200)
       ->json_has('/classifications')
       ->json_has('/classifications/0');

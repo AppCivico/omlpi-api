@@ -18,7 +18,7 @@ subtest_buffered 'UploadPlan | post' => sub {
 
     my $message = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur dignissim lorem sit amet.';
 
-    $t->post_ok("/v1/upload_plan", form => {
+    $t->post_ok("/v2/upload_plan", form => {
         name      => 'Junior M',
         message   => $message,
         email     => 'carlos@appcivico.com',
@@ -26,7 +26,7 @@ subtest_buffered 'UploadPlan | post' => sub {
       })
       ->status_is(200);
 
-    $t->post_ok("/v1/upload_plan", form => {
+    $t->post_ok("/v2/upload_plan", form => {
         name      => 'Junior M',
         message   => $message,
         email     => 'carlos@appcivico.com',

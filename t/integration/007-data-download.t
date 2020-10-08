@@ -7,7 +7,7 @@ use OMLPI::Test;
 my $t = test_instance();
 my $pg = $t->app->pg;
 
-$t->get_ok("/v1/data/download")
+$t->get_ok("/v2/data/download")
   ->status_is(200);
 
 my $headers = $t->tx->res->content->headers;

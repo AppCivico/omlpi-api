@@ -13,7 +13,7 @@ subtest_buffered 'Compare the locales' => sub {
 
     my $city_id = 2803609;
 
-    $t->get_ok("/v1/data/compare", form => { locale_id => $city_id })
+    $t->get_ok("/v2/data/compare", form => { locale_id => $city_id })
       ->status_is(200)
       ->json_has('/comparison/0/id')
       ->json_has('/comparison/0/name')
@@ -39,7 +39,7 @@ subtest_buffered 'Compare the locales' => sub {
 
 subtest_buffered 'Compare a country' => sub {
 
-    $t->get_ok("/v1/data/compare", form => { locale_id => 0 })
+    $t->get_ok("/v2/data/compare", form => { locale_id => 0 })
       ->status_is(200)
       ->json_has('/comparison/0/id')
       ->json_has('/comparison/0/name')

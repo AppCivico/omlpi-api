@@ -9,7 +9,7 @@ my $pg = $t->app->pg;
 
 subtest_buffered 'Cities | GET' => sub {
 
-    $t->get_ok("/v1/cities")
+    $t->get_ok("/v2/cities")
       ->status_is(200)
       ->json_has('/cities/0/id')
       ->json_has('/cities/0/name')
@@ -20,7 +20,7 @@ subtest_buffered 'Cities | GET' => sub {
 subtest_buffered 'Cities | filter by state' => sub {
 
     my $state_id = 35;
-    $t->get_ok("/v1/cities", form => { state_id => $state_id })
+    $t->get_ok("/v2/cities", form => { state_id => $state_id })
       ->status_is(200)
       ->json_has('/cities/0/name');
 
