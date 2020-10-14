@@ -229,21 +229,37 @@ SQL_QUERY
         #year        => $year,
         (
             map {
-                my $percent = '';
-                $percent = '%%' if $_->{is_percentage};
+                my $value_absolute = 'N/A';
+                my $value_relative = 'N/A';
+                if (defined($_->{value_absolute})) {
+                    $value_absolute = $_->{value_absolute};
+                    $value_absolute .= '%' if $_->{is_percentage};
+                }
+                if (defined($_->{value_relative})) {
+                    $value_relative = $_->{value_relative};
+                    $value_relative .= '%' if $_->{is_percentage};
+                }
                 (
-                    sprintf("%d-D0_A${percent}", $_->{indicator_id}) => $_->{value_absolute} // 'N/A',
-                    sprintf("%d-D0_R${percent}", $_->{indicator_id}) => $_->{value_relative} // 'N/A',
+                    sprintf("%d-D0_A", $_->{indicator_id}) => $value_absolute,
+                    sprintf("%d-D0_R", $_->{indicator_id}) => $value_relative,
                 )
             } $indicator_values->hashes()->each()
         ),
         (
             map {
-                my $percent = '';
-                $percent = '%%' if $_->{is_percentage};
+                my $value_absolute = 'N/A';
+                my $value_relative = 'N/A';
+                if (defined($_->{value_absolute})) {
+                    $value_absolute = $_->{value_absolute};
+                    $value_absolute .= '%' if $_->{is_percentage};
+                }
+                if (defined($_->{value_relative})) {
+                    $value_relative = $_->{value_relative};
+                    $value_relative .= '%' if $_->{is_percentage};
+                }
                 (
-                    sprintf("%d-D%d_A${percent}", $_->{indicator_id}, $_->{subindicator_id}) => $_->{value_absolute} // 'N/A',
-                    sprintf("%d-D%d_R${percent}", $_->{indicator_id}, $_->{subindicator_id}) => $_->{value_relative} // 'N/A',
+                    sprintf("%d-D%d_A", $_->{indicator_id}, $_->{subindicator_id}) => $value_absolute,
+                    sprintf("%d-D%d_R", $_->{indicator_id}, $_->{subindicator_id}) => $value_relative,
                 )
             } $subindicator_values->hashes()->each()
         ),
@@ -301,9 +317,6 @@ SQL_QUERY
     $log->debug($err);
 
     $log->debug('Final file: ' . $pdf_file);
-
-    use File::Copy;
-    copy($pdf_file, '/home/junior/projects/omlpi-api') or die $!;
 
     return $pdf_file;
 }
