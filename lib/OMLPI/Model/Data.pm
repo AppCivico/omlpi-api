@@ -182,14 +182,28 @@ sub get_resume {
     # Get indicator values
     #my $year = $self->get_max_year(locale_id => $locale_id)->hash->{year};
     my $indicator_values = $self->app->pg->db->query(<<"SQL_QUERY", $locale_id);
-      select indicator_id, value_absolute, value_relative
+      select
+        indicator_locale.indicator_id,
+        indicator_locale.value_absolute,
+        indicator_locale.value_relative,
+        indicator.is_percentage
       from indicator_locale
+      join indicator
+        on indicator.id = indicator_locale.indicator_id
       where locale_id = ?
       order by year asc
 SQL_QUERY
+
     my $subindicator_values = $self->app->pg->db->query(<<"SQL_QUERY", $locale_id);
-      select indicator_id, subindicator_id, value_absolute, value_relative
+      select
+        subindicator_locale.indicator_id,
+        subindicator_locale.subindicator_id,
+        subindicator_locale.value_absolute,
+        subindicator_locale.value_relative,
+        subindicator.is_percentage
       from subindicator_locale
+      join subindicator
+        on subindicator.id = subindicator_locale.subindicator_id
       where locale_id = ?
       order by year asc
 SQL_QUERY
@@ -209,22 +223,27 @@ SQL_QUERY
       where locale.id = ?
 SQL_QUERY
 
+    use DDP;
     my %data = (
         locale_name => $locale->{name},
         #year        => $year,
         (
             map {
+                my $percent = '';
+                $percent = '%%' if $_->{is_percentage};
                 (
-                    sprintf('%d-D0_A', $_->{indicator_id}) => $_->{value_absolute} // 'N/A',
-                    sprintf('%d-D0_R', $_->{indicator_id}) => $_->{value_relative} // 'N/A',
+                    sprintf("%d-D0_A${percent}", $_->{indicator_id}) => $_->{value_absolute} // 'N/A',
+                    sprintf("%d-D0_R${percent}", $_->{indicator_id}) => $_->{value_relative} // 'N/A',
                 )
             } $indicator_values->hashes()->each()
         ),
         (
             map {
+                my $percent = '';
+                $percent = '%%' if $_->{is_percentage};
                 (
-                    sprintf('%d-D%d_A', $_->{indicator_id}, $_->{subindicator_id}) => $_->{value_absolute} // 'N/A',
-                    sprintf('%d-D%d_R', $_->{indicator_id}, $_->{subindicator_id}) => $_->{value_relative} // 'N/A',
+                    sprintf("%d-D%d_A${percent}", $_->{indicator_id}, $_->{subindicator_id}) => $_->{value_absolute} // 'N/A',
+                    sprintf("%d-D%d_R${percent}", $_->{indicator_id}, $_->{subindicator_id}) => $_->{value_relative} // 'N/A',
                 )
             } $subindicator_values->hashes()->each()
         ),
@@ -282,6 +301,9 @@ SQL_QUERY
     $log->debug($err);
 
     $log->debug('Final file: ' . $pdf_file);
+
+    use File::Copy;
+    copy($pdf_file, '/home/junior/projects/omlpi-api') or die $!;
 
     return $pdf_file;
 }
