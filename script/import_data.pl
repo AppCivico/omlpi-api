@@ -324,6 +324,7 @@ SQL_QUERY
     # Refresh random locale indicator materialized view
     $logger->info("Updating random_locale_indicator materialized view...");
     $db->query("REFRESH MATERIALIZED VIEW random_locale_indicator");
+    $db->query("REFRESH MATERIALIZED VIEW random_indicator_cache");
     $logger->info("Materialized view refreshed!");
 
     # Update database checksum
