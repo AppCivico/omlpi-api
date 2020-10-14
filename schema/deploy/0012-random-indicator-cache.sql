@@ -29,6 +29,7 @@ create materialized view random_indicator_cache AS
       SELECT JSON_AGG("result")
       FROM (
         SELECT
+          locale.id,
           CASE
             WHEN locale.type = 'city' THEN CONCAT(locale.name, ', ', state.uf)
             ELSE locale.name
