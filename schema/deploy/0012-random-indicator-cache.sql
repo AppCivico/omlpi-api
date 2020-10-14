@@ -3,6 +3,8 @@
 
 BEGIN;
 
+create extension tsm_system_rows;
+
 create materialized view random_indicator_cache AS
           WITH random_data AS (
             SELECT

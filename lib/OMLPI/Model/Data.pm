@@ -531,8 +531,7 @@ sub get_random_indicator {
       SELECT locales
       FROM random_indicator_cache
       ${cond_locale}
-      ORDER BY RANDOM()
-      LIMIT 1
+      TABLESAMPLE SYSTEM_ROWS(1)
 SQL_QUERY
 }
 
