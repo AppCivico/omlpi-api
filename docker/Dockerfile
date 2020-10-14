@@ -45,6 +45,8 @@ ADD install-cpan-extra-modules.sh /tmp/install-cpan-extra-modules.sh
 RUN /tmp/install-cpan-extra-modules.sh
 
 USER root
+RUN echo "0 */3 * * * su - app -c 'cd /src; ./script/refresh_random_indicator_cache.sh'\n" | crontab -
+
 RUN mkdir /etc/service/omlpi
 COPY omlpi.sh /etc/service/omlpi/run
 

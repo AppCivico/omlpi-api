@@ -13,3 +13,11 @@ use OMLPI::Utils qw(nullif trim);
 my $logger = get_logger();
 
 $logger->info("Starting $0...");
+
+my $pg = get_mojo_pg();
+my $db = $pg->db;
+
+$logger->info("Refreshing random_indicator_cache materialized view");
+$db->query("REFRESH MATERIALIZED VIEW random_indicator_cache");
+$logger->info("Materialized view refreshed!");
+
