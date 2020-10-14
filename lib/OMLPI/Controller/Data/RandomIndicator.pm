@@ -9,7 +9,7 @@ sub get {
     my $locale_id_ne = $c->every_param('locale_id_ne');
     my $res = $c->model('Data')->get_random_indicator(locale_id_ne => $locale_id_ne);
 
-    return $c->render(json => { locales => $res->expand->hashes }, status => 200);
+    return $c->render(json => { locales => $res->expand->hash->{locales} }, status => 200);
 }
 
 1;

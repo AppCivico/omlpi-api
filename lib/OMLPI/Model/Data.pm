@@ -527,82 +527,12 @@ sub get_random_indicator {
     $cond_locale = "WHERE locale_id NOT IN(@{[join ',', map '?', @{ $locale_id_ne }]})\n"
       if defined $locale_id_ne && scalar @{$locale_id_ne} > 0;
 
-    my $random = $db->query(<<"SQL_QUERY", @{ $locale_id_ne || [] });
-      SELECT
-        locale_id,
-        ARRAY[random_pick(area_a1), random_pick(area_a2), random_pick(area_a3)] AS indicators
-      FROM random_locale_indicator
-      $cond_locale
+    return $db->query(<<"SQL_QUERY", @{ $locale_id_ne || [] });
+      SELECT locales
+      FROM random_indicator_cache
+      ${cond_locale}
       ORDER BY RANDOM()
       LIMIT 1
-SQL_QUERY
-
-    # Get data
-    my ($locale_id, $indicator_ids) = @{ $random->array };
-
-    return $db->query(<<"SQL_QUERY", @{ $indicator_ids }, $locale_id);
-      WITH max_year AS (
-        SELECT MAX(year.max) AS year
-        FROM (
-          SELECT MAX(year)
-          FROM indicator_locale
-          UNION SELECT MAX(year)
-          FROM subindicator_locale
-        ) year
-      )
-      SELECT
-        locale.id,
-        CASE
-          WHEN locale.type = 'city' THEN CONCAT(locale.name, ', ', state.uf)
-          ELSE locale.name
-        END AS name,
-        locale.type,
-        locale.latitude,
-        locale.longitude,
-        (
-          SELECT JSON_AGG("all".result)
-          FROM (
-            SELECT ROW_TO_JSON("row") result
-            FROM (
-              SELECT
-                indicator.id,
-                indicator.description,
-                indicator.base,
-                indicator.concept,
-                indicator.is_percentage,
-                ROW_TO_JSON(area.*) AS area,
-                (
-                  SELECT JSON_BUILD_OBJECT(
-                    'year', indicator_locale.year,
-                    'value_relative', indicator_locale.value_relative,
-                    'value_absolute', indicator_locale.value_absolute
-                  )
-                  FROM indicator_locale
-                    WHERE indicator_locale.indicator_id = indicator.id
-                      AND indicator_locale.locale_id    = locale.id
-                      AND indicator_locale.year         = ( SELECT year FROM max_year )
-                  ORDER BY indicator_locale.year DESC
-                  LIMIT 1
-                ) AS values
-              FROM indicator
-              JOIN area
-                ON area.id = indicator.area_id
-              JOIN indicator_locale
-                ON indicator.id = indicator_locale.indicator_id
-                  AND indicator_locale.locale_id = locale.id
-              WHERE indicator.id IN (@{[join ',', map '?', @{ $indicator_ids }]})
-                AND indicator_locale.year = ( SELECT year FROM max_year )
-              ORDER BY indicator.id
-            ) AS "row"
-          ) AS "all"
-        ) AS indicators
-      FROM locale
-      LEFT JOIN city
-        ON locale.type = 'city' AND locale.id = city.id
-      LEFT JOIN state
-        ON locale.type = 'city' AND city.state_id = state.id
-      WHERE locale.id IN(0, ?)
-      ORDER BY locale.id
 SQL_QUERY
 }
 
