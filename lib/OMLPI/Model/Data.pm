@@ -565,8 +565,8 @@ sub get_random_indicator {
     return $db->query(<<"SQL_QUERY", @{ $locale_id_ne || [] });
       SELECT locales
       FROM random_indicator_cache
-      ${cond_locale}
       TABLESAMPLE SYSTEM_ROWS(1)
+      ${cond_locale}
 SQL_QUERY
 }
 
