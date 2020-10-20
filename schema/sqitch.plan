@@ -14,3 +14,4 @@
 0010-dataset-v8 [0009-indicator-concept] 2020-08-27T17:48:33Z Junior,,, <junior@fvox-notebook> # taset-v8
 0011-add-indexes [0010-dataset-v8] 2020-10-08T14:58:55Z junior,,, <junior@junior-notebook> # id-indexes
 0012-random-indicator-cache [0011-add-indexes] 2020-10-13T14:25:06Z junior,,, <junior@junior-notebook> # indom-indicator-cache
+0013-indicator-subindicator-percent [0012-random-indicator-cache] 2020-10-20T12:24:01Z junior,,, <junior@junior-notebook> # idicator-subindicator-percent
