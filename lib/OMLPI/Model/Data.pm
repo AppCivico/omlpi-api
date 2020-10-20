@@ -204,6 +204,7 @@ SQL_QUERY
       from subindicator_locale
       join subindicator
         on subindicator.id = subindicator_locale.subindicator_id
+          and subindicator.indicator_id = subindicator_locale.indicator_id
       where locale_id = ?
       order by year asc
 SQL_QUERY

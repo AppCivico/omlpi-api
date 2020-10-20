@@ -107,29 +107,33 @@ SQL_QUERY
         on_scope_exit { unlink $tmp };
         $member->extractToFileNamed($tmp);
 
-        my $sql_query = 'INSERT INTO subindicator (id, description, classification, is_percentage, is_big_number) VALUES ';
+        my $sql_query = 'INSERT INTO subindicator (id, indicator_id, description, classification, is_percentage, is_big_number) VALUES ';
         my @binds = ();
         my $csv = Tie::Handle::CSV->new($tmp, header => 1, sep_char => ';');
         my %unique_subindicator;
         while (my $line = <$csv>) {
             my $id = int($line->{ID}) or next;
-            next if $id == 0 || $unique_subindicator{$id}++;
-            $sql_query .= '(?, ?, ?, ?, ?), ';
+            my $indicator_id = trim($line->{Indicador});
+            next if $id == 0 || $unique_subindicator{$indicator_id}->{$id}++;
+            $sql_query .= '(?, ?, ?, ?, ?, ?), ';
             my $classification = trim($line->{Classificador});
             my $name           = trim($line->{Nome});
-            push @binds, ($id, $name, $classification, $line->{'É porcentagem'}, $line->{'É Big Number'});
+            push @binds, ($id, $indicator_id, $name, $classification, $line->{'É porcentagem'}, $line->{'É Big Number'});
         }
         close $csv;
 
         $sql_query =~ s{, $}{};
         $sql_query .= <<"SQL_QUERY";
-          ON CONFLICT (id)
+          ON CONFLICT (id, indicator_id)
           DO UPDATE
             SET description    = EXCLUDED.description,
                 classification = EXCLUDED.classification,
                 is_percentage  = EXCLUDED.is_percentage,
                 is_big_number  = EXCLUDED.is_big_number
 SQL_QUERY
+
+        p $sql_query;
+        p @binds;
 
         $pg->db->query($sql_query, @binds);
         $logger->info("Subindicators loaded!");
