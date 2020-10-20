@@ -71,7 +71,7 @@ sub compare {
                           ) AS values
                         FROM subindicator_locale
                         JOIN subindicator
-                          ON subindicator.id = subindicator_locale.subindicator_id
+                          ON subindicator.id = subindicator_locale.subindicator_id AND subindicator.indicator_id = indicator.id
                         WHERE subindicator_locale.locale_id = locale.id
                           AND subindicator_locale.indicator_id = indicator.id
                           AND (?::int IS NULL OR subindicator_locale.year = ?::int)
@@ -179,7 +179,7 @@ sub compare_country {
                           ) AS values
                         FROM subindicator_locale
                         JOIN subindicator
-                          ON subindicator.id = subindicator_locale.subindicator_id
+                          ON subindicator.id = subindicator_locale.subindicator_id AND subindicator.indicator_id = indicator.id
                         WHERE subindicator_locale.locale_id = locale.id
                           AND (?::int IS NULL OR subindicator_locale.year = ?::int)
                           AND EXISTS (

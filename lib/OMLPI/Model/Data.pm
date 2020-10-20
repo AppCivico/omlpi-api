@@ -92,11 +92,11 @@ sub get {
                           ) AS values
                         FROM subindicator_locale
                         JOIN subindicator
-                          ON subindicator.id = subindicator_locale.subindicator_id
+                          ON subindicator.id = subindicator_locale.subindicator_id AND subindicator.indicator_id = indicator.id
                         WHERE subindicator_locale.locale_id = locale.id
                           AND subindicator_locale.indicator_id = indicator.id
                           AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-                        GROUP BY subindicator.id, subindicator.classification, subindicator.description
+                        GROUP BY subindicator.id, subindicator.classification, subindicator.description, subindicator.is_percentage, subindicator.is_big_number
                       ) AS subindicators
                     ),
                     ARRAY[]::record[]
@@ -223,7 +223,6 @@ SQL_QUERY
       where locale.id = ?
 SQL_QUERY
 
-    use DDP;
     my %data = (
         locale_name => $locale->{name},
         #year        => $year,
@@ -353,7 +352,7 @@ sub get_all_data {
           subindicator_locale.year           AS subindicator_year
         FROM subindicator_locale
         JOIN subindicator
-          ON subindicator.id = subindicator_locale.id
+          ON subindicator.id = subindicator_locale.id AND subindicator.indicator_id = indicator.id
         WHERE subindicator_locale.locale_id = locale.id
         UNION
         SELECT
@@ -470,7 +469,7 @@ sub download_indicator {
           subindicator_locale.indicator_id
         FROM subindicator_locale
         JOIN subindicator
-          ON subindicator.id = subindicator_locale.subindicator_id
+          ON subindicator.id = subindicator_locale.subindicator_id AND subindicator.indicator_id = indicator.id
         WHERE subindicator_locale.locale_id = locale.id
         ORDER BY subindicator_locale.indicator_id, subindicator_locale.subindicator_id
       ) subs ON subs.indicator_id = indicator.id
