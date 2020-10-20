@@ -132,9 +132,6 @@ SQL_QUERY
                 is_big_number  = EXCLUDED.is_big_number
 SQL_QUERY
 
-        p $sql_query;
-        p @binds;
-
         $pg->db->query($sql_query, @binds);
         $logger->info("Subindicators loaded!");
     }
