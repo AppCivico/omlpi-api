@@ -33,6 +33,7 @@ RUN apt-get update && apt-get install -y \
     xvfb \
     poppler-utils \
     xfonts-75dpi \
+    libdb-dev \
 && rm -rf /var/lib/apt/lists/* && apt-get clean
 
 ADD install-wkhtmltopdf.sh /tmp/install-wkhtmltopdf.sh
