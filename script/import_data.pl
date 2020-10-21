@@ -15,6 +15,7 @@ use Data::Printer;
 use Data::Dumper;
 use OMLPI::Utils qw(nullif trim);
 use Digest::MD5;
+use DB_File;
 
 my $logger = get_logger();
 
@@ -110,17 +111,17 @@ SQL_QUERY
         my $sql_query = 'INSERT INTO subindicator (id, indicator_id, description, classification, is_percentage, is_big_number) VALUES ';
         my @binds = ();
         my $csv = Tie::Handle::CSV->new($tmp, header => 1, sep_char => ';');
-        my %unique_subindicator;
+
+        my %dedup_subindicators;
         while (my $line = <$csv>) {
             my $id = int($line->{ID}) or next;
             my $indicator_id = trim($line->{Indicador});
-            next if $id == 0 || $unique_subindicator{$indicator_id}->{$id}++;
+            next if $id == 0 || $dedup_subindicators{$indicator_id}->{$id}++;
             $sql_query .= '(?, ?, ?, ?, ?, ?), ';
             my $classification = trim($line->{Classificador});
             my $name           = trim($line->{Nome});
             push @binds, ($id, $indicator_id, $name, $classification, $line->{'É porcentagem'}, $line->{'É Big Number'});
         }
-        close $csv;
 
         $sql_query =~ s{, $}{};
         $sql_query .= <<"SQL_QUERY";
@@ -166,7 +167,10 @@ SQL_QUERY
             eol    => "\n",
         });
 
-        my %loaded_indicators_data = ();
+
+        unlink '/tmp/dedup_indicators_data';
+        dbmopen(my %dedup_indicators_data, '/tmp/dedup_indicators_data', 0666);
+
         while (my $line = <$csv>) {
             $line = { %$line };
             my $area_id      = delete $line->{Tema};
@@ -186,7 +190,8 @@ SQL_QUERY
                 next;
             }
 
-            if ($loaded_indicators_data{$locale_id}->{$indicator_id}->{$year}) {
+            my $dedup_key = "${locale_id}:${indicator_id}:${year}";
+            if ($dedup_indicators_data{$dedup_key}) {
                 $logger->warn(sprintf(
                     "O indicador %d já foi carregado para a localidade %d no ano %d!",
                     $indicator_id,
@@ -215,9 +220,11 @@ SQL_QUERY
             if (defined($value_relative) || defined($value_absolute)) {
                 $text_csv->combine($indicator_id, $locale_id, $year, $value_relative, $value_absolute);
                 $dbh->pg_putcopydata($text_csv->string());
-                $loaded_indicators_data{$locale_id}->{$indicator_id}->{$year} = 1;
+                $dedup_indicators_data{$dedup_key} = 1;
             }
         }
+        dbmclose %dedup_indicators_data;
+
         $dbh->pg_putcopyend() or $logger->logdie("Error on pg_putcopyend()");
         $logger->debug("COPY ended!");
 
@@ -247,7 +254,10 @@ SQL_QUERY
         # Seek and skip first line
         seek($csv, 0, 0) or $logger->logdie($!);
         <$csv>;
-        my %loaded_subindicators_data = ();
+
+        unlink '/tmp/dedup_subindicators_data';
+        dbmopen(my %dedup_subindicators_data, '/tmp/dedup_subindicators_data', 0666);
+
         while (my $line = <$csv>) {
             $line = { %$line };
             my $area_id      = delete $line->{Tema};
@@ -264,7 +274,8 @@ SQL_QUERY
                 my ($subindicator_id) = $k =~ m{^D([0-9]+)};
                 next if $subindicator_id == 0;
 
-                if ($loaded_subindicators_data{$locale_id}->{$indicator_id}->{$subindicator_id}->{$year}) {
+                my $dedup_key = "${locale_id}:${indicator_id}:${subindicator_id}:${year}";
+                if ($dedup_subindicators_data{$dedup_key}) {
                     $logger->warn(sprintf(
                         "O desagregador id %d do indicador %d já foi carregado para a localidade %d no ano %d!",
                         $subindicator_id,
@@ -293,10 +304,12 @@ SQL_QUERY
                 if (defined($value_relative) || defined($value_absolute)) {
                     $text_csv->combine($indicator_id, $subindicator_id, $locale_id, $year, $value_relative, $value_absolute);
                     $dbh->pg_putcopydata($text_csv->string());
-                    $loaded_subindicators_data{$locale_id}->{$indicator_id}->{$subindicator_id}->{$year} = 1;
+                    $dedup_subindicators_data{$dedup_key} = 1;
                 }
             }
         }
+        dbmclose %dedup_subindicators_data;
+
         $dbh->pg_putcopyend() or $logger->logdie("Error on pg_putcopyend()");
         $logger->debug("COPY ended!");
 
