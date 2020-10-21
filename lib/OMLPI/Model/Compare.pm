@@ -75,7 +75,7 @@ sub compare {
                         WHERE subindicator_locale.locale_id = locale.id
                           AND subindicator_locale.indicator_id = indicator.id
                           AND (?::int IS NULL OR subindicator_locale.year = ?::int)
-                        GROUP BY subindicator.id, subindicator.classification, subindicator.description
+                        GROUP BY subindicator.id, subindicator.classification, subindicator.description, subindicator.is_percentage, subindicator.is_big_number
                       ) AS subindicators
                     ),
                     ARRAY[]::record[]
