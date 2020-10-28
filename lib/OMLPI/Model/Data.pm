@@ -533,7 +533,10 @@ SQL_QUERY
 
         $line += 5;
         $worksheet->write($line++, 0, 'Dados extraídos pela plataforma Observa', $footer_format);
-        my $now = $self->app->model('DateTime')->now();
+        my $now = $self->app->model('DateTime')->now()
+          ->set_time_zone('UTC')
+          ->set_time_zone('America/Sao_Paulo');
+
         $worksheet->write(
             $line++,
             0,
