@@ -19,9 +19,11 @@ sub get {
     my $size = -s $attachment;
     $size > 0 or return $c->reply_internal_server_error();
 
+    my $locale_name = $c->pg->db->select('locale', [qw(name)], { id => $locale_id })->hash->{name};
+
     return $c->render_file(
         filepath => $attachment,
-        filename => "Resumo_${locale_id}.pdf",
+        filename => "RelatorioObserva_${locale_name}.pdf",
         format   => 'pdf',
         cleanup  => 1,
     );
