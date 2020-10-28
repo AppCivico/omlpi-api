@@ -233,7 +233,6 @@ SQL_QUERY
                 my $value_relative = 'N/A';
                 if (defined($_->{value_absolute})) {
                     $value_absolute = $_->{value_absolute};
-                    $value_absolute .= '%' if $_->{is_percentage};
                 }
                 if (defined($_->{value_relative})) {
                     $value_relative = $_->{value_relative};
@@ -251,7 +250,6 @@ SQL_QUERY
                 my $value_relative = 'N/A';
                 if (defined($_->{value_absolute})) {
                     $value_absolute = $_->{value_absolute};
-                    $value_absolute .= '%' if $_->{is_percentage};
                 }
                 if (defined($_->{value_relative})) {
                     $value_relative = $_->{value_relative};
