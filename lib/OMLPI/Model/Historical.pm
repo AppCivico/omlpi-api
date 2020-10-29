@@ -31,6 +31,7 @@ sub get_historical {
                   indicator.description,
                   indicator.base,
                   indicator.concept,
+                  indicator.is_percentage,
                   ROW_TO_JSON(area.*) AS area,
                   (
                     SELECT ARRAY_AGG(indicator_values)
@@ -54,6 +55,8 @@ sub get_historical {
                           subindicator.id,
                           subindicator.classification,
                           subindicator.description,
+                          subindicator.is_percentage,
+                          subindicator.is_big_number,
                           (
                             SELECT ARRAY_AGG(subindicator_values)
                             FROM (
@@ -78,7 +81,6 @@ sub get_historical {
                     ),
                     ARRAY[]::record[]
                   ) AS subindicators
-
                 FROM indicator
                 JOIN area
                   ON area.id = indicator.area_id
