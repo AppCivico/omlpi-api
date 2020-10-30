@@ -507,7 +507,6 @@ paths:
           in: query
           type: integer
           required: true
-        - $ref: "#/parameters/yearParam"
       responses:
         200:
           description: A XLSX file

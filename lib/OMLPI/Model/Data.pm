@@ -465,11 +465,10 @@ SQL_QUERY
 sub download_indicator {
     my ($self, %opts) = @_;
 
-    my $year         = $opts{year};
     my $locale_id    = $opts{locale_id};
     my $indicator_id = $opts{indicator_id};
 
-    my $query_p = $self->app->pg->db->query_p(<<'SQL_QUERY', $indicator_id, $locale_id, $year);
+    my $query_p = $self->app->pg->db->query_p(<<'SQL_QUERY', $indicator_id, $locale_id);
       SELECT
         locale.name                      AS locale_name,
         indicator.description            AS indicator_description,
@@ -505,8 +504,7 @@ sub download_indicator {
       ) subs ON subs.indicator_id = indicator.id
       WHERE indicator.id = ?
         AND indicator_locale.locale_id = ?
-        AND indicator_locale.year = ?
-      ORDER BY indicator.id
+      ORDER BY indicator.id, indicator_locale.year
 SQL_QUERY
 
     my $locale_p = $self->app->pg->db->select_p("locale", [qw(name)], { id => $locale_id });
@@ -528,7 +526,7 @@ SQL_QUERY
         $header_format->set_bold();
 
         # Worksheet
-        my $worksheet = $workbook->add_worksheet($year);
+        my $worksheet = $workbook->add_worksheet();
 
         # Headers
         my @headers = (

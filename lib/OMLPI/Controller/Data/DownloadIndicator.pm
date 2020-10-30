@@ -11,10 +11,9 @@ sub get {
 
     my $locale_id    = $c->param('locale_id');
     my $indicator_id = $c->param('indicator_id');
-    my $year         = $c->param('year') || $c->model('Data')->get_max_year()->hash->{year};
 
     $c->render_later();
-    return $c->model('Data')->download_indicator(locale_id => $locale_id, year => $year, indicator_id => $indicator_id)
+    return $c->model('Data')->download_indicator(locale_id => $locale_id, indicator_id => $indicator_id)
       ->then(sub {
           my $file        = shift;
           my $locale_name = shift;
