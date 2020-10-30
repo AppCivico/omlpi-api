@@ -322,6 +322,8 @@ SQL_QUERY
 sub get_all_data {
     my $self = shift;
 
+    $self->app->log->debug('Retriving data...');
+
     my $query = $self->app->pg->db->query_p(<<'SQL_QUERY');
       SELECT
         locale.id             AS locale_id,
@@ -377,6 +379,8 @@ SQL_QUERY
     return $query->then(sub {
         my $res = shift;
 
+        $self->app->log->debug('Creating temporary file...');
+
         # Create temporary file
         my $fh = File::Temp->new(UNLINK => 0, SUFFIX => '.xlsx');
 
@@ -423,6 +427,33 @@ SQL_QUERY
                 $worksheet->write($lines{$year}, $i, $r->{$keys[$i]});
             }
             $lines{$year}++;
+        }
+
+        # Add footer
+        my $footer_format = $workbook->add_format();
+        $footer_format->set_italic();
+        $footer_format->set_size(9);
+
+        my $now = $self->app->model('DateTime')->now()
+          ->set_time_zone('UTC')
+          ->set_time_zone('America/Sao_Paulo');
+
+        for my $year (keys %worksheets) {
+            my $worksheet = $worksheets{$year};
+            $lines{$year} += 3;
+
+            $worksheet->write($lines{$year}++, 0, 'Dados extraídos pela plataforma Observa', $footer_format);
+            $worksheet->write(
+                $lines{$year}++,
+                0,
+                sprintf(
+                    "%02d/%02d/%02d às %02d:%02d horário de Brasília.",
+                    $now->day, $now->month, $now->year,
+                    $now->hour, $now->minute,
+                ),
+                $footer_format,
+            );
+
         }
 
         close $fh;

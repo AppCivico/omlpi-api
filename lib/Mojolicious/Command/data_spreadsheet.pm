@@ -3,7 +3,7 @@ use Mojo::Base 'Mojolicious::Command';
 
 use File::Copy;
 
-has description => 'Generate static data spreadsheet';
+has description => 'Generate data spreadsheet file on public directory';
 
 sub run {
     my $self = shift;
@@ -19,6 +19,7 @@ sub run {
 
         $app->log->info("File generated!");
   });
+
   Mojo::IOLoop->start unless Mojo::IOLoop->is_running;
 }
 
