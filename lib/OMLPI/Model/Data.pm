@@ -2,6 +2,7 @@ package OMLPI::Model::Data;
 use Mojo::Base 'MojoX::Model';
 
 use Text::CSV;
+use Number::Format;
 use Excel::Writer::XLSX;
 use File::Temp qw(tempfile);
 use Mojo::Util qw(decode);
@@ -224,6 +225,7 @@ SQL_QUERY
       where locale.id = ?
 SQL_QUERY
 
+    my $formatter = Number::Format->new(-thousands_sep   => '.', -decimal_point   => ',');
     my %data = (
         locale_name => $locale->{name},
         #year        => $year,
@@ -232,10 +234,10 @@ SQL_QUERY
                 my $value_absolute = 'N/A';
                 my $value_relative = 'N/A';
                 if (defined($_->{value_absolute})) {
-                    $value_absolute = $_->{value_absolute};
+                    $value_absolute = $formatter->format_number($_->{value_absolute});
                 }
                 if (defined($_->{value_relative})) {
-                    $value_relative = $_->{value_relative};
+                    $value_relative = $formatter->format_number($_->{value_relative});
                     $value_relative .= '%' if $_->{is_percentage};
                 }
                 (
@@ -249,10 +251,10 @@ SQL_QUERY
                 my $value_absolute = 'N/A';
                 my $value_relative = 'N/A';
                 if (defined($_->{value_absolute})) {
-                    $value_absolute = $_->{value_absolute};
+                    $value_absolute = $formatter->format_number($_->{value_absolute});
                 }
                 if (defined($_->{value_relative})) {
-                    $value_relative = $_->{value_relative};
+                    $value_relative = $formatter->format_number($_->{value_relative});
                     $value_relative .= '%' if $_->{is_percentage};
                 }
                 (
