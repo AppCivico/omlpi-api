@@ -410,7 +410,7 @@ SQL_QUERY
             $lines{$year} //= 0;
             if (!$has_headers{$year}++) {
                 my @headers = (
-                    qw(LOCALIDADE TEMA INDICADOR), 'VALOR RELATIVO', 'VALOR ABSOLUTO', qw(DESAGREGADOR CLASSIFICAÇÃO),
+                    'LOCALIDADE', 'COD IBGE', qw(TEMA INDICADOR), 'VALOR RELATIVO', 'VALOR ABSOLUTO', qw(DESAGREGADOR CLASSIFICAÇÃO),
                     'VALOR RELATIVO', 'VALOR ABSOLUTO',
                 );
                 for (my $i = 0; $i < scalar @headers; $i++) {
@@ -421,7 +421,7 @@ SQL_QUERY
 
             # Write lines
             my @keys = qw(
-                locale_name area_name indicator_description indicator_value_relative indicator_value_absolute
+                locale_name locale_id area_name indicator_description indicator_value_relative indicator_value_absolute
                 subindicator_description subindicator_classification subindicator_value_relative
                 subindicator_value_absolute
             );
