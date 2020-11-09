@@ -472,6 +472,7 @@ sub download_indicator {
 
     my $query_p = $self->app->pg->db->query_p(<<'SQL_QUERY', $indicator_id, $locale_id);
       SELECT
+        locale.id                        AS locale_id,
         locale.name                      AS locale_name,
         indicator.description            AS indicator_description,
         indicator_locale.year            AS year,
@@ -532,7 +533,7 @@ SQL_QUERY
 
         # Headers
         my @headers = (
-            qw(LOCALIDADE TEMA INDICADOR ANO), 'MÉDIA RELATIVA', 'MÉDIA ABSOLUTA', qw(DESAGREGADOR CLASSIFICAÇÃO),
+            'LOCALIDADE', 'COD IBGE', qw(TEMA INDICADOR ANO), 'MÉDIA RELATIVA', 'MÉDIA ABSOLUTA', qw(DESAGREGADOR CLASSIFICAÇÃO),
             'VALOR RELATIVO', 'VALOR ABSOLUTO', 'FONTE',
         );
 
@@ -545,7 +546,7 @@ SQL_QUERY
         while (my $r = $res->[0]->hash) {
             # Write lines
             my @keys = qw(
-                locale_name area_name indicator_description year average_relative average_absolute
+                locale_name locale_id area_name indicator_description year average_relative average_absolute
                 subindicator_description subindicator_classification subindicator_value_relative
                 subindicator_value_absolute base
             );
