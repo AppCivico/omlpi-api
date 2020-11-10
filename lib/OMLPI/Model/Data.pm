@@ -503,6 +503,7 @@ sub download_indicator {
         JOIN subindicator
           ON subindicator.id = subindicator_locale.subindicator_id AND subindicator.indicator_id = indicator.id
         WHERE subindicator_locale.locale_id = locale.id
+          AND subindicator_locale.year = indicator_locale.year
         ORDER BY subindicator_locale.indicator_id, subindicator_locale.subindicator_id
       ) subs ON subs.indicator_id = indicator.id
       WHERE indicator.id = ?
@@ -551,7 +552,7 @@ SQL_QUERY
                 subindicator_value_absolute base
             );
             for (my $i = 0; $i < scalar @keys; $i++) {
-                $worksheet->write($line, $i, $r->{$keys[$i]});
+                $worksheet->write_string($line, $i, $r->{$keys[$i]});
             }
             $line++;
         }
