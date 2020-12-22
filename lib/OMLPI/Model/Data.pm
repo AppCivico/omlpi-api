@@ -552,7 +552,13 @@ SQL_QUERY
                 subindicator_value_absolute base
             );
             for (my $i = 0; $i < scalar @keys; $i++) {
-                $worksheet->write_string($line, $i, $r->{$keys[$i]});
+                my $key   = $keys[$i];
+                my $value = $r->{$key};
+
+                if ($key =~ m{_(relative|absolute)$}) {
+                    $value =~ s{\.}{,}g;
+                }
+                $worksheet->write_string($line, $i, $value);
             }
             $line++;
         }
