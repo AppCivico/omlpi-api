@@ -355,7 +355,7 @@ sub get_all_data {
           subindicator_locale.year           AS subindicator_year
         FROM subindicator_locale
         JOIN subindicator
-          ON subindicator.id = subindicator_locale.id AND subindicator.indicator_id = indicator.id
+          ON subindicator.id = subindicator_locale.subindicator_id AND subindicator.indicator_id = indicator.id
         WHERE subindicator_locale.locale_id = locale.id
           AND subindicator_locale.indicator_id = indicator.id
         UNION
@@ -369,14 +369,15 @@ sub get_all_data {
           NULL AS subindicator_year
       ) s ON s.indicator_id = indicator.id
       ORDER BY (
-        CASE locale.type
-          WHEN 'country' THEN 1
-          WHEN 'region'  THEN 2
-          WHEN 'state'   THEN 3
-          WHEN 'city'    THEN 4
-        END
-      ),
-      locale.name, indicator.id, indicator_locale.year DESC, (s.subindicator_id IS NULL) DESC, s.subindicator_year
+          CASE locale.type
+            WHEN 'country' THEN 1
+            WHEN 'region'  THEN 2
+            WHEN 'state'   THEN 3
+            WHEN 'city'    THEN 4
+          END
+        ),
+        locale.name, indicator.id, indicator_locale.year DESC,
+        (s.subindicator_id IS NULL) DESC, s.subindicator_id, s.subindicator_year
 SQL_QUERY
 
     return $query->then(sub {
