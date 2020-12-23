@@ -357,6 +357,7 @@ sub get_all_data {
         JOIN subindicator
           ON subindicator.id = subindicator_locale.id AND subindicator.indicator_id = indicator.id
         WHERE subindicator_locale.locale_id = locale.id
+          AND subindicator_locale.indicator_id = indicator.id
         UNION
         SELECT
           indicator.id AS indicator_id,
