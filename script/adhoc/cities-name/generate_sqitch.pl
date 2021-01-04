@@ -15,13 +15,17 @@ use Data::Printer;
 use Data::Dumper;
 
 my $csv = Tie::Handle::CSV->new("$RealBin/RELATORIO_DTB_BRASIL_MUNICIPIO.csv", header => 1);
+printf "CREATE TEMPORARY TABLE city_names (id int not null, state_id int not null, name text not null);\n\n";
+printf "INSERT INTO city_names (id, state_id, name) VALUES ";
 while (my $r = <$csv>) {
     my $id = $r->{'Código Município Completo'};
     my $name = $r->{'Nome_Município'};
     my $state_id = $r->{'UF'};
 
-    printf
-       "UPDATE city SET name = %s WHERE id = %d AND state_id = %d;\n",
-       $dbh->quote($name), $id, $state_id;
+    printf "(%d, %d, %s), \n", $id, $state_id, $dbh->quote($name);
+
+    # printf
+    #    "UPDATE city SET name = %s WHERE id = %d AND state_id = %d;\n",
+    #    $dbh->quote($name), $id, $state_id;
 }
 close $csv;
