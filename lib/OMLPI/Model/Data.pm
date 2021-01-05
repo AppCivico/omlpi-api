@@ -369,7 +369,9 @@ sub get_all_data {
           NULL AS subindicator_value_relative,
           NULL AS subindicator_year
       ) s ON s.indicator_id = indicator.id
-      ORDER BY (
+      ORDER BY
+        indicator_locale.year ASC,
+        (
           CASE locale.type
             WHEN 'country' THEN 1
             WHEN 'region'  THEN 2
