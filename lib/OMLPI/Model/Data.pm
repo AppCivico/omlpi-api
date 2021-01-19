@@ -187,6 +187,7 @@ sub get_resume {
         indicator_locale.indicator_id,
         indicator_locale.value_absolute,
         indicator_locale.value_relative,
+        indicator_locale.year,
         indicator.is_percentage
       from indicator_locale
       join indicator
@@ -201,6 +202,7 @@ SQL_QUERY
         subindicator_locale.subindicator_id,
         subindicator_locale.value_absolute,
         subindicator_locale.value_relative,
+        subindicator_locale.year,
         subindicator.is_percentage
       from subindicator_locale
       join subindicator
@@ -228,7 +230,6 @@ SQL_QUERY
     my $formatter = Number::Format->new(-thousands_sep   => '.', -decimal_point   => ',');
     my %data = (
         locale_name => $locale->{name},
-        #year        => $year,
         (
             map {
                 my $value_absolute = 'N/A';
@@ -241,8 +242,8 @@ SQL_QUERY
                     $value_relative .= '%' if $_->{is_percentage};
                 }
                 (
-                    sprintf("%d-D0_A", $_->{indicator_id}) => $value_absolute,
-                    sprintf("%d-D0_R", $_->{indicator_id}) => $value_relative,
+                    sprintf("%d-D0_A", $_->{indicator_id}) => { value => $value_absolute, year => $_->{year} },
+                    sprintf("%d-D0_R", $_->{indicator_id}) => { value => $value_relative, year => $_->{year} },
                 )
             } $indicator_values->hashes()->each()
         ),
@@ -258,8 +259,8 @@ SQL_QUERY
                     $value_relative .= '%' if $_->{is_percentage};
                 }
                 (
-                    sprintf("%d-D%d_A", $_->{indicator_id}, $_->{subindicator_id}) => $value_absolute,
-                    sprintf("%d-D%d_R", $_->{indicator_id}, $_->{subindicator_id}) => $value_relative,
+                    sprintf("%d-D%d_A", $_->{indicator_id}, $_->{subindicator_id}) => { value => $value_absolute, year => $_->{year} },
+                    sprintf("%d-D%d_R", $_->{indicator_id}, $_->{subindicator_id}) => { value => $value_relative, year => $_->{year} },
                 )
             } $subindicator_values->hashes()->each()
         ),

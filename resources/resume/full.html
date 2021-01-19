@@ -54,7 +54,7 @@
                 <p dir="ltr">Estimativa de sub-registro de nascimento</p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'101-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'101-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -65,7 +65,7 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'102-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'102-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -76,7 +76,7 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'103-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'103-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -87,7 +87,7 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'104-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'104-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -98,7 +98,7 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'105-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'105-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -109,7 +109,7 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'106-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'106-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -117,7 +117,7 @@
                 <p dir="ltr">Número de crianças em situação de acolhimento</p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'108-D0_A'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'108-D0_A'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -127,7 +127,7 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'109-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'109-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -137,7 +137,7 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'110-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'110-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -178,10 +178,10 @@
                 <p dir="ltr">Número de matrículas de educação infantil</p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'201-D0_A'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'201-D0_A'}->{value} // 'N/A' %></p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'202-D0_A'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'202-D0_A'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -192,10 +192,10 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'203-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'203-D0_R'}->{value} // 'N/A' %></p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'204-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'204-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -205,10 +205,10 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'205-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'205-D0_R'}->{value} // 'N/A' %></p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'206-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'206-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -218,10 +218,10 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'207-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'207-D0_R'}->{value} // 'N/A' %></p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'208-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'208-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -234,10 +234,10 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'209-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'209-D0_R'}->{value} // 'N/A' %></p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'210-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'210-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -248,10 +248,10 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'211-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'211-D0_R'}->{value} // 'N/A' %></p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'212-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'212-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -263,10 +263,10 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'213-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'213-D0_R'}->{value} // 'N/A' %></p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'214-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'214-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -277,10 +277,10 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'215-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'215-D0_R'}->{value} // 'N/A' %></p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'216-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'216-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -291,10 +291,10 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'217-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'217-D0_R'}->{value} // 'N/A' %></p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'218-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'218-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -304,10 +304,10 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'219-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'219-D0_R'}->{value} // 'N/A' %></p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'220-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'220-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -318,10 +318,10 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'221-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'221-D0_R'}->{value} // 'N/A' %></p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'222-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'222-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -360,7 +360,7 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'301-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'301-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -370,7 +370,7 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'303-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'303-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -378,7 +378,7 @@
                 <p dir="ltr">Taxa de incidência de sífilis congênita, para cada mil crianças</p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'304-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'304-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -388,7 +388,7 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'306-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'306-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -398,7 +398,7 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'307-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'307-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -409,7 +409,7 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'308-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'308-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -419,7 +419,7 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'309-D0_A'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'309-D0_A'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -427,7 +427,7 @@
                 <p dir="ltr">Taxa de mortalidade na infância, para cada mil nascidos vivos</p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'310-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'310-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -438,7 +438,7 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'311-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'311-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -446,7 +446,7 @@
                 <p dir="ltr">Proporção de parto vaginal</p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'312-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'312-D0_R'}->{value} // 'N/A' %></p>
 
                 <p />
               </td>
@@ -459,7 +459,7 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'313-D0_A'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'313-D0_A'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -467,7 +467,7 @@
                 <p dir="ltr">Taxa de mortalidade materna, para cada 100 mil nascidos vivos</p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'314-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'314-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -478,7 +478,7 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'315-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'315-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -488,7 +488,7 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'316-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'316-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -496,7 +496,7 @@
                 <p dir="ltr">Cobertura de saúde bucal</p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'317-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'317-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -506,7 +506,7 @@
                 </p>
               </td>
               <td>
-                <p dir="ltr"><%= $data->{'318-D0_R'} // 'N/A' %></p>
+                <p dir="ltr"><%= $data->{'318-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
             <tr>
@@ -537,8 +537,8 @@
                 <ul>
                   <li>
                     Em/No <%= $locale_name %>, a estimativa de sub-registro é de
-                    <%= $data->{'101-D0_R'} // 'N/A' %>. Isso quer dizer que <%=
-                    $data->{'101-D0_A'} // 'N/A' %> crianças, de até um ano de
+                    <%= $data->{'101-D0_R'}->{value} // 'N/A' %>. Isso quer dizer que <%=
+                    $data->{'101-D0_A'}->{value} // 'N/A' %> crianças, de até um ano de
                     idade, não possuem registro de nascimento.
                   </li>
                 </ul>
@@ -559,7 +559,7 @@
                 <ul>
                   <li>
                     Em/No <%= $locale_name %>, o Bolsa Família alcança <%=
-                    $data->{'104-D0_R'} // 'N/A' %> das crianças de cinco anos
+                    $data->{'104-D0_R'}->{value} // 'N/A' %> das crianças de cinco anos
                     ou menos em situação de pobreza, oferecendo a suas famílias
                     a garantia de uma renda mínima.
                   </li>
@@ -569,7 +569,7 @@
                     domiciliares. Em/No <%= $locale_name %>, a proporção de
                     indivíduos (crianças e gestantes) visitados pelo programa no
                     último ano, em relação à meta prevista, foi de <%=
-                    $data->{'105-D0_R'} // 'N/A' %>.
+                    $data->{'105-D0_R'}->{value} // 'N/A' %>.
                   </li>
                   <li>
                     Por sua vez, o Benefício de Prestação Continuada – BPC é uma
@@ -577,7 +577,7 @@
                     com renda familiar por pessoa de até ¼ do salário mínimo.
                     Esse público é considerado prioritário para outros programas
                     de atenção à infância. Em/no <%= $locale_name %>, <%=
-                    $data->{'106-D0_R'} // 'N/A' %> das crianças inscritas no
+                    $data->{'106-D0_R'}->{value} // 'N/A' %> das crianças inscritas no
                     BPC também são atendidas pelo Programa Criança Feliz.
                   </li>
                 </ul>
@@ -601,11 +601,11 @@
                   <li>
                     A Cobertura dos Centros de Referência de Assistência Social
                     (CRAS) para famílias inscritas no Cadastro Único em/no <%=
-                    $locale_name %> é de <%= $data->{'109-D0_R'} // 'N/A'
+                    $locale_name %> é de <%= $data->{'109-D0_R'}->{value} // 'N/A'
                     %>
                   </li>
                   <li>
-                    E <%= $data->{'110-D0_R'} // 'N/A' %> das crianças de zero a
+                    E <%= $data->{'110-D0_R'}->{value} // 'N/A' %> das crianças de zero a
                     cinco anos beneficiárias do Bolsa Família são atendidas pelo
                     Serviço de Convivência e Fortalecimento de Vínculos – SCFV.
                   </li>
@@ -623,10 +623,10 @@
                 </p>
                 <ul>
                   <li>
-                    <%= $locale_name %> possui <%= $data->{'108-D0_A'} // 'N/A'
+                    <%= $locale_name %> possui <%= $data->{'108-D0_A'}->{value} // 'N/A'
                     %> crianças de zero a cinco anos em acolhimento, sendo <%=
-                    $data->{'108-D181_R'} // 'N/A' %> delas em famílias
-                    acolhedoras, o equivalente a <%= $data->{'108-D181_A'} //
+                    $data->{'108-D181_R'}->{value} // 'N/A' %> delas em famílias
+                    acolhedoras, o equivalente a <%= $data->{'108-D181_A'}->{value} //
                     'N/A' %> do total.
                   </li>
                 </ul>
@@ -646,11 +646,11 @@
                 <ul>
                   <li>
                     Dados relativos à/ao <%= $locale_name %> indicam que, no
-                    âmbito familiar, <%= $data->{'102-D0_R'} // 'N/A' %> das
+                    âmbito familiar, <%= $data->{'102-D0_R'}->{value} // 'N/A' %> das
                     pessoas acima de 14 anos participam das tarefas de cuidados
                     direcionadas a crianças na primeira infância. Entre as
-                    mulheres, essa taxa é de <%= $data->{'102-D12_R'} // 'N/A'
-                    %> e, entre os homens, de <%= $data->{'102-D13_R'} // 'N/A'
+                    mulheres, essa taxa é de <%= $data->{'102-D12_R'}->{value} // 'N/A'
+                    %> e, entre os homens, de <%= $data->{'102-D13_R'}->{value} // 'N/A'
                     %>.
                   </li>
                 </ul>
@@ -666,16 +666,16 @@
                   <li>
                     A proporção de crianças de até cinco anos em habitações com
                     renda domiciliar per capita de até ¼ do salário mínimo em/no
-                    <%= $locale_name %> é equivalente a <%= $data->{'103-D24_R'}
-                    // 'N/A' %>. E <%= $data->{'103-D0_R'} // 'N/A' %> das
+                    <%= $locale_name %> é equivalente a <%= $data->{'103-D24_R'}->{value}
+                    // 'N/A' %>. E <%= $data->{'103-D0_R'}->{value} // 'N/A' %> das
                     crianças desta localidade vivem em famílias com renda per
                     capita de até ½ salário do mínimo.
                   </li>
                   <li>
                     Neste último caso, se consideradas as diferenças por cor ou
                     raça, a proporção de crianças negras alcança <%=
-                    $data->{'103-D4_R'} // 'N/A' %>, enquanto a de brancas é de
-                    <%= $data->{'103-D3_R'} // 'N/A' %>.
+                    $data->{'103-D4_R'}->{value} // 'N/A' %>, enquanto a de brancas é de
+                    <%= $data->{'103-D3_R'}->{value} // 'N/A' %>.
                   </li>
                 </ul>
               </li>
@@ -692,11 +692,11 @@
                 A educação infantil é a primeira etapa da educação básica,
                 compreendendo a creche (crianças de zero a três anos) e a
                 pré-escola, etapa obrigatória (crianças de quatro e cinco anos).
-                <%= $locale_name %> possui <%= $data->{'201-D0_A'} // 'N/A' %>
-                matrículas em creches, sendo <%= $data->{'201-D34_A'} // 'N/A'
+                <%= $locale_name %> possui <%= $data->{'201-D0_A'}->{value} // 'N/A' %>
+                matrículas em creches, sendo <%= $data->{'201-D34_A'}->{value} // 'N/A'
                 %> delas em unidades públicas. As matrículas em pré-escola
-                totalizam <%= $data->{'202-D0_A'} // 'N/A' %>, sendo <%=
-                $data->{'202-D34_A'} // 'N/A' %> delas em estabelecimentos
+                totalizam <%= $data->{'202-D0_A'}->{value} // 'N/A' %>, sendo <%=
+                $data->{'202-D34_A'}->{value} // 'N/A' %> delas em estabelecimentos
                 públicos.
               </p>
               <p>
@@ -705,17 +705,17 @@
                 jornadas em tempo integral aquelas com pelo menos sete horas
                 diárias de atividades. Do total de matrículas em/no <%=
                 $locale_name %>, aquelas em tempo integral representam <%=
-                $data->{'207-D0_R'} // 'N/A' %> das realizadas em creches e <%=
-                $data->{'208-D0_R'} // 'N/A' %> das realizadas em pré-escolas.
+                $data->{'207-D0_R'}->{value} // 'N/A' %> das realizadas em creches e <%=
+                $data->{'208-D0_R'}->{value} // 'N/A' %> das realizadas em pré-escolas.
                 Cabe notar também que:
               </p>
               <ul>
                 <li>
-                  <%= $data->{'207-D34_R'} // 'N/A' %> das matrículas em creches
+                  <%= $data->{'207-D34_R'}->{value} // 'N/A' %> das matrículas em creches
                   públicas são em tempo integral; e
                 </li>
                 <li>
-                  <%= $data->{'208-D34_R'} // 'N/A' %> das matrículas em
+                  <%= $data->{'208-D34_R'}->{value} // 'N/A' %> das matrículas em
                   pré-escolas públicas são em tempo integral.
                 </li>
               </ul>
@@ -726,8 +726,8 @@
                 desenvolvimento e altas habilidades ou superdotação,
                 preferencialmente na rede regular de ensino. Em/No <%=
                 $locale_name %>, a proporção de matrículas dessas crianças em
-                classes comuns é de <%= $data->{'209-D0_R'} // 'N/A' %> no que
-                se refere às creches e de <%= $data->{'210-D0_R'} // 'N/A' %> na
+                classes comuns é de <%= $data->{'209-D0_R'}->{value} // 'N/A' %> no que
+                se refere às creches e de <%= $data->{'210-D0_R'}->{value} // 'N/A' %> na
                 etapa da pré-escola.
               </p>
               <li>
@@ -738,10 +738,10 @@
                   brincáveis e acessíveis. Em/No <%= $locale_name %>, a
                   proporção de matrículas em centros de educação infantil com
                   área externa, parque infantil ou brinquedos para educação
-                  infantil é de <%= $data->{'213-D0_R'} // 'N/A' %> nas creches
-                  e de <%= $data->{'214-D0_R'} // 'N/A' %> nas pré-escolas. Por
-                  sua vez, <%= $data->{'211-D0_R'} // 'N/A' %> das matrículas em
-                  creches e <%= $data->{'212-D0_R'} // 'N/A' %> das matrículas
+                  infantil é de <%= $data->{'213-D0_R'}->{value} // 'N/A' %> nas creches
+                  e de <%= $data->{'214-D0_R'}->{value} // 'N/A' %> nas pré-escolas. Por
+                  sua vez, <%= $data->{'211-D0_R'}->{value} // 'N/A' %> das matrículas em
+                  creches e <%= $data->{'212-D0_R'}->{value} // 'N/A' %> das matrículas
                   em pré-escola acontecem em centros de educação infantil sem
                   recurso de acessibilidade.
                 </p>
@@ -752,27 +752,27 @@
                 <ul>
                   <li>
                     As matrículas em centros de educação infantil com saneamento
-                    básico respondem por <%= $data->{'217-D30_R'} // 'N/A' %>
+                    básico respondem por <%= $data->{'217-D30_R'}->{value} // 'N/A' %>
                     das matrículas em creches da zona urbana e por <%=
-                    $data->{'217-D31_R'} // 'N/A' %> daquelas em creches da zona
+                    $data->{'217-D31_R'}->{value} // 'N/A' %> daquelas em creches da zona
                     rural;
                   </li>
                   <li>
                     Já as matrículas em pré-escolas com saneamento básico
-                    correspondem, por sua vez, a <%= $data->{'218-D30_R'} //
+                    correspondem, por sua vez, a <%= $data->{'218-D30_R'}->{value} //
                     'N/A' %> das matrículas em pré-escolas da zona urbana e a
-                    <%= $data->{'218-D31_R'} // 'N/A' %> daquelas em pré-escolas
+                    <%= $data->{'218-D31_R'}->{value} // 'N/A' %> daquelas em pré-escolas
                     da zona rural.
                   </li>
                 </ul>
                 <p>
                   Outro aspecto relevante é a regulamentação dos
                   estabelecimentos no conselho ou órgão de educação, que alcança
-                  <%= $data->{'215-D34_R'} // 'N/A' %> entre as creches públicas
-                  e <%= $data->{'215-D36_R'} // 'N/A' %> entre as privadas não
+                  <%= $data->{'215-D34_R'}->{value} // 'N/A' %> entre as creches públicas
+                  e <%= $data->{'215-D36_R'}->{value} // 'N/A' %> entre as privadas não
                   conveniadas com o poder público. O índice é de <%=
-                  $data->{'216-D34_R'} // 'N/A' %> para as pré-escolas públicas
-                  e de <%= $data->{'216-D36_R'} // 'N/A' %> para as privadas não
+                  $data->{'216-D34_R'}->{value} // 'N/A' %> para as pré-escolas públicas
+                  e de <%= $data->{'216-D36_R'}->{value} // 'N/A' %> para as privadas não
                   conveniadas.
                 </p>
               </li>
@@ -786,16 +786,16 @@
                 </p>
                 <ul>
                   <li>
-                    <%= $data->{'219-D74_R'} // 'N/A' %> dos docentes das
-                    creches e <%= $data->{'220-D74_R'} // 'N/A' %> daqueles da
+                    <%= $data->{'219-D74_R'}->{value} // 'N/A' %> dos docentes das
+                    creches e <%= $data->{'220-D74_R'}->{value} // 'N/A' %> daqueles da
                     pré-escola estão no chamado Grupo 1, contando com formação
                     superior de licenciatura na mesma disciplina que lecionam,
                     ou bacharelado na mesma disciplina juntamente com curso de
                     complementação pedagógica concluído; e
                   </li>
                   <li>
-                    <%= $data->{'219-D78_R'} // 'N/A' %> dos docentes das
-                    creches e <%= $data->{'220-D78_R'} // 'N/A' %> daqueles da
+                    <%= $data->{'219-D78_R'}->{value} // 'N/A' %> dos docentes das
+                    creches e <%= $data->{'220-D78_R'}->{value} // 'N/A' %> daqueles da
                     pré-escola estão no chamado Grupo 5, não possuindo curso
                     superior completo.
                   </li>
@@ -803,11 +803,11 @@
                 <p>
                   Já a taxa de docentes das creches com formação continuada
                   específica para atuação na educação infantil é de <%=
-                  $data->{'221-D34_R'} // 'N/A' %> para as unidades da rede
-                  pública e de <%= $data->{'221-D36_R'} // 'N/A' %> para as da
+                  $data->{'221-D34_R'}->{value} // 'N/A' %> para as unidades da rede
+                  pública e de <%= $data->{'221-D36_R'}->{value} // 'N/A' %> para as da
                   rede privada não conveniada. Nas pré-escolas, a taxa é de <%=
-                  $data->{'222-D34_R'} // 'N/A' %> para os docentes da rede
-                  pública e de <%= $data->{'222-D36_R'} // 'N/A' %> para aqueles
+                  $data->{'222-D34_R'}->{value} // 'N/A' %> para os docentes da rede
+                  pública e de <%= $data->{'222-D36_R'}->{value} // 'N/A' %> para aqueles
                   da rede privada não conveniada.
                 </p>
               </li>
@@ -825,29 +825,29 @@
                 </p>
                 <ul>
                   <li>
-                    <%= $data->{'203-D0_R'} // 'N/A' %> das crianças de até três
+                    <%= $data->{'203-D0_R'}->{value} // 'N/A' %> das crianças de até três
                     anos frequentam a creche; e
                   </li>
                   <li>
-                    <%= $data->{'204-D0_R'} // 'N/A' %> das crianças de quatro e
+                    <%= $data->{'204-D0_R'}->{value} // 'N/A' %> das crianças de quatro e
                     cinco anos frequentam a pré-escola.
                   </li>
                 </ul>
                 <p>
                   As desigualdades de acesso são um desafio: <%=
-                  $data->{'203-D3_R'} // 'N/A' %> das crianças brancas com até
+                  $data->{'203-D3_R'}->{value} // 'N/A' %> das crianças brancas com até
                   três anos frequentam centros de educação infantil, número que
-                  é de <%= $data->{'203-D4_R'} // 'N/A' %> entre as crianças
+                  é de <%= $data->{'203-D4_R'}->{value} // 'N/A' %> entre as crianças
                   negras. No que se refere à faixa de quatro e cinco anos, temos
-                  o seguinte cenário: <%= $data->{'204-D3_R'} // 'N/A' %> das
+                  o seguinte cenário: <%= $data->{'204-D3_R'}->{value} // 'N/A' %> das
                   crianças brancas frequentam centros de educação infantil,
-                  enquanto para as negras o índice é de <%= $data->{'204-D4_R'}
+                  enquanto para as negras o índice é de <%= $data->{'204-D4_R'}->{value}
                   // 'N/A' %>.
                 </p>
                 <p>
                   Segundo a legislação brasileira, a matrícula na pré-escola é
                   obrigatória. Em/No <%= $locale_name %>, entretanto, <%=
-                  $data->{'206-D0_R'} // 'N/A' %> das crianças de quatro e cinco
+                  $data->{'206-D0_R'}->{value} // 'N/A' %> das crianças de quatro e cinco
                   anos não frequentam esta etapa de ensino.
                 </p>
               </li>
@@ -870,14 +870,14 @@
                   seguintes características:
                 </p>
                 <ul>
-                  <li><%= $data->{'301-D137_R'} // 'N/A' %> para BCG;</li>
-                  <li><%= $data->{'301-D140_R'} // 'N/A' %> para Penta;</li>
+                  <li><%= $data->{'301-D137_R'}->{value} // 'N/A' %> para BCG;</li>
+                  <li><%= $data->{'301-D140_R'}->{value} // 'N/A' %> para Penta;</li>
                   <li>
-                    <%= $data->{'301-D141_R'} // 'N/A' %> para a primeira dose
+                    <%= $data->{'301-D141_R'}->{value} // 'N/A' %> para a primeira dose
                     da Tríplice; e
                   </li>
                   <li>
-                    <%= $data->{'301-D138_R'} // 'N/A' %> para Hepatite B em
+                    <%= $data->{'301-D138_R'}->{value} // 'N/A' %> para Hepatite B em
                     crianças de até 30 dias.
                   </li>
                 </ul>
@@ -897,14 +897,14 @@
                 <ul>
                   <li>
                     Em/No <%= $locale_name %>, a taxa de detecção de Aids em
-                    menores de cinco anos foi de <%= $data->{'303-D0_R'} //
-                    'N/A' %>, o que corresponde a <%= $data->{'303-D0_A'} //
+                    menores de cinco anos foi de <%= $data->{'303-D0_R'}->{value} //
+                    'N/A' %>, o que corresponde a <%= $data->{'303-D0_A'}->{value} //
                     'N/A' %> novos casos em relação ao ano anterior.
                   </li>
                   <li>
                     Já a taxa de incidência de sífilis congênita foi de <%=
-                    $data->{'304-D0_R'} // 'N/A' %>, o que corresponde a <%=
-                    $data->{'304-D0_A'} // 'N/A' %> novos casos em relação ao
+                    $data->{'304-D0_R'}->{value} // 'N/A' %>, o que corresponde a <%=
+                    $data->{'304-D0_A'}->{value} // 'N/A' %> novos casos em relação ao
                     ano anterior.
                   </li>
                 </ul>
@@ -928,22 +928,22 @@
                 </p>
                 <ul>
                   <li>
-                    <%= $data->{'306-D0_A'} // 'N/A' %> crianças com menos de
+                    <%= $data->{'306-D0_A'}->{value} // 'N/A' %> crianças com menos de
                     cinco anos apresentaram altura menor do que a esperada para
-                    a idade, o que corresponde a <%= $data->{'306-D0_R'} //
+                    a idade, o que corresponde a <%= $data->{'306-D0_R'}->{value} //
                     'N/A' %> das crianças desta faixa etária acompanhadas pelo
                     Sisvan;
                   </li>
                   <li>
-                    <%= $data->{'307-D0_A'} // 'N/A' %> crianças com menos de
+                    <%= $data->{'307-D0_A'}->{value} // 'N/A' %> crianças com menos de
                     cinco anos apresentaram peso menor do que o esperado para a
-                    idade, o que corresponde a <%= $data->{'307-D0_R'} // 'N/A'
+                    idade, o que corresponde a <%= $data->{'307-D0_R'}->{value} // 'N/A'
                     %> das crianças desta faixa etária acompanhadas pelo Sisvan;
                   </li>
                   <li>
-                    <%= $data->{'308-D0_A'} // 'N/A' %> crianças com menos de
+                    <%= $data->{'308-D0_A'}->{value} // 'N/A' %> crianças com menos de
                     cinco anos apresentaram peso maior do que o esperado para a
-                    idade, o que corresponde a <%= $data->{'308-D0_R'} // 'N/A'
+                    idade, o que corresponde a <%= $data->{'308-D0_R'}->{value} // 'N/A'
                     %> das crianças desta faixa etária acompanhadas pelo Sisvan.
                   </li>
                 </ul>
@@ -957,8 +957,8 @@
                   localidade ou região. O investimento adequado em políticas
                   públicas de saúde, desde o pré-natal, é um elemento
                   fundamental para a redução dos óbitos na infância, que em/no
-                  <%= $locale_name %> somaram <%= $data->{'309-D0_A'} // 'N/A'
-                  %> casos em [ano mais recente].
+                  <%= $locale_name %> somaram <%= $data->{'309-D0_A'}->{value} // 'N/A'
+                  %> casos em <%= $data->{'309-D0_A'}->{year} %>.
                 </p>
                 <p>
                   Também é fundamental analisar os dados referentes à
@@ -967,9 +967,9 @@
                   tomadas com relação a ela. Este indicador reflete a qualidade
                   da assistência à saúde da mulher, especialmente durante a
                   gravidez ou parto. Em/no <%= $locale_name %>, <%=
-                  $data->{'312-D0_A'} // 'N/A' %> mulheres gestantes ou
+                  $data->{'312-D0_A'}->{value} // 'N/A' %> mulheres gestantes ou
                   puerperais vieram a óbito por causas e condições consideradas
-                  de morte materna em [ano mais recente].
+                  de morte materna em <%= $data->{'312-D0_A'}->{year} %> .
                 </p>
               </li>
               <li>
@@ -989,14 +989,14 @@
                     Em/no <%= $locale_name %>, a proporção de nascidos vivos
                     cujas mães realizaram pelo menos sete consultas pré-natal,
                     ultrapassando o mínimo de seis consultas estabelecido pelo
-                    Ministério da Saúde, é de <%= $data->{'311-D0_R'} // 'N/A'
+                    Ministério da Saúde, é de <%= $data->{'311-D0_R'}->{value} // 'N/A'
                     %>.
                   </li>
                   <li>
                     O parto vaginal oferece menos riscos de infecção, hemorragia
                     e prematuridade do bebê, e por isso deve ser a primeira
                     opção para o nascimento. Em/no <%= $locale_name %>, os
-                    partos vaginais corresponderam a <%= $data->{'312-D0_R'} //
+                    partos vaginais corresponderam a <%= $data->{'312-D0_R'}->{value} //
                     'N/A' %> do total de partos realizados.
                   </li>
                 </ul>
@@ -1014,11 +1014,11 @@
                 </p>
                 <ul>
                   <li>
-                    <%= $data->{'317-D0_R'} // 'N/A' %> de cobertura
+                    <%= $data->{'317-D0_R'}->{value} // 'N/A' %> de cobertura
                     populacional estimada pelas equipes básicas de Saúde Bucal.
                   </li>
                   <li>
-                    <%= $data->{'316-D0_R'} // 'N/A' %> de cobertura
+                    <%= $data->{'316-D0_R'}->{value} // 'N/A' %> de cobertura
                     populacional estimada na Atenção Primária.
                   </li>
                 </ul>
@@ -1033,7 +1033,7 @@
                   prática e apoiam bebês prematuros e mães com dificuldade na
                   amamentação. A proporção de hospitais com UTI neonatal que
                   possuem serviço de banco de leite humano em/no <%=
-                  $locale_name %> é de <%= $data->{'315-D0_R'} // 'N/A' %>.
+                  $locale_name %> é de <%= $data->{'315-D0_R'}->{value} // 'N/A' %>.
                 </p>
                 <p>
                   Outras variáveis também estão diretamente relacionadas ao
@@ -1044,14 +1044,14 @@
                 </p>
                 <ul>
                   <li>
-                    <%= $data->{'318-D0_R'} // 'N/A' %> das crianças de/do <%=
+                    <%= $data->{'318-D0_R'}->{value} // 'N/A' %> das crianças de/do <%=
                     $locale_name %> vivem em domicílios com acesso adequado ao
                     saneamento básico.
                   </li>
                   <li>
                     Entre as crianças negras, as condições de acesso adequado
-                    são de <%= $data->{'318-D4_R'} // 'N/A' %> e, entre as
-                    brancas, de <%= $data->{'318-D3_R'} // 'N/A' %>.
+                    são de <%= $data->{'318-D4_R'}->{value} // 'N/A' %> e, entre as
+                    brancas, de <%= $data->{'318-D3_R'}->{value} // 'N/A' %>.
                   </li>
                 </ul>
               </li>
