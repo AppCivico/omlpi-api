@@ -476,7 +476,7 @@ SQL_QUERY
 
                 $worksheet->write($lines{$uf}->{$year}++, 0, 'Dados extraídos pela plataforma Observa', $footer_format);
                 $worksheet->write(
-                    $lines{$year}++,
+                    $lines{$uf}->{$year}++,
                     0,
                     sprintf(
                         "%02d/%02d/%02d às %02d:%02d horário de Brasília.",
@@ -500,7 +500,7 @@ SQL_QUERY
             close $fh;
 
             # Add file
-            my $filename = sprintf('OMLPI_Dados_%s.xlsx', $uf);
+            my $filename = sprintf('Observa_Dados_%s.xlsx', $uf);
             $zip->addFile($fh->filename, $filename);
         }
 
