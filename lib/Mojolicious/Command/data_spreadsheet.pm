@@ -15,7 +15,7 @@ sub run {
         my $file = shift;
 
         my $home = $app->home;
-        move($file->filename, $home->rel_file('public/data_spreadsheet.xlsx')) or die $!;
+        move($file->filename, $home->rel_file('public/data_spreadsheet.zip')) or die $!;
 
         $app->log->info("File generated!");
   });

@@ -8,6 +8,7 @@ use File::Temp qw(tempfile);
 use Mojo::Util qw(decode);
 use OMLPI::Utils qw(mojo_home);
 use IPC::Run qw(run);
+use Archive::Zip qw( :ERROR_CODES :CONSTANTS );
 
 use Data::Printer;
 
@@ -331,6 +332,8 @@ sub get_all_data {
       SELECT
         locale.id             AS locale_id,
         locale.name           AS locale_name,
+        locale.type           AS locale_type,
+        state.uf              AS locale_uf,
         area.name             AS area_name,
         indicator.id          AS indicator_id,
         indicator.description AS indicator_description,
@@ -345,6 +348,10 @@ sub get_all_data {
         ON indicator.id = indicator_locale.indicator_id
       JOIN area
         ON area.id = indicator.area_id
+      LEFT JOIN city
+        ON locale.id = city.id
+      LEFT JOIN state
+        ON city.state_id = state.id
       INNER JOIN LATERAL (
         SELECT
           indicator.id                       AS indicator_id,
@@ -387,42 +394,56 @@ SQL_QUERY
     return $query->then(sub {
         my $res = shift;
 
-        $self->app->log->debug('Creating temporary file...');
+        my $create_workbook = sub {
+            my $fh = File::Temp->new(UNLINK => 1, SUFFIX => '.xlsx');
 
-        # Create temporary file
-        my $fh = File::Temp->new(UNLINK => 0, SUFFIX => '.xlsx');
+            # Spreadsheet
+            my $workbook = Excel::Writer::XLSX->new($fh->filename);
+            $workbook->set_optimization();
 
-        # Spreadsheet
-        my $workbook = Excel::Writer::XLSX->new($fh->filename);
-        $workbook->set_optimization();
-
-        # Formats
-        my $header_format = $workbook->add_format();
-        $header_format->set_bold();
+            return ($fh, $workbook);
+        };
 
         # Write data
+        my %temp_files  = ();
+        my %workbooks   = ();
         my %worksheets  = ();
         my %has_headers = ();
         my %lines       = ();
         while (my $r = $res->hash) {
+            my $locale_type = $r->{locale_type};
+            my $locale_uf = $r->{locale_uf};
+            my $key = $locale_type eq 'city' ? $locale_uf : 'BR';
+
             # Get or create worksheet
             my $year = $r->{indicator_value_year};
-            my $worksheet = $worksheets{$year};
+            my $worksheet = $worksheets{$key}->{$year};
+            my $workbook = $workbooks{$key};
             if (!defined($worksheet)) {
-                $worksheets{$year} = $worksheet = $workbook->add_worksheet($year);
+                if (!defined($workbook)) {
+                    my $fh;
+                    ($fh, $workbook) = $create_workbook->();
+                    $workbooks{$key} = $workbook;
+                    $temp_files{$key} = $fh;
+                }
+                $worksheets{$key}->{$year} = $worksheet = $workbook->add_worksheet($year);
             }
 
-            # Write headers if hasn't
-            $lines{$year} //= 0;
-            if (!$has_headers{$year}++) {
+            # Write headers
+            $lines{$key}->{$year} //= 0;
+            if (!$has_headers{$key}->{$year}++) {
                 my @headers = (
                     'LOCALIDADE', 'COD IBGE', qw(TEMA INDICADOR), 'VALOR RELATIVO', 'VALOR ABSOLUTO', qw(DESAGREGADOR CLASSIFICAÇÃO),
                     'VALOR RELATIVO', 'VALOR ABSOLUTO',
                 );
+
+                my $header_format = $workbook->add_format();
+                $header_format->set_bold();
+
                 for (my $i = 0; $i < scalar @headers; $i++) {
-                    $worksheet->write($lines{$year}, $i, $headers[$i], $header_format);
+                    $worksheet->write($lines{$key}->{$year}, $i, $headers[$i], $header_format);
                 }
-                $lines{$year}++;
+                $lines{$key}->{$year}++;
             }
 
             # Write lines
@@ -432,41 +453,63 @@ SQL_QUERY
                 subindicator_value_absolute
             );
             for (my $i = 0; $i < scalar @keys; $i++) {
-                $worksheet->write($lines{$year}, $i, $r->{$keys[$i]});
+                $worksheet->write($lines{$key}->{$year}, $i, $r->{$keys[$i]});
             }
-            $lines{$year}++;
+            $lines{$key}->{$year}++;
         }
 
         # Add footer
-        my $footer_format = $workbook->add_format();
-        $footer_format->set_italic();
-        $footer_format->set_size(9);
-
         my $now = $self->app->model('DateTime')->now()
           ->set_time_zone('UTC')
           ->set_time_zone('America/Sao_Paulo');
 
-        for my $year (keys %worksheets) {
-            my $worksheet = $worksheets{$year};
-            $lines{$year} += 3;
+        for my $uf (keys %workbooks) {
+            my $workbook = $workbooks{$uf};
 
-            $worksheet->write($lines{$year}++, 0, 'Dados extraídos pela plataforma Observa', $footer_format);
-            $worksheet->write(
-                $lines{$year}++,
-                0,
-                sprintf(
-                    "%02d/%02d/%02d às %02d:%02d horário de Brasília.",
-                    $now->day, $now->month, $now->year,
-                    $now->hour, $now->minute,
-                ),
-                $footer_format,
-            );
+            my $footer_format = $workbook->add_format();
+            $footer_format->set_italic();
+            $footer_format->set_size(9);
 
+            for my $year (keys %{$worksheets{$uf}}) {
+                my $worksheet = $worksheets{$uf}->{$year};
+                $lines{$uf}->{$year} += 3;
+
+                $worksheet->write($lines{$uf}->{$year}++, 0, 'Dados extraídos pela plataforma Observa', $footer_format);
+                $worksheet->write(
+                    $lines{$year}++,
+                    0,
+                    sprintf(
+                        "%02d/%02d/%02d às %02d:%02d horário de Brasília.",
+                        $now->day, $now->month, $now->year,
+                        $now->hour, $now->minute,
+                    ),
+                    $footer_format,
+                );
+            }
         }
 
-        close $fh;
+        # Create output file
+        $self->app->log->info('Creating zipfile...');
+        my $zip = Archive::Zip->new();
 
-        return $fh;
+        for my $uf (keys %temp_files) {
+            # Close workbook and filehandle
+            my $fh = $temp_files{$uf};
+            my $workbook = $workbooks{$uf};
+            $workbook->close();
+            close $fh;
+
+            # Add file
+            my $filename = sprintf('OMLPI_Dados_%s.xlsx', $uf);
+            $zip->addFile($fh->filename, $filename);
+        }
+
+        my $zipfile = File::Temp->new(UNLINK => 0, SUFFIX => '.zip');
+        $zip->writeToFileNamed($zipfile->filename);
+
+        close $zipfile;
+
+        return $zipfile;
     });
 }
 
