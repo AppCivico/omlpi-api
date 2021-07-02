@@ -173,10 +173,10 @@ SQL_QUERY
 
         while (my $line = <$csv>) {
             $line = { %$line };
-            my $area_id      = delete $line->{Tema};
-            my $year         = delete $line->{Ano};
-            my $indicator_id = delete $line->{Indicador};
-            my $locale_id    = delete($line->{Localidade});
+            my $area_id      = trim(delete $line->{Tema});
+            my $year         = trim(delete $line->{Ano});
+            my $indicator_id = trim(delete $line->{Indicador});
+            my $locale_id    = trim(delete($line->{Localidade}));
             next if $indicator_id == 0;
 
             if ($indicator_id !~ m{^\d+$} || $locale_id !~ m{^\d+$} || $year !~ m{^\d+$} || $area_id !~ m{^\d+$} ) {
