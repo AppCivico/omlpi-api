@@ -88,6 +88,9 @@ paths:
                     longitude:
                       type: number
                       example: -46.6395
+                    hide_plan:
+                      type: string
+                      example: 0
 
   /states:
     get:
