@@ -13,7 +13,8 @@ sub list {
         END AS name,
         locale.type,
         locale.latitude,
-        locale.longitude
+        locale.longitude,
+        locale.hide_plan
       FROM locale
       LEFT JOIN city
         ON locale.type = 'city' AND locale.id = city.id
