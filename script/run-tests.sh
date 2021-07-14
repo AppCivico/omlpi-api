@@ -18,9 +18,8 @@ cpanm -n . --installdeps
 sqitch deploy -t $SQITCH_DEPLOY
 
 # Upsert data
-#perl script/import_data.pl
+perl script/import_data.pl
 
 # Run tests
-#rm -f /src/test-logs/*
-#yath test -It/lib  -POMLPI::Preload --no-color -j 18 -T -L
-true
+rm -f /src/test-logs/*
+yath test -It/lib  -POMLPI::Preload --no-color -j 18 -T -L
