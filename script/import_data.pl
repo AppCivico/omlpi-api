@@ -209,14 +209,30 @@ SQL_QUERY
             $value_absolute =~ s/\.//g;
             $value_absolute = "0$value_absolute" if defined $value_absolute && $value_absolute =~ /^,/;
             $value_relative = "0$value_relative" if defined $value_relative && $value_relative =~ /^,/;
-            $value_relative =~ s/,/./ if $value_relative =~ m{^[0-9+]+,[0-9]+$};
-            $value_absolute =~ s/,/./ if $value_absolute =~ m{^[0-9+]+,[0-9]+$};
-            $value_relative = nullif(trim($value_relative), '');
-            $value_absolute = nullif(trim($value_absolute), '');
-            $value_absolute = sprintf('%.1f', $value_absolute) if defined $value_absolute;
-            $value_relative = sprintf('%.1f', $value_relative) if defined $value_relative;
-            $value_absolute =~ s/\.0$//                        if defined $value_absolute;
-            $value_relative =~ s/\.0$//                        if defined $value_relative;
+
+            if (defined $value_relative && $value_relative =~ m{^[0-9+-]+,[0-9]+$}){
+                $value_relative =~ s/,/./ ;
+                $value_relative = sprintf('%.1f', $value_relative);
+                $value_relative =~ s/\.0$//;
+            }elsif(defined $value_relative && $value_relative =~ /[Ee]/){
+                $value_relative =~ s/,/./ ;
+                $value_relative = sprintf('%.1f', $value_relative);
+                $value_relative =~ s/\.0$//;
+            }elsif(defined $value_relative){
+                $value_relative = nullif(trim($value_relative), '');
+            }
+
+            if (defined $value_absolute && $value_absolute =~ m{^[0-9+-]+,[0-9]+$}){
+                $value_absolute =~ s/,/./ ;
+                $value_absolute = sprintf('%.1f', $value_absolute);
+                $value_absolute =~ s/\.0$//;
+            }elsif(defined $value_absolute && $value_absolute =~ /[Ee]/){
+                $value_absolute =~ s/,/./ ;
+                $value_absolute = sprintf('%.1f', $value_absolute);
+                $value_absolute =~ s/\.0$//;
+            }elsif(defined $value_absolute){
+                $value_absolute = nullif(trim($value_absolute), '');
+            }
 
             # Insert data
             if (defined($value_relative) || defined($value_absolute)) {
