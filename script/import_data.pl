@@ -207,6 +207,8 @@ SQL_QUERY
 
             $value_relative =~ s/\.//g;
             $value_absolute =~ s/\.//g;
+            $value_absolute = "0$value_absolute" if defined $value_absolute && $value_absolute =~ /^,/;
+            $value_relative = "0$value_relative" if defined $value_relative && $value_relative =~ /^,/;
             $value_relative =~ s/,/./ if $value_relative =~ m{^[0-9+]+,[0-9]+$};
             $value_absolute =~ s/,/./ if $value_absolute =~ m{^[0-9+]+,[0-9]+$};
             $value_relative = nullif(trim($value_relative), '');
