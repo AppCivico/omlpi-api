@@ -29,14 +29,14 @@ if (!-e $filepath) {
 
 $logger->info("Getting the file checksum");
 open my $fh, '<', $filepath or $logger->logdie($!);
-binmode ($fh);
+binmode($fh);
 my $checksum = Digest::MD5->new->addfile($fh)->hexdigest;
 close $fh;
 $logger->info("Dataset checksum: $checksum");
 
 # Get the last database update checksum
-my $pg = get_mojo_pg();
-my $db = $pg->db;
+my $pg            = get_mojo_pg();
+my $db            = $pg->db;
 my $last_checksum = $db->query("select value from config where name = 'DATASET_CHECKSUM'")->hash;
 if (defined($last_checksum)) {
     my $last_checksum_value = $last_checksum->{value};
@@ -53,11 +53,9 @@ my $zip = Archive::Zip->new($filepath);
 $logger->info("File uncompressed!");
 
 $logger->info("Loading areas");
-my %areas = map { $_->{name} => $_->{id} }
-            @{ $pg->db->select('area', [qw<id name>])->hashes };
+my %areas = map { $_->{name} => $_->{id} } @{$pg->db->select('area', [qw<id name>])->hashes};
 
-my %locales = map { $_->{id} => 1 }
-            @{ $pg->db->select('locale', [qw(id)])->hashes };
+my %locales = map { $_->{id} => 1 } @{$pg->db->select('locale', [qw(id)])->hashes};
 
 eval {
     my $tx = $db->begin();
@@ -65,14 +63,14 @@ eval {
         my $file = 'indicadores.csv';
         $logger->info("Loading indicators...");
         my $member = $zip->memberNamed($file) or $logger->logdie("File '${file}' not found");
-        my $tmp = tmpnam();
+        my $tmp    = tmpnam();
         on_scope_exit { unlink $tmp };
         $member->extractToFileNamed($tmp);
 
         my $sql_query = 'INSERT INTO indicator (id, description, area_id, base, ods, concept, is_percentage) VALUES ';
-        my @binds = ();
-        my $csv = Tie::Handle::CSV->new($tmp, header => 0, sep_char => ';');
-        <$csv>; # Skip header
+        my @binds     = ();
+        my $csv       = Tie::Handle::CSV->new($tmp, header => 0, sep_char => ';');
+        <$csv>;    # Skip header
         while (my $line = <$csv>) {
             my @ods = split m{\D+}, trim($line->[5]);
             my $ods;
@@ -102,25 +100,27 @@ SQL_QUERY
 
     {
         $logger->info("Loading subindicators...");
-        my $file = 'desagregadores.csv';
+        my $file   = 'desagregadores.csv';
         my $member = $zip->memberNamed($file) or $logger->logdie("File '${file}' not found");
-        my $tmp = tmpnam();
+        my $tmp    = tmpnam();
         on_scope_exit { unlink $tmp };
         $member->extractToFileNamed($tmp);
 
-        my $sql_query = 'INSERT INTO subindicator (id, indicator_id, description, classification, is_percentage, is_big_number) VALUES ';
+        my $sql_query
+          = 'INSERT INTO subindicator (id, indicator_id, description, classification, is_percentage, is_big_number) VALUES ';
         my @binds = ();
-        my $csv = Tie::Handle::CSV->new($tmp, header => 1, sep_char => ';');
+        my $csv   = Tie::Handle::CSV->new($tmp, header => 1, sep_char => ';');
 
         my %dedup_subindicators;
         while (my $line = <$csv>) {
-            my $id = int($line->{ID}) or next;
+            my $id           = int($line->{ID}) or next;
             my $indicator_id = trim($line->{Indicador});
             next if $id == 0 || $dedup_subindicators{$indicator_id}->{$id}++;
             $sql_query .= '(?, ?, ?, ?, ?, ?), ';
             my $classification = trim($line->{Classificador});
             my $name           = trim($line->{Nome});
-            push @binds, ($id, $indicator_id, $name, $classification, $line->{'É porcentagem'}, $line->{'É Big Number'});
+            push @binds,
+              ($id, $indicator_id, $name, $classification, $line->{'É porcentagem'}, $line->{'É Big Number'});
         }
 
         $sql_query =~ s{, $}{};
@@ -139,9 +139,9 @@ SQL_QUERY
 
     {
         $logger->info("Loading data...");
-        my $file = 'dados.csv';
+        my $file   = 'dados.csv';
         my $member = $zip->memberNamed($file) or $logger->logdie("File '${file}' not found");
-        my $tmp = tmpnam();
+        my $tmp    = tmpnam();
         on_scope_exit { unlink $tmp };
         $member->extractToFileNamed($tmp);
 
@@ -160,26 +160,31 @@ SQL_QUERY
 
         my $dbh = $db->dbh;
         my $csv = Tie::Handle::CSV->new($tmp, header => 1, sep_char => ';');
+
         #my $text_csv = *$csv->{opts}{csv_parser};
         #$text_csv->eol("\n");
-        my $text_csv = Text::CSV->new({
-            binary => 1,
-            eol    => "\n",
-        });
+        my $text_csv = Text::CSV->new(
+            {
+                binary => 1,
+                eol    => "\n",
+            }
+        );
 
 
         unlink '/tmp/dedup_indicators_data';
         dbmopen(my %dedup_indicators_data, '/tmp/dedup_indicators_data', 0666);
 
+        my $line_num = 0;
         while (my $line = <$csv>) {
-            $line = { %$line };
+            $line_num++;
+            $line = {%$line};
             my $area_id      = trim(delete $line->{Tema});
             my $year         = trim(delete $line->{Ano});
             my $indicator_id = trim(delete $line->{Indicador});
             my $locale_id    = trim(delete($line->{Localidade}));
             next if $indicator_id == 0;
 
-            if ($indicator_id !~ m{^\d+$} || $locale_id !~ m{^\d+$} || $year !~ m{^\d+$} || $area_id !~ m{^\d+$} ) {
+            if ($indicator_id !~ m{^\d+$} || $locale_id !~ m{^\d+$} || $year !~ m{^\d+$} || $area_id !~ m{^\d+$}) {
                 $logger->error("Há algo de errado com essa linha:\n" . Dumper $line);
                 $logger->error("Skipping...");
                 next;
@@ -192,46 +197,61 @@ SQL_QUERY
 
             my $dedup_key = "${locale_id}:${indicator_id}:${year}";
             if ($dedup_indicators_data{$dedup_key}) {
-                $logger->warn(sprintf(
-                    "O indicador %d já foi carregado para a localidade %d no ano %d!",
-                    $indicator_id,
-                    $locale_id,
-                    $year
-                ));
+                $logger->warn(
+                    sprintf(
+                        "O indicador %d já foi carregado para a localidade %d no ano %d!",
+                        $indicator_id,
+                        $locale_id,
+                        $year
+                    )
+                );
                 next;
+            }
+
+            if ($line_num % 10000 == 0){
+                $logger->debug("indicator: row $line_num");
             }
 
             # Get indicator values
             my $value_relative = $line->{'D0_R'};
             my $value_absolute = $line->{'D0_A'};
 
-            $value_relative =~ s/\.//g;
-            $value_absolute =~ s/\.//g;
-            $value_absolute = "0$value_absolute" if defined $value_absolute && $value_absolute =~ /^,/;
-            $value_relative = "0$value_relative" if defined $value_relative && $value_relative =~ /^,/;
+            if (defined $value_relative) {
+                $value_relative =~ s/\.//g;
+                $value_relative = "0$value_relative" if $value_relative =~ /^,/;
 
-            if (defined $value_relative && $value_relative =~ m{^[0-9+-]+,[0-9]+$}){
-                $value_relative =~ s/,/./ ;
-                $value_relative = sprintf('%.1f', $value_relative);
-                $value_relative =~ s/\.0$//;
-            }elsif(defined $value_relative && $value_relative =~ /[Ee]/){
-                $value_relative =~ s/,/./ ;
-                $value_relative = sprintf('%.1f', $value_relative);
-                $value_relative =~ s/\.0$//;
-            }elsif(defined $value_relative){
-                $value_relative = nullif(trim($value_relative), '');
+                if ($value_relative =~ m{^[0-9+-]+,[0-9]+$}) {
+                    $value_relative =~ s/,/./;
+                    $value_relative = sprintf('%.1f', $value_relative);
+                    $value_relative =~ s/\.0$//;
+                }
+                elsif ($value_relative =~ /[Ee]/) {
+                    $value_relative =~ s/,/./;
+                    $value_relative = sprintf('%.1f', $value_relative);
+                    $value_relative =~ s/\.0$//;
+                }
+                else {
+                    $value_relative = nullif(trim($value_relative), '');
+                }
             }
 
-            if (defined $value_absolute && $value_absolute =~ m{^[0-9+-]+,[0-9]+$}){
-                $value_absolute =~ s/,/./ ;
-                $value_absolute = sprintf('%.1f', $value_absolute);
-                $value_absolute =~ s/\.0$//;
-            }elsif(defined $value_absolute && $value_absolute =~ /[Ee]/){
-                $value_absolute =~ s/,/./ ;
-                $value_absolute = sprintf('%.1f', $value_absolute);
-                $value_absolute =~ s/\.0$//;
-            }elsif(defined $value_absolute){
-                $value_absolute = nullif(trim($value_absolute), '');
+            if (defined $value_absolute) {
+                $value_absolute =~ s/\.//g;
+                $value_absolute = "$value_absolute" if $value_absolute =~ /^,/;
+
+                if ($value_absolute =~ m{^[0-9+-]+,[0-9]+$}) {
+                    $value_absolute =~ s/,/./;
+                    $value_absolute = sprintf('%.1f', $value_absolute);
+                    $value_absolute =~ s/\.0$//;
+                }
+                elsif ($value_absolute =~ /[Ee]/) {
+                    $value_absolute =~ s/,/./;
+                    $value_absolute = sprintf('%.1f', $value_absolute);
+                    $value_absolute =~ s/\.0$//;
+                }
+                else {
+                    $value_absolute = nullif(trim($value_absolute), '');
+                }
             }
 
             # Insert data
@@ -276,8 +296,10 @@ SQL_QUERY
         unlink '/tmp/dedup_subindicators_data';
         dbmopen(my %dedup_subindicators_data, '/tmp/dedup_subindicators_data', 0666);
 
+        $line_num = 0;
         while (my $line = <$csv>) {
-            $line = { %$line };
+            $line_num++;
+            $line = {%$line};
             my $area_id      = delete $line->{Tema};
             my $year         = delete $line->{Ano};
             my $indicator_id = delete $line->{Indicador};
@@ -287,40 +309,74 @@ SQL_QUERY
                 next;
             }
 
-            my %subindicators = map { s{(_[RA])$}{}; $_ => 1 } grep { m{^D} } keys %{$line};
+            if ($line_num % 10000 == 0) {
+                $logger->debug("subindicator: row $line_num");
+            }
+
+            my %subindicators = map { s{(_[RA])$}{}; $_ => 1 } grep {m{^D}} keys %{$line};
             for my $k (keys %subindicators) {
                 my ($subindicator_id) = $k =~ m{^D([0-9]+)};
                 next if $subindicator_id == 0;
 
                 my $dedup_key = "${locale_id}:${indicator_id}:${subindicator_id}:${year}";
                 if ($dedup_subindicators_data{$dedup_key}) {
-                    $logger->warn(sprintf(
-                        "O desagregador id %d do indicador %d já foi carregado para a localidade %d no ano %d!",
-                        $subindicator_id,
-                        $indicator_id,
-                        $locale_id,
-                        $year
-                    ));
+                    $logger->warn(
+                        sprintf(
+                            "O desagregador id %d do indicador %d já foi carregado para a localidade %d no ano %d!",
+                            $subindicator_id,
+                            $indicator_id,
+                            $locale_id,
+                            $year
+                        )
+                    );
                     next;
                 }
 
                 # Get indicator values
                 my $value_relative = $line->{"D${subindicator_id}_R"};
                 my $value_absolute = $line->{"D${subindicator_id}_A"};
-                $value_relative    =~ s/\.//g;
-                $value_absolute    =~ s/\.//g;
-                $value_relative    =~ s/,/./ if $value_relative =~ m{^[0-9+]+,[0-9]+$};
-                $value_absolute    =~ s/,/./ if $value_absolute =~ m{^[0-9+]+,[0-9]+$};
-                $value_relative    = nullif(trim($value_relative), '');
-                $value_absolute    = nullif(trim($value_absolute), '');
-                $value_absolute    = sprintf('%.1f', $value_absolute) if defined $value_absolute;
-                $value_relative    = sprintf('%.1f', $value_relative) if defined $value_relative;
-                $value_absolute    =~ s/\.0$//                        if defined $value_absolute;
-                $value_relative    =~ s/\.0$//                        if defined $value_relative;
+                if (defined $value_relative) {
+                    $value_relative =~ s/\.//g;
+                    $value_relative = "0$value_relative" if $value_relative =~ /^,/;
+
+                    if ($value_relative =~ m{^[0-9+-]+,[0-9]+$}) {
+                        $value_relative =~ s/,/./;
+                        $value_relative = sprintf('%.1f', $value_relative);
+                        $value_relative =~ s/\.0$//;
+                    }
+                    elsif ($value_relative =~ /[Ee]/) {
+                        $value_relative =~ s/,/./;
+                        $value_relative = sprintf('%.1f', $value_relative);
+                        $value_relative =~ s/\.0$//;
+                    }
+                    else {
+                        $value_relative = nullif(trim($value_relative), '');
+                    }
+                }
+
+                if (defined $value_absolute) {
+                    $value_absolute =~ s/\.//g;
+                    $value_absolute = "$value_absolute" if $value_absolute =~ /^,/;
+
+                    if ($value_absolute =~ m{^[0-9+-]+,[0-9]+$}) {
+                        $value_absolute =~ s/,/./;
+                        $value_absolute = sprintf('%.1f', $value_absolute);
+                        $value_absolute =~ s/\.0$//;
+                    }
+                    elsif ($value_absolute =~ /[Ee]/) {
+                        $value_absolute =~ s/,/./;
+                        $value_absolute = sprintf('%.1f', $value_absolute);
+                        $value_absolute =~ s/\.0$//;
+                    }
+                    else {
+                        $value_absolute = nullif(trim($value_absolute), '');
+                    }
+                }
 
                 # Insert data if has data
                 if (defined($value_relative) || defined($value_absolute)) {
-                    $text_csv->combine($indicator_id, $subindicator_id, $locale_id, $year, $value_relative, $value_absolute);
+                    $text_csv->combine($indicator_id, $subindicator_id, $locale_id, $year, $value_relative,
+                        $value_absolute);
                     $dbh->pg_putcopydata($text_csv->string());
                     $dedup_subindicators_data{$dedup_key} = 1;
                 }
