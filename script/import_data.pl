@@ -217,6 +217,7 @@ SQL_QUERY
             my $value_absolute = $line->{'D0_A'};
 
             if (defined $value_relative) {
+                $value_relative = trim($value_relative);
                 $value_relative =~ s/\.//g;
                 $value_relative = "0$value_relative" if $value_relative =~ /^,/;
 
@@ -236,6 +237,7 @@ SQL_QUERY
             }
 
             if (defined $value_absolute) {
+                $value_absolute = trim($value_absolute);
                 $value_absolute =~ s/\.//g;
                 $value_absolute = "0$value_absolute" if $value_absolute =~ /^,/;
 
@@ -257,12 +259,14 @@ SQL_QUERY
             # Insert data
             if (defined($value_relative) || defined($value_absolute)) {
 
-                $logger->warn(sprintf 'A linha %s ainda ficou com virgula %s %s', $line_num, $value_relative,
-                    $dedup_key)
-                  if defined $value_relative && $value_relative =~ /,/;
-                $logger->warn(sprintf 'A linha %s ainda ficou com virgula %s %s', $line_num, $value_absolute,
-                    $dedup_key)
-                  if defined $value_absolute && $value_absolute =~ /,/;
+                $logger->warn(
+                    sprintf 'A linha %s ainda ficou com virgula %s %s', $line_num, $value_relative,
+                    $dedup_key
+                ) if defined $value_relative && $value_relative =~ /,/;
+                $logger->warn(
+                    sprintf 'A linha %s ainda ficou com virgula %s %s', $line_num, $value_absolute,
+                    $dedup_key
+                ) if defined $value_absolute && $value_absolute =~ /,/;
 
                 $text_csv->combine($indicator_id, $locale_id, $year, $value_relative, $value_absolute);
                 $dbh->pg_putcopydata($text_csv->string());
@@ -344,6 +348,7 @@ SQL_QUERY
                 my $value_relative = $line->{"D${subindicator_id}_R"};
                 my $value_absolute = $line->{"D${subindicator_id}_A"};
                 if (defined $value_relative) {
+                    $value_relative = trim($value_relative);
                     $value_relative =~ s/\.//g;
                     $value_relative = "0$value_relative" if $value_relative =~ /^,/;
 
@@ -363,6 +368,8 @@ SQL_QUERY
                 }
 
                 if (defined $value_absolute) {
+
+                    $value_absolute = trim($value_absolute);
                     $value_absolute =~ s/\.//g;
                     $value_absolute = "0$value_absolute" if $value_absolute =~ /^,/;
 
@@ -384,12 +391,14 @@ SQL_QUERY
                 # Insert data if has data
                 if (defined($value_relative) || defined($value_absolute)) {
 
-                    $logger->warn(sprintf 'A linha %s ainda ficou com virgula %s %s', $line_num, $value_relative,
-                        $dedup_key)
-                      if defined $value_relative && $value_relative =~ /,/;
-                    $logger->warn(sprintf 'A linha %s ainda ficou com virgula %s %s', $line_num, $value_absolute,
-                        $dedup_key)
-                      if defined $value_absolute && $value_absolute =~ /,/;
+                    $logger->warn(
+                        sprintf 'A linha %s ainda ficou com virgula %s %s', $line_num, $value_relative,
+                        $dedup_key
+                    ) if defined $value_relative && $value_relative =~ /,/;
+                    $logger->warn(
+                        sprintf 'A linha %s ainda ficou com virgula %s %s', $line_num, $value_absolute,
+                        $dedup_key
+                    ) if defined $value_absolute && $value_absolute =~ /,/;
 
                     $text_csv->combine(
                         $indicator_id, $subindicator_id, $locale_id, $year, $value_relative,
