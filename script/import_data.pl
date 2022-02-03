@@ -170,9 +170,8 @@ SQL_QUERY
             }
         );
 
-
-        unlink '/tmp/dedup_indicators_data';
-        dbmopen(my %dedup_indicators_data, '/tmp/dedup_indicators_data', 0666);
+        my %dedup_indicators_data;
+        open my $tmp_fh, '>:raw', '/tmp/indicators_data';
 
         my $line_num = 0;
         while (my $line = <$csv>) {
@@ -269,11 +268,19 @@ SQL_QUERY
                 ) if defined $value_absolute && $value_absolute =~ /,/;
 
                 $text_csv->combine($indicator_id, $locale_id, $year, $value_relative, $value_absolute);
-                $dbh->pg_putcopydata($text_csv->string());
+                print $tmp_fh $text_csv->string();
+
                 $dedup_indicators_data{$dedup_key} = 1;
             }
         }
-        dbmclose %dedup_indicators_data;
+        close $tmp_fh;
+
+        open my $tmp_fh, '<:raw', '/tmp/indicators_data';
+        while (my $l = <$tmp_fh>) {
+            $dbh->pg_putcopydata($l);
+        }
+        close $tmp_fh;
+        unlink '/tmp/indicators_data';
 
         $dbh->pg_putcopyend() or $logger->logdie("Error on pg_putcopyend()");
         $logger->debug("COPY ended!");
@@ -307,6 +314,7 @@ SQL_QUERY
 
         unlink '/tmp/dedup_subindicators_data';
         dbmopen(my %dedup_subindicators_data, '/tmp/dedup_subindicators_data', 0666);
+
 
         $line_num = 0;
         while (my $line = <$csv>) {
