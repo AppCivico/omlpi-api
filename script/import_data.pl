@@ -257,9 +257,9 @@ SQL_QUERY
             # Insert data
             if (defined($value_relative) || defined($value_absolute)) {
 
-                $logger->warn(sprintf "A linha $line_num ainda ficou com virgula", $value_relative)
+                $logger->warn(sprintf 'A linha %s ainda ficou com virgula %s', $line_num, $value_relative)
                   if defined $value_relative && $value_relative =~ /,/;
-                $logger->warn(sprintf "A linha $line_num ainda ficou com virgula ", $value_absolute)
+                $logger->warn(sprintf 'A linha %s ainda ficou com virgula %s', $line_num, $value_absolute)
                   if defined $value_absolute && $value_absolute =~ /,/;
 
                 $text_csv->combine($indicator_id, $locale_id, $year, $value_relative, $value_absolute);
@@ -382,9 +382,9 @@ SQL_QUERY
                 # Insert data if has data
                 if (defined($value_relative) || defined($value_absolute)) {
 
-                    $logger->warn(sprintf "A linha $line_num ainda ficou com virgula", $value_relative)
+                    $logger->warn(sprintf 'A linha %s ainda ficou com virgula %s', $line_num, $value_relative)
                       if defined $value_relative && $value_relative =~ /,/;
-                    $logger->warn(sprintf "A linha $line_num ainda ficou com virgula ", $value_absolute)
+                    $logger->warn(sprintf 'A linha %s ainda ficou com virgula %s', $line_num, $value_absolute)
                       if defined $value_absolute && $value_absolute =~ /,/;
 
                     $text_csv->combine(
