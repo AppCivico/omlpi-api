@@ -73,7 +73,8 @@ h2 {
   font-size: 1em;
   font-weight: bold;
   color: #463581;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+  line-height: 1em;
 }
 
 strong {
@@ -156,7 +157,7 @@ ul {
 
 li {
   font-family: lato;
-  line-height: 1.4;
+  line-height: 1.2em;
   font-weight: normal;
   color: #6e6e6e;
   page-break-inside: avoid !important;
@@ -480,4 +481,8 @@ table th {
 
 .footer-logos__governo-federal {
   width: 12.912rem;
+}
+
+table.second-td-center>tbody>tr>td:nth-child(2){
+    text-align: center;
 }

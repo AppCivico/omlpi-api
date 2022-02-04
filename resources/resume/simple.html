@@ -26,14 +26,14 @@
           primeiros anos de vida para o desenvolvimento infantil.
         </p>
         <p>
-          O diagnóstico apresentado neste relatório ajuda a observar o alcance
-          das políticas direcionadas a esse público em/no <%= $locale_name //
+            O diagnóstico apresentado neste relatório contribui na observação do alcance das
+            políticas direcionadas a esse público em/no <%= $locale_name //
           'N/A' %>, da mesma forma que permite identificar áreas sensíveis para
           atuação nessa localidade.
         </p>
 
         <h2>Quadro síntese – Assistência Social</h2>
-        <table>
+        <table class="second-td-center">
           <colgroup>
             <col width="650" />
             <col width="120" />
@@ -101,17 +101,7 @@
                 <p dir="ltr"><%= $data->{'105-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
-            <tr>
-              <td>
-                <p dir="ltr">
-                  Proporção de crianças de 0 a 5 anos com deficiência
-                  beneficiárias do BPC inseridas no Programa Criança Feliz
-                </p>
-              </td>
-              <td>
-                <p dir="ltr"><%= $data->{'106-D0_R'}->{value} // 'N/A' %></p>
-              </td>
-            </tr>
+
             <tr>
               <td>
                 <p dir="ltr">Número de crianças em situação de acolhimento</p>
@@ -154,7 +144,7 @@
         <br><br><br><br><br>
 
         <h2>Quadro síntese – Educação</h2>
-        <table>
+        <table class="second-td-center">
           <colgroup>
             <col width="650" />
             <col width="120" />
@@ -337,7 +327,7 @@
 
         <h2>Quadro síntese – Saúde</h2>
 
-        <table>
+        <table class="second-td-center">
           <colgroup>
             <col width="650" />
             <col width="120" />
