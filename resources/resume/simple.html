@@ -120,16 +120,7 @@
                 <p dir="ltr"><%= $data->{'109-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
-            <tr>
-              <td>
-                <p dir="ltr">
-                  Proporção de crianças de 0 a 5 anos beneficiárias do Programa Bolsa Família atendidas pela proteção social básica
-                </p>
-              </td>
-              <td>
-                <p dir="ltr"><%= $data->{'110-D0_R'}->{value} // 'N/A' %></p>
-              </td>
-            </tr>
+
             <tr>
               <td colspan="2">
                 <p>
@@ -561,15 +552,6 @@
                     último ano, em relação à meta prevista, foi de <%=
                     $data->{'105-D0_R'}->{value} // 'N/A' %>.
                   </li>
-                  <li>
-                    Por sua vez, o Benefício de Prestação Continuada – BPC é uma
-                    garantia constitucional que alcança crianças com deficiência
-                    com renda familiar por pessoa de até ¼ do salário mínimo.
-                    Esse público é considerado prioritário para outros programas
-                    de atenção à infância. Em/no <%= $locale_name %>, <%=
-                    $data->{'106-D0_R'}->{value} // 'N/A' %> das crianças inscritas no
-                    BPC também são atendidas pelo Programa Criança Feliz.
-                  </li>
                 </ul>
               </li>
               <li>
@@ -593,11 +575,6 @@
                     (CRAS) para famílias inscritas no Cadastro Único em/no <%=
                     $locale_name %> possui é de <%= $data->{'109-D0_R'}->{value} // 'N/A'
                     %>
-                  </li>
-                  <li>
-                    E <%= $data->{'110-D0_R'}->{value} // 'N/A' %> das crianças de zero a
-                    cinco anos beneficiárias do Bolsa Família são atendidas pelo
-                    Serviço de Convivência e Fortalecimento de Vínculos – SCFV.
                   </li>
                 </ul>
                 <p>
