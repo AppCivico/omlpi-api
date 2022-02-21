@@ -489,3 +489,15 @@ table.second-td-center>tbody>tr>td:nth-child(2){
 table.second-td-center>tbody>tr>td:nth-child(3){
     text-align: center;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  page-break-after: avoid;
+  break-after: avoid;
+  break-after: avoid-page;
+}
+
