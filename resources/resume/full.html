@@ -1071,6 +1071,73 @@
               </li>
             </ol>
           </li>
+
+          <li>
+            <h1>Violências</h1>
+            <ol>
+              <li>
+                <h2>A mortalidade por causa externa</h2>
+                <p>
+                  De forma voluntária ou involuntária, as mortes de crianças por causas externas revelam falhas nos sistemas de garantias estabelecidos nas normativas brasileiras, que lhes asseguram o direito inerente à vida e à salvaguarda perante toda e qualquer forma de violência. Identificar as diversas dimensões das mortes violentas e acidentais de crianças na primeira infância é condição necessária para que políticas públicas e ações preventivas sejam adotadas pelo Estado, pela sociedade e pela família.
+                </p>
+                <ul>
+                  <li>As agressões foram causa dos óbitos de <%= $data->{'408-D0_A'}->{value} // 'N/A' %> crianças de até 5 anos em/no <%= $locale_name %>. Esse número foi de <%= $data->{'408-D4_A'}->{value} // 'N/A' %> entre as crianças negras, comparado a <%= $data->{'408-D3_A'}->{value} // 'N/A' %> óbitos de crianças brancas. </li>
+                  <li>O número de óbitos por causas acidentais, por sua vez, foi de <%= $data->{'410-D0_A'}->{value} // 'N/A' %>. Nesse total, <%= $data->{'410-D195_R'}->{value} // 'N/A' %> crianças de até 5 anos foram vítimas de afogamento e <%= $data->{'410-D196_R'}->{value} // 'N/A' %> de sufocação. Mencionam-se ainda <%= $data->{'410-D197_R'}->{value} // 'N/A' %> casos de óbito por intoxicação, <%= $data->{'410-D198_R'}->{value} // 'N/A' %> por queimadura e <%= $data->{'410-D199_R'}->{value} // 'N/A' %> por queda.  </li>
+                  <li>Já os óbitos de crianças menores de 5 anos por acidentes de transporte terrestre somaram <%= $data->{'412-D0_A'}->{value} // 'N/A' %> casos em/no <%= $locale_name %>. Ao considerar o meio de transporte, tem se que <%= $data->{'412-D201_R'}->{value} // 'N/A' %> óbitos foram de pedestres e <%= $data->{'412-D202_R'}->{value} // 'N/A' %> de ciclistas. <%= $data->{'412-D203_R'}->{value} // 'N/A' %> crianças foram vítimas de acidentes de motocicletas, <%= $data->{'412-D204_R'}->{value} // 'N/A' %> de automóvel e outras <%= $data->{'412-D205_R'}->{value} // 'N/A' %> em ônibus.</li>
+                </ul>
+              </li>
+              <li>
+                <h2>Mortalidade de mulheres por agressão</h2>
+                <p>
+                  A agressão cometida contra a mulher tem impacto potencial sobre seus filhos e filhas, principalmente quando eles se encontram nessa etapa singular do desenvolvimento que é a primeira infância. Quando a agressão resulta no óbito da mãe, os efeitos são ainda mais danosos.
+                  Em/no <%= $locale_name %>, <%= $data->{'417-D0_A'}->{value} // 'N/A' %> mulheres foram levadas a óbito por agressão em <%= $data->{'417-D0_A'}->{year} % - <%= $data->{'417-D4_A'}->{value} // 'N/A' %> negras e <%= $data->{'417-D3_A'}->{value} // 'N/A' %> brancas. Reforça-se que as políticas públicas de prevenção à violência contra a mulher são também estratégias de proteção à família e às crianças, particularmente quando as agressões, e os óbitos delas decorrentes, se dão no ambiente doméstico.
+                </p>
+              </li>
+              <li>
+                <h2>
+                  Conselhos Tutelares
+                </h2>
+                <p>Os Conselhos Tutelares devem atender a crianças e a adolescentes sempre que houver risco de violação dos seus direitos, seja por ação ou omissão do Estado, da sociedade ou dos pais e responsáveis. De acordo com as diretrizes do Conselho Nacional dos Direitos da Criança e do Adolescente – Conanda, cada município deve ter um Conselho Tutelar para cada 100 mil habitantes. Atribui-se, dessa forma, aos municípios mais populosos, a responsabilidade pela instituição de um número maior de Conselhos.</p>
+                <ul>
+                  <li>Considerando essa proporção, a cobertura de Conselho Tutelar em/no <%= $locale_name %> é de <%= $data->{'419-D0_R'}->{value} // 'N/A' %>.</li>
+                </ul>
+              </li>
+              <li>
+                <h2>
+                  Internações por acidente
+                </h2>
+                <p>As crianças na primeira infância possuem maior risco de sofrer acidentes, quando comparadas a crianças de outras faixas etárias. A prevenção de acidentes é essencial para a redução da morbidade e da mortalidade de crianças e deve ocorrer nas diferentes esferas de atenção à infância. Avaliar as notificações das internações por causa externa é essencial para a tomada de decisões em políticas públicas, pois permite identificar as principais causas. Em/no <%= $locale_name %>, a taxa de internações de crianças menores de 5 anos por causas acidentais, foi de <%= $data->{'405-D0_R'}->{value} // 'N/A' %> para cada dez mil crianças</p>
+                <ul>
+                  <li>Numericamente, <%= $data->{'404-D0_A'}->{value} // 'N/A' %> crianças de até 5 anos foram internadas devido a causas acidentais. <%= $data->{'404-D207_R'}->{value} // 'N/A' %> delas foram internadas devido a afogamento, <%= $data->{'404-D208_R'}->{value} // 'N/A' %> sufocação, <%= $data->{'404-D209_R'}->{value} // 'N/A' %> intoxicações, <%= $data->{'404-D210_R'}->{value} // 'N/A' %> queimaduras, <%= $data->{'404-D211_R'}->{value} // 'N/A' %> queda e <%= $data->{'404-D212_R'}->{value} // 'N/A' %> outras causas acidentais.</li>
+                </ul>
+                <p>
+                  Os acidentes de transporte terrestre também impactam crianças na primeira infância, ainda que em menor número. Em/no <%= $locale_name %>, a taxa de internações de crianças de até 5 anos por acidentes de transporte terrestre foi de <%= $data->{'407-D0_R'}->{value} // 'N/A' %>  para cada dez mil crianças, o que corresponde a <%= $data->{'406-D0_A'}->{value} // 'N/A' %> casos.
+                </p>
+              </li>
+              <li>
+                <h2>
+                  As taxas de mortalidade
+                </h2>
+                <p>
+                  As taxas de mortalidade por causas externas, descritas nas seções anteriores, complementam as informações sobre o número de óbitos de crianças de até 5 anos e de mulheres. As taxas indicam a proporção da população vitimada pela violência, ampliando a compreensão sobre o fenômeno. Dessa forma, é possível estimar os principais fatores de risco aos quais as crianças estão sujeitas, no conjunto das causas já discutidas, e as alternativas mais adequadas para minimizá-los. Em <%= $locale_name %>:
+                </p>
+                <ul>
+                  <li>
+                    A taxa de mortalidade de menores de 5 anos por agressão, para cada 10 mil nascidos vivos é de <%= $data->{'409-D0_R'}->{value} // 'N/A' %>;
+                  </li>
+                  <li>
+                    Para as causas acidentais (afogamento, sufocação, intoxicação, queimadura, queda entre outros), a taxa de mortalidade entre crianças menores de 5 anos é de <%= $data->{'411-D0_R'}->{value} // 'N/A' %>  a cada 10 mil nascidos vivos;
+                  </li>
+                  <li>
+                    Já a taxa de mortalidade de menores de 5 anos por acidentes de transporte terrestre, para cada 10 mil nascidos vivos é de <%= $data->{'413-D0_R'}->{value} // 'N/A' %>; e
+                  </li>
+                  <li>
+                    A taxa de mortalidade feminina por agressão, para cada 100 mil mulheres é de <%= $data->{'418-D0_R'}->{value} // 'N/A' %>
+                  </li>
+                </ul>
+              </li>
+            </ol>
+          </li>
         </ol>
       </div>
     </div>

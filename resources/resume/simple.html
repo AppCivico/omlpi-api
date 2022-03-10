@@ -950,6 +950,40 @@
               </li>
             </ol>
           </li>
+
+          <li>
+            <h1>Violências</h1>
+            <ol>
+              <li>
+                <h2>A mortalidade por causa externa</h2>
+                <p>
+                  De forma voluntária ou involuntária, as mortes de crianças por causas externas revelam falhas nos sistemas de garantias estabelecidos nas normativas brasileiras, que lhes asseguram o direito inerente à vida e à salvaguarda perante toda e qualquer forma de violência. Identificar as diversas dimensões das mortes violentas e acidentais de crianças na primeira infância é condição necessária para que políticas públicas e ações preventivas sejam adotadas pelo Estado, pela sociedade e pela família.
+                </p>
+                <ul>
+                  <li>As agressões foram causa dos óbitos de <%= $data->{'408-D0_A'}->{value} // 'N/A' %> crianças de até 5 anos em/no <%= $locale_name %>. Esse número foi de <%= $data->{'408-D4_A'}->{value} // 'N/A' %> entre as crianças negras, comparado a <%= $data->{'408-D3_A'}->{value} // 'N/A' %> óbitos de crianças brancas. </li>
+                  <li>O número de óbitos por causas acidentais, por sua vez, foi de <%= $data->{'410-D0_A'}->{value} // 'N/A' %>. Nesse total, <%= $data->{'410-D195_R'}->{value} // 'N/A' %> crianças de até 5 anos foram vítimas de afogamento e <%= $data->{'410-D196_R'}->{value} // 'N/A' %> de sufocação. Mencionam-se ainda <%= $data->{'410-D197_R'}->{value} // 'N/A' %> casos de óbito por intoxicação, <%= $data->{'410-D198_R'}->{value} // 'N/A' %> por queimadura e <%= $data->{'410-D199_R'}->{value} // 'N/A' %> por queda.  </li>
+                  <li>Já os óbitos de crianças menores de 5 anos por acidentes de transporte terrestre somaram <%= $data->{'412-D0_A'}->{value} // 'N/A' %> casos em/no <%= $locale_name %>. Ao considerar o meio de transporte, tem se que <%= $data->{'412-D201_R'}->{value} // 'N/A' %> óbitos foram de pedestres e <%= $data->{'412-D202_R'}->{value} // 'N/A' %> de ciclistas. <%= $data->{'412-D203_R'}->{value} // 'N/A' %> crianças foram vítimas de acidentes de motocicletas, <%= $data->{'412-D204_R'}->{value} // 'N/A' %> de automóvel e outras <%= $data->{'412-D205_R'}->{value} // 'N/A' %> em ônibus.</li>
+                </ul>
+              </li>
+              <li>
+                <h2>Mortalidade de mulheres por agressão</h2>
+                <p>
+                  A agressão cometida contra a mulher tem impacto potencial sobre seus filhos e filhas, principalmente quando eles se encontram nessa etapa singular do desenvolvimento que é a primeira infância. Quando a agressão resulta no óbito da mãe, os efeitos são ainda mais danosos.
+                  Em/no <%= $locale_name %>, <%= $data->{'417-D0_A'}->{value} // 'N/A' %> mulheres foram levadas a óbito por agressão em <%= $data->{'417-D0_A'}->{year} % - <%= $data->{'417-D4_A'}->{value} // 'N/A' %> negras e <%= $data->{'417-D3_A'}->{value} // 'N/A' %> brancas. Reforça-se que as políticas públicas de prevenção à violência contra a mulher são também estratégias de proteção à família e às crianças, particularmente quando as agressões, e os óbitos delas decorrentes, se dão no ambiente doméstico.
+                </p>
+              </li>
+              <li>
+                <h2>
+                  Conselhos Tutelares
+                </h2>
+                <p>Os Conselhos Tutelares devem atender a crianças e a adolescentes sempre que houver risco de violação dos seus direitos, seja por ação ou omissão do Estado, da sociedade ou dos pais e responsáveis. De acordo com as diretrizes do Conselho Nacional dos Direitos da Criança e do Adolescente – Conanda, cada município deve ter um Conselho Tutelar para cada 100 mil habitantes. Atribui-se, dessa forma, aos municípios mais populosos, a responsabilidade pela instituição de um número maior de Conselhos.</p>
+                <ul>
+                  <li>Considerando essa proporção, a cobertura de Conselho Tutelar em/no <%= $locale_name %> é de <%= $data->{'419-D0_R'}->{value} // 'N/A' %>.</li>
+                </ul>
+              </li>
+            </ol>
+          </li>
+
         </ol>
       </div>
     </div>
