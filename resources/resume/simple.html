@@ -533,6 +533,16 @@
             <tr><td><p dir="ltr">Taxa de mortalidade de menores de 5 anos por causas acidentais, para cada 10 mil nascidos vivos</td><td> <p dir="ltr"><%= $data->{"411-D0_A"}->{value} // "N/A" %></p></td></tr>
             <tr><td><p dir="ltr">Taxa de mortalidade feminina por agressão, para cada 100 mil mulheres</td><td> <p dir="ltr"><%= $data->{"418-D0_A"}->{value} // "N/A" %></p></td></tr>
           </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2">
+                <p>
+                  * Os indicadores com campos em branco no quadro síntese não
+                  estão disponíveis para os municípios.
+                </p>
+              </td>
+            </tr>
+          </tfoot>
         </table>
 
 
