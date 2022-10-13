@@ -48,6 +48,7 @@
               </td>
             </tr>
           </thead>
+
           <tbody>
             <tr>
               <td>
@@ -101,7 +102,6 @@
                 <p dir="ltr"><%= $data->{'105-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
-
             <tr>
               <td>
                 <p dir="ltr">Número de crianças em situação de acolhimento</p>
@@ -120,7 +120,9 @@
                 <p dir="ltr"><%= $data->{'109-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
+          </tbody>
 
+          <tfoot>
             <tr>
               <td colspan="2">
                 <p>
@@ -129,7 +131,7 @@
                 </p>
               </td>
             </tr>
-          </tbody>
+          </tfoot>
         </table>
 
         <br><br><br><br><br>
@@ -305,15 +307,17 @@
                 <p dir="ltr"><%= $data->{'222-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
+          </tbody>
+          <tfoot>
             <tr>
-              <td colspan="2">
+              <td colspan="3">
                 <p>
                   * Os indicadores com campos em branco no quadro síntese não
                   estão disponíveis para os municípios.
                 </p>
               </td>
             </tr>
-          </tbody>
+          </tfoot>
         </table>
 
         <h2>Quadro síntese – Saúde</h2>
@@ -490,6 +494,8 @@
                 <p dir="ltr"><%= $data->{'318-D0_R'}->{value} // 'N/A' %></p>
               </td>
             </tr>
+          </tbody>
+          <tfoot>
             <tr>
               <td colspan="2">
                 <p>
@@ -498,7 +504,7 @@
                 </p>
               </td>
             </tr>
-          </tbody>
+          </tfoot>
         </table>
 
         <h2>Quadro síntese – Violência</h2>
