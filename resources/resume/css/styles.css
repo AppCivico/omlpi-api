@@ -63,7 +63,11 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+caption {
+  font-family: lato;
+  font-weight: bold;
+  text-align: left;
   padding-top: 0.8em;
   page-break-after: avoid !important;
   break-after: avoid !important;
@@ -79,7 +83,6 @@ h1 + h2 {
 }
 
 h1 {
-  font-family: lato;
   font-size: 1.2em;
   color: #33265c;
   text-transform: uppercase;
@@ -93,21 +96,14 @@ h1:first-child {
 
 caption,
 h2 {
-  font-family: lato;
   font-size: 1em;
-  font-weight: bold;
   color: #463581;
   margin-top: 1.6em;
   margin-bottom: 0.8em;
   line-height: 1em;
 }
 
-strong {
-  font-weight: 800;
-}
-
 h3 {
-  font-family: lato;
   font-size: 1.125em;
   font-weight: 600;
   color: #59449B;
@@ -115,9 +111,8 @@ h3 {
 }
 
 h4 {
-  font-family: lato;
   font-size: 1.125em;
-  font-weight:600;
+  font-weight: 600;
   color: #59449B;
   margin-bottom: 24px;
 }
@@ -128,6 +123,10 @@ h4 {
   color: #A3A3A3;
   padding-top:14px;
   display: inline;
+}
+
+strong {
+  font-weight: 800;
 }
 
 span {
@@ -198,8 +197,6 @@ table {
 }
 
 caption {
-  padding-top: 0.8em;
-  text-align: left;
 }
 
 table thead {
@@ -553,12 +550,12 @@ article h1:before {
   counter-increment: services;
   content: counter(services) ' ';
   opacity: 0.85;
-  font-weight: 400;
+  font-weight: normal;
 }
 
 article h2:before {
   counter-increment: sub-services;
   content: counter(services) '.' counter(sub-services) ' ';
   opacity: 0.85;
-  font-weight: 400;
+  font-weight: normal;
 }
