@@ -71,6 +71,10 @@ h6 {
   break-before: auto;
 }
 
+h1 + h2 {
+   padding-top: 0;
+}
+
 h1 {
   font-family: lato;
   font-size: 1.2em;
