@@ -69,8 +69,11 @@ h6 {
   break-after: avoid !important;
   page-break-before: auto;
   break-before: auto;
+  page-break-inside: avoid;
+  break-inside: avoid;
 }
 
+h1 + section > h2,
 h1 + h2 {
    padding-top: 0;
 }
@@ -142,8 +145,8 @@ p {
   color: #6e6e6e;
   margin-top: 0;
   margin-bottom: 0.8em;
-  orphans: 2;
-  widows: 2;
+  widows: 4;
+  orphans: 4;
 }
 
 ol {
@@ -540,8 +543,6 @@ article {
 }
 
 section {
-  page-break-inside: avoid;
-  break-inside: avoid;
 }
 
 article:first-of-type {
