@@ -182,8 +182,7 @@ table {
 }
 
 caption {
-  font-weight: bold;
-  color: #463581;
+  padding-top: 0.8em;
   text-align: left;
 }
 
