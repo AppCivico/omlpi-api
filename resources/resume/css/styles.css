@@ -529,6 +529,7 @@ h3,
 h4,
 h5,
 h6 {
+  padding-top: 0.8em;
   page-break-after: avoid !important;
   break-after: avoid !important;
   page-break-before: auto;
