@@ -58,6 +58,19 @@ header {
   color: #fff;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  padding-top: 0.8em;
+  page-break-after: avoid !important;
+  break-after: avoid !important;
+  page-break-before: auto;
+  break-before: auto;
+}
+
 h1 {
   font-family: lato;
   font-size: 1.2em;
@@ -125,10 +138,8 @@ p {
   color: #6e6e6e;
   margin-top: 0;
   margin-bottom: 0.8em;
-}
-
-h2 + p {
-  margin-top: 0;
+  orphans: 2;
+  widows: 2;
 }
 
 ol {
@@ -157,8 +168,6 @@ ol ol li::before {
 ul {
   margin-bottom: 1em;
   font-size: 0.8em;
-  page-break-after: auto;
-  break-after: auto;
 }
 
 li {
@@ -190,8 +199,6 @@ table thead {
   text-align: center;
   text-transform: uppercase;
   background-color: #f0eff3;
-  page-break-after: avoid;
-  break-after: avoid;
 }
 
 table thead p {
@@ -216,8 +223,6 @@ table p:only-child {
 }
 
 table tbody {
-  page-break-before: avoid;
-  break-before: avoid;
 }
 
 table tbody p {
@@ -521,24 +526,6 @@ table.second-td-center>tbody>tr>td:nth-child(2){
 }
 table.second-td-center>tbody>tr>td:nth-child(3){
   text-align: center;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  padding-top: 0.8em;
-  page-break-after: avoid !important;
-  break-after: avoid !important;
-  page-break-before: auto;
-  break-before: auto;
-}
-
-p {
-  orphans: 2;
-  widows: 2;
 }
 
 article {
