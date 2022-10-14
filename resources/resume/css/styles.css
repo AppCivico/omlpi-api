@@ -177,8 +177,8 @@ ul li {
 table {
   width: 100%;
   margin-bottom: 2rem;
-  page-break-before: always;
-  break-before: page;
+  page-break-inside: avoid;
+  break-inside: avoid;
 }
 
 caption {
