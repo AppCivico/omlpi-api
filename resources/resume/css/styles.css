@@ -69,15 +69,24 @@ caption {
   font-weight: bold;
   text-align: left;
   padding-top: 0.8em;
-  page-break-after: avoid !important;
-  break-after: avoid !important;
-  page-break-before: auto;
-  break-before: auto;
+  page-break-after: avoid;
+  break-after: avoid;
   page-break-inside: avoid;
   break-inside: avoid;
 }
 
-h1 + section > h2,
+h2:after,
+h3:after,
+h4:after,
+h5:after,
+h6:after {
+  pointer-events: none;
+  content: '';
+  display: block;
+  height: 100px;
+  margin-bottom: -100px;
+}
+
 h1 + h2 {
   padding-top: 0;
 }
@@ -173,7 +182,8 @@ li {
   line-height: 1.2em;
   font-weight: normal;
   color: #6e6e6e;
-  page-break-inside: avoid !important;
+  widows: 4;
+  orphans: 4;
 }
 
 ul li {
@@ -532,6 +542,11 @@ article {
 }
 
 section {
+}
+
+h1 + section {
+  page-break-before: always;
+  break-before: page;
 }
 
 article:first-of-type {
