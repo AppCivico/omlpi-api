@@ -4,7 +4,6 @@ html {
   position: relative;
   margin: auto;
   font-size: 1.2em;
-  /* padding-bottom: 180px; */
 }
 
 body {
@@ -122,8 +121,7 @@ h4 {
   font-family: lato;
   font-size: 0.75em;
   color: #A3A3A3;
-  padding-top:14px;
-  display: inline;
+  padding-top: 14px;
 }
 
 strong {
@@ -134,7 +132,6 @@ span {
   font-family: lato;
   font-size: 0.75em;
   color: #A3A3A3;
-  display: inline;
 }
 
 p {
@@ -154,13 +151,7 @@ ol {
   counter-reset: item;
 }
 
-ol > li {
-  display: block;
-}
-
 ol > li:before {
-  display: inline-block;
-  font-family: lato;
   font-size: 1.2em;
   font-weight: bold;
   color: #33265c;
@@ -200,18 +191,18 @@ table {
 caption {
 }
 
-table thead {
+thead {
   text-align: center;
   text-transform: uppercase;
   background-color: #f0eff3;
 }
 
-table thead p {
+thead p {
   font-weight: bold;
 }
 
-table thead td,
-table thead th {
+thead td,
+thead th {
   padding: 0.5rem;
 }
 
@@ -227,16 +218,16 @@ table p:only-child {
   margin: 0;
 }
 
-table tbody {
+tbody {
 }
 
-table tbody p {
+tbody p {
   margin-top: 0;
   margin-bottom: 0;
 }
 
-table td,
-table th {
+td,
+th {
   padding: 0.5rem;
   vertical-align: top;
   border-top: 1px solid #dee2e6;
