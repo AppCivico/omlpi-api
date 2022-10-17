@@ -553,11 +553,31 @@ article:first-of-type {
   counter-reset: sub-services services;
 }
 
+article h1 {
+  padding-top: 50vh;
+  text-align: center;
+  font-size: xx-large;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 6rem;
+  width: 50%;
+  min-width: 0;
+}
+
 article h1:before {
+  display: block;
+  font-size: 2em;
+  width: calc(100% + 2em);
+  padding-right: 1em;
+  padding-left: 1em;
+  margin-right: -1em;
+  margin-left: -1em;
+  box-sizing: border-box;
   counter-increment: services;
   content: counter(services) ' ';
   opacity: 0.85;
   font-weight: normal;
+  border-bottom: 1pt solid;
 }
 
 article h2:before {
