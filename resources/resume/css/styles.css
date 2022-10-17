@@ -554,7 +554,7 @@ article:first-of-type {
 }
 
 article h1 {
-  padding-top: 50vh;
+  padding-top: 100%;
   text-align: center;
   font-size: xx-large;
   margin-right: auto;
