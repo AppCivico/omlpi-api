@@ -3,58 +3,42 @@ export USER=app
 
 source /home/app/perl5/perlbrew/etc/bashrc
 
-cpanm -n App::Sqitch \
- blib \
- Business::BR::CEP \
- Business::BR::CNPJ \
- Business::BR::CPF \
- common::sense \
- Crypt::PRNG \
- Daemon::Generic \
- Data::Diver \
- Data::Dumper \
- Data::Fake \
- Data::Manager \
- Data::Printer \
- Data::Section::Simple \
- Data::Verifier::Field \
- Data::Verifier::Filters \
- Data::Verifier::Results \
- Data::Visitor \
- Data::Visitor::Callback \
- DateTime \
- DateTime::Format::Pg \
- DBD::Pg \
- DBIx::Class::Core \
- DBIx::Class::InflateColumn::Serializer \
- DBIx::Class::PassphraseColumn \
- DBIx::Class::ResultSet \
- DBIx::Class::Schema \
- DBIx::Class::TimeStamp \
- Digest::SHA1 \
- Email::Valid \
- ExtUtils::MakeMaker \
- File::MimeInfo \
- File::Spec \
- FindBin \
- Furl \
- HTTP::Request \
- HTTP::Request::Common \
- JSON::XS \
- Log::Log4perl \
- Moose \
- Moose::Role \
- Moose::Util::TypeConstraints \
- MooseX::MarkAsMethods \
- MooseX::NonMoose \
- MooseX::Singleton \
- MooseX::Types \
- MooseX::Types::Common::String \
- MooseX::Types::DateTime::MoreCoercions \
- MooseX::Types::Moose \
- MooseX::Types::Structured \
- namespace::autoclean \
- Scalar::Util \
- Test::More \
- Time::HiRes \
- Try::Tiny::Retry
+# install once XS and other basic modules
+
+cpanm -n \
+    App::Sqitch \
+    Archive::Zip \
+    Carp \
+    Config::General \
+    DBD::Pg \
+    DB_File \
+    Data::Printer \
+    DateTime \
+    DateTime::Format::DateParse \
+    Digest::SHA \
+    EV \
+    Email::Sender::Simple \
+    Email::Sender::Transport::SMTP::TLS \
+    Encode \
+    Excel::Writer::XLSX \
+    Exporter \
+    File::Copy \
+    File::MimeInfo \
+    File::Temp \
+    IO::Handle \
+    IPC::Run \
+    JSON::XS \
+    Log::Log4perl \
+    MIME::Lite \
+    Net::DNS::Native \
+    Scalar::Util \
+    Scope::OnExit \
+    Template \
+    Test2::Harness \
+    Text::CSV \
+    Text::CSV_XS \
+    YAML::XS \
+    common::sense \
+    strict \
+    vars \
+    warnings

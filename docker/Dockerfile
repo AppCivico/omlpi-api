@@ -1,19 +1,33 @@
 FROM phusion/baseimage:noble-1.0.0
 CMD ["/sbin/my_init"]
 
+# wkhtmltopdf
+USER root
+RUN apt-get update && apt-get install -y \
+    imagemagick \
+    shared-mime-info \
+    xvfb \
+    poppler-utils \
+    xfonts-75dpi \
+    libpng-dev \
+    libdb-dev wkhtmltopdf \
+&& rm -rf /var/lib/apt/lists/* && apt-get clean
+
+# Perl
 RUN apt-get update && apt-get install -y \
     build-essential \
     curl \
     libcurl4-openssl-dev libxml2 libxml2-dev libexpat1-dev zlib1g-dev libssl-dev \
-    libjpeg-dev libpng-dev libgif-dev \
+    libjpeg-dev libgif-dev \
     git \
+    cpanminus \
     && rm -rf /var/lib/apt/lists/* && apt-get clean
 
 RUN useradd -ms /bin/bash app;
 
 USER app
-ADD install-perlbrew.sh /tmp/install-perlbrew.sh
-RUN /tmp/install-perlbrew.sh
+ADD install-locallib.sh /tmp/install-locallib.sh
+RUN /tmp/install-locallib.sh
 
 USER root
 RUN apt-get update && apt-get install -y \
@@ -25,19 +39,6 @@ USER app
 
 ADD install-cpan-modules.sh /tmp/install-cpan-modules.sh
 RUN /tmp/install-cpan-modules.sh
-
-USER root
-RUN apt-get update && apt-get install -y \
-    imagemagick \
-    shared-mime-info \
-    xvfb \
-    poppler-utils \
-    xfonts-75dpi \
-    libdb-dev \
-&& rm -rf /var/lib/apt/lists/* && apt-get clean
-
-ADD install-wkhtmltopdf.sh /tmp/install-wkhtmltopdf.sh
-RUN /tmp/install-wkhtmltopdf.sh
 
 USER app
 
