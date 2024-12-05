@@ -3,6 +3,7 @@
 export OMLPI_API_LOG_DIR=/data/log/
 mkdir -p /data/log/;
 chown -R app:app /data/log/
+chown -R app:app /src/
 
 # Remove os arquivos de env do usuários para deixar as preferências do container
 rm -f /src/envfile*.sh
