@@ -9,7 +9,9 @@ cd /src;
 if [ -f envfile_local.sh ]; then
     source envfile_local.sh
 else
-    source envfile.sh
+    if [ -f envfile.sh ]; then
+        source envfile.sh
+    fi
 fi
 
 export SQITCH_DEPLOY=${SQITCH_DEPLOY:=docker}
